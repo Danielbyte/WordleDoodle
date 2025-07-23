@@ -30,3 +30,26 @@ header{
   margin: 6.4px 0 6.4px 0;
   text-align: center;
 }
+
+#board-container{
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+/*Style the board*/
+#board{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /*Create 5 equal width columns*/
+  grid-gap: 5px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/*Style the squares*/
+.square{
+  border: 2px solid rgb(58, 58, 60);
+  min-width: 60px;
+  min-height: 60px;
+}
