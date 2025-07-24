@@ -19,6 +19,13 @@ body{
   flex-direction: column;
 }
 
+#game{
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
 header{
   border-bottom: 1px solid rgb(58, 58, 60);
 }
@@ -54,4 +61,36 @@ header{
   min-height: 60px;
   font-size: 32px;
   font-weight: bold;
+}
+
+#keyboard-container{
+  height: 200px;
+}
+.keyboard-row{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto 8px;
+  touch-action: manipulation;
+}
+.keyboard-row button{
+  font-family: inherit;
+  font-weight: bold;
+  border: none;
+  padding: 0;
+  height: 58px;
+  cursor: pointer;
+  background-color: rgb(129, 131,132);
+  color: rgb(215, 218, 220);
+  flex-grow: 1;
+  text-transform: uppercase;
+  margin-right: 6px;
+  border-radius: 4px;
+  user-select: none;
+}
+.keyboard-row button.wide-button{
+  flex-grow: 1.5;
+}
+.spacer-half{
+  flex-grow: 0.5;
 }
