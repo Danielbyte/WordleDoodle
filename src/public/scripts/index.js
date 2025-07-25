@@ -57,8 +57,8 @@ function createSquares() {
   {
     document.querySelectorAll('.square')
     .forEach((square)=> {
-      console.log(currentSquareIndex.toString());
-      if (square.dataset.index === currentSquareIndex.toString())
+      const numberOfTries = computeRow(Number(square.dataset.index)) //Reverse engineer the number of tries
+      if (square.dataset.index === currentSquareIndex.toString() && numberOfTries === currentRow) //Restrict deletion to current row
       {
         square.textContent = '';
         --currentSquareIndex;
