@@ -1,6 +1,6 @@
 const dailyWord = 'Daily'; //dummy word that will be replaced by a proper word
 let guessedword = '';
-let currentRow = 0;
+let currentRow = 1;
 let currentSquareIndex = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -42,15 +42,25 @@ function createSquares() {
 
   function handleEnterKeyPress()
   {
-    if (guessedword.length < 5)
+    console.log(guessedword);
+    if (guessedword.length < 5) {
       window.alert('Word too short!!!');
+      return;
+    }
 
-    if (guessedword.toLowerCase() === dailyWord.toLowerCase())
+    if (guessedword.toLowerCase() === dailyWord.toLowerCase()) {
       window.alert("You win");
+      return;
+    }
 
     const maxRows = 6;
-    if (currentRow === maxRows)
+    if (currentRow === maxRows) {
       window.alert('You lost!!');
+      return;
+    }
+
+    window.alert('Incorrect word');
+    currentRow += 1; //move to the next row
   }
 
   function handleDeleteButtonPress()
@@ -73,7 +83,9 @@ function updateGuessedWords(letter) {
   let squares = document.querySelectorAll('.square');
   for(let i = 0; i < squares.length; i++)
   {
-    if (squares[i].textContent.trim() === '')
+    const currentNumberOfTries = computeRow(squares[i].dataset.index);
+
+    if (squares[i].textContent.trim() === '' && currentNumberOfTries === currentRow) //Only update word for the current row
     {
       squares[i].textContent = letter;
       guessedword += letter;
@@ -81,7 +93,10 @@ function updateGuessedWords(letter) {
       currentRow = computeRow(currentSquareIndex);
       break;
     }
-    guessedword += squares[i].textContent.trim();
+
+    if(currentNumberOfTries === currentRow) //Update word only for the current row
+      guessedword += squares[i].textContent.trim();
+
   }
 }
 
