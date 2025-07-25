@@ -43,10 +43,14 @@ function createSquares() {
   function handleEnterKeyPress()
   {
     if (guessedword.length < 5)
-      console.log('Word too short!!!');
+      window.alert('Word too short!!!');
 
     if (guessedword.toLowerCase() === dailyWord.toLowerCase())
-      console.log('You win!!!');
+      window.alert("You win");
+
+    const maxRows = 6;
+    if (currentRow === maxRows)
+      window.alert('You lost!!');
   }
 
   function handleDeleteButtonPress()
