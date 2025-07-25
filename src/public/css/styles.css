@@ -81,17 +81,21 @@ header{
 }
 .keyboard-row button{
   font-family: inherit;
-  font-weight: bold;
+  font-size: inherit;
   border: none;
   padding: 0;
   height: 58px;
   cursor: pointer;
-  background-color: rgb(129, 131,132);
+  background-color: hsl(
+    var(--hue, 200),
+    var(--saturation, 1%),
+    calc(var(--lightness-offset, 0%) + var(--lightness, 51%)) /*Whatever offset we have on our lightness, add it to the current lightness*/
+  );
   color: rgb(215, 218, 220);
   flex-grow: 1;
   text-transform: uppercase;
   margin-right: 6px;
-  border-radius: 4px;
+  border-radius: .25em;
   user-select: none;
 }
 .keyboard-row button.wide-button{
@@ -99,4 +103,11 @@ header{
 }
 .spacer-half{
   flex-grow: 0.5;
+}
+.key.wrong {
+  --lightness: 23%;
+}
+
+.keyboard-row button:hover, .keyboard-row button:focus {
+  --lightness-offset: 10%; /*Make button 10% lighter everytime a user hovers on it*/
 }
