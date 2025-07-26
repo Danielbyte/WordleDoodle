@@ -2,10 +2,12 @@ const dailyWord = 'Daily'; //dummy word that will be replaced by a proper word
 let guessedword = '';
 let currentRow = 1;
 let currentSquareIndex = 0;
+const maxWordLength = 5; //Max word is 5 (Player guesses a five letter word)
 
 document.addEventListener("DOMContentLoaded", () => {
   createSquares();
-  keyPressEventHandler();
+  keyClickEventHandler();
+  document.addEventListener('keydown', handleKeyPress);
 })
 
 function createSquares() {
@@ -20,7 +22,7 @@ function createSquares() {
     }
   }
 
-  function keyPressEventHandler() {
+  function keyClickEventHandler() {
     const keys = document.querySelectorAll('.keyboard-row button');
     for (let i = 0; i < keys.length; i++) {
       keys[i].onclick = ({target}) => {
@@ -34,16 +36,32 @@ function createSquares() {
             handleDeleteButtonPress();
             break;
           default:
-            updateGuessedWords(key);
+            updateGuessedWord(key);
         }
       }  
     }
   }
 
+  function handleKeyPress(e){
+    switch(e.key){
+      case 'Enter':
+        handleEnterKeyPress();
+        break;
+      case 'Backspace':
+      case 'Delete':
+        handleDeleteButtonPress();
+        break;
+      default:
+        if (e.key.match(/^[A-Za-z]$/)) { //A regular expression that matches letters from A-Z
+          updateGuessedWord(e.key.toLowerCase());
+        }
+        break;
+    }
+  }
+
   function handleEnterKeyPress()
   {
-    console.log(guessedword);
-    if (guessedword.length < 5) {
+    if (guessedword.length < maxWordLength) {
       window.alert('Word too short!!!');
       return;
     }
@@ -77,7 +95,7 @@ function createSquares() {
 
   }
 
-function updateGuessedWords(letter) {
+function updateGuessedWord(letter) {
   //Iterate throuh each square block of the game board and assign letter to corresponding board square
   guessedword = '';
   let squares = document.querySelectorAll('.square');
@@ -102,8 +120,6 @@ function updateGuessedWords(letter) {
 
 //Deduce the row
 function computeRow(index) {
-  const maxNumberOfColumns = 5; //Max word is 5 (Player guesses a five letter word)
-
-  let row = index/maxNumberOfColumns; //Calculate the current row undex/number of tries
+  let row = index/maxWordLength; //Calculate the current row undex/number of tries
   return Number.isInteger(row) ? row : Math.ceil(row); //Return row number/number of tries as an integer (whole number)
 }
