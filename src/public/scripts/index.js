@@ -3,6 +3,7 @@ let guessedword = '';
 let currentRow = 1;
 let currentSquareIndex = 0;
 const maxWordLength = 5; //Max word is 5 (Player guesses a five letter word)
+const alertContainer = document.querySelector('[data-alert-container]');
 
 document.addEventListener("DOMContentLoaded", () => {
   createSquares();
@@ -30,7 +31,7 @@ function createSquares() {
         switch(key)
         {
           case 'enter':
-            handleEnterKeyPress();
+            submitGuess();
             break;
           case 'del':
             handleDeleteButtonPress();
@@ -45,7 +46,7 @@ function createSquares() {
   function handleKeyPress(e){
     switch(e.key){
       case 'Enter':
-        handleEnterKeyPress();
+        submitGuess();
         break;
       case 'Backspace':
       case 'Delete':
@@ -59,25 +60,25 @@ function createSquares() {
     }
   }
 
-  function handleEnterKeyPress()
+  function submitGuess()
   {
     if (guessedword.length < maxWordLength) {
-      window.alert('Word too short!!!');
+      showAlert('Not enough letters');
       return;
     }
 
     if (guessedword.toLowerCase() === dailyWord.toLowerCase()) {
-      window.alert("You win");
+      showAlert('You win');
       return;
     }
 
     const maxRows = 6;
     if (currentRow === maxRows) {
-      window.alert('You lost!!');
+      showAlert('You lost');
       return;
     }
 
-    window.alert('Incorrect word');
+    showAlert('Incorrect word');
     currentRow += 1; //move to the next row
   }
 
@@ -122,4 +123,20 @@ function updateGuessedWord(letter) {
 function computeRow(index) {
   let row = index/maxWordLength; //Calculate the current row undex/number of tries
   return Number.isInteger(row) ? row : Math.ceil(row); //Return row number/number of tries as an integer (whole number)
+}
+
+function showAlert(message, duration = 1000) {
+  const alert = document.createElement('div');
+  alert.textContent = message;
+  alert.classList.add('alert');
+  alertContainer.prepend(alert); //add latest alert at the top
+
+  if (!duration) return;
+
+  setTimeout(() => {
+    alert.classList.add('hide');
+    alert.addEventListener('transitionend', () => {
+      alert.remove();
+    }); //Whenever our transition finishes, jst remove it
+  }, duration)
 }
