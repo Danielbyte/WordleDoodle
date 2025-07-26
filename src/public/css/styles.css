@@ -104,9 +104,20 @@ header{
 .spacer-half{
   flex-grow: 0.5;
 }
-.key.wrong {
+.keyboard-row button.wrong{
   --lightness: 23%;
 }
+.keyboard-row button.wrong-location{
+  --hue: 49;
+  --saturation: 51%;
+  --lightness: 47%;
+}
+.keyboard-row button.correct-location{
+  --hue: 115;
+  --saturation: 29%;
+  --lightness: 43%;
+}
+
 
 .keyboard-row button:hover, .keyboard-row button:focus {
   --lightness-offset: 10%; /*Make button 10% lighter everytime a user hovers on it*/
