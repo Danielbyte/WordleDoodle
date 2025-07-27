@@ -14,6 +14,11 @@ function startInteraction() {
   document.addEventListener('click', keyClickEventHandler);
 }
 
+function stopInteraction() {
+  document.removeEventListener('keydown', handleKeyPress);
+  document.removeEventListener('click', keyClickEventHandler);
+}
+
 function createSquares() {
     const gameBoard = document.getElementById('board');
 
