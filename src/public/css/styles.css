@@ -68,6 +68,7 @@ header{
   justify-content: center;
   align-items: center;
   user-select: none;
+  transition: transform 250ms linear;
 }
 
 #keyboard-container{
@@ -188,4 +189,8 @@ header{
   100%{
     transform: translateX(0);
   }
+}
+
+.tile.flip{
+  transform: rotateX(90deg);
 }

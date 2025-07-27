@@ -5,8 +5,9 @@ let currentRow = 1;
 let currentSquareIndex = 0;
 const maxWordLength = 5; //Max word is 5 (Player guesses a five letter word)
 const alertContainer = document.querySelector('[data-alert-container]');
+const FLIP_ANIMATION_DURATION = 500;
 
-createSquares();
+createTiles();
 startInteraction();
 
 function startInteraction() {
@@ -19,7 +20,7 @@ function stopInteraction() {
   document.removeEventListener('click', keyClickEventHandler);
 }
 
-function createSquares() {
+function createTiles() {
     const gameBoard = document.getElementById('board');
 
     for (let index = 0; index < 30; index++) {
@@ -89,9 +90,27 @@ function createSquares() {
       return;
     }
 
-    showAlert('Incorrect word');
-    guessedword = ''; //Reset guessed word
-    currentRow += 1; //move to the next row
+    //A condition that checks whether word is valid
+    
+    //Flip tiles
+    stopInteraction();
+    flipTiles();
+    //guessedword = ''; //Reset guessed word
+    //currentRow += 1; //move to the next row
+  }
+
+  function flipTiles() {
+    const minTileIndex = getMinTileIndex(currentRow);
+    const maxTileIndex = getMaxTileIndex(currentRow);
+
+    document.querySelectorAll('.tile')
+    .forEach(tile => {
+      if (tile.dataset.index >= minTileIndex && tile.dataset.index <= maxTileIndex) {
+        setTimeout(() => {
+          tile.classList.add('flip');
+        }, (tile.dataset.index * FLIP_ANIMATION_DURATION)/2)
+      }
+    })
   }
 
   function handleDeleteButtonPress()
