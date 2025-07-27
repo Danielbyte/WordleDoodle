@@ -6,11 +6,13 @@ let currentSquareIndex = 0;
 const maxWordLength = 5; //Max word is 5 (Player guesses a five letter word)
 const alertContainer = document.querySelector('[data-alert-container]');
 
-document.addEventListener("DOMContentLoaded", () => {
-  createSquares();
-  keyClickEventHandler();
+createSquares();
+startInteraction();
+
+function startInteraction() {
   document.addEventListener('keydown', handleKeyPress);
-})
+  document.addEventListener('click', keyClickEventHandler);
+}
 
 function createSquares() {
     const gameBoard = document.getElementById('board');
@@ -156,4 +158,12 @@ function shakeTiles(tiles){
     }, {once: true}); //run shake animation only once
     }
   })
+}
+
+function getMinTileIndex(row) { //Get the index of the first tile of row in question
+  return 5 * row - 4;
+}
+
+function getMaxTileIndex(row) { //Get the index of the last tile of row in question
+  return 5 * row;
 }
