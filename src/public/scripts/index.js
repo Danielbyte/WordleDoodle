@@ -81,12 +81,14 @@ function createTiles() {
     }
 
     if (guessedword.toLowerCase() === dailyWord.toLowerCase()) {
+      flipTiles();
       showAlert('You win');
       return;
     }
 
     const maxRows = 6;
     if (currentRow === maxRows) {
+      flipTiles();
       showAlert('You lost');
       return;
     }
