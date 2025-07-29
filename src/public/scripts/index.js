@@ -57,7 +57,7 @@ function createTiles() {
 
   function handleKeyPress(e){
     if (isGameOver || isWin) return;
-    
+
     switch(e.key){
       case 'Enter':
         submitGuess();
@@ -87,12 +87,14 @@ function createTiles() {
     }
 
     if (guessedword.toLowerCase() === dailyWord.toLowerCase()) {
+      stopInteraction();
       flipTiles('win');
       return;
     }
 
     const maxRows = 6;
     if (currentRow === maxRows) {
+      startInteraction();
       flipTiles('lose');
       return;
     }
@@ -154,13 +156,15 @@ function createTiles() {
 
   function winState()
   {
-    showAlert('You win');
+    showAlert('You win', 5000);
     isWin = true;
+    stopInteraction();
   }
 
   function loseState() {
-    showAlert('You lost');
+    showAlert('You lost', 5000);
     isGameOver = true;
+    stopInteraction();
   }
 
   function getActiveTiles(startIndex, stopIndex) {
