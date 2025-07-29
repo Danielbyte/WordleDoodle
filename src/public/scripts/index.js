@@ -119,6 +119,8 @@ function createTiles() {
 
           else if (dailyWord.toLocaleLowerCase().includes(letter.toLocaleLowerCase())) tile.setAttribute('data-state', 'wrong-location');
 
+          else tile.setAttribute('data-state', 'wrong');
+
           if (tileIndex === maxTileIndex) {
             startInteraction();
             //Need to check for winning condition..
