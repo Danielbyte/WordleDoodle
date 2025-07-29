@@ -157,14 +157,14 @@ function createTiles() {
 
   function winState(tiles)
   {
-    showAlert('You win', 5000);
     isWin = true;
     stopInteraction();
     dancingTiles(tiles);
+    showAlert('You win', 5000);
   }
 
   function loseState() {
-    showAlert('You lost', 5000);
+    showAlert(dailyWord.toLocaleUpperCase(), null);
     isGameOver = true;
     stopInteraction();
   }
@@ -247,16 +247,14 @@ function shakeTiles(tiles){
 
 function dancingTiles(tiles) {
   tiles.forEach((tile, index) => {
-    const tileColumn = getTileColumn(currentRow, tileIndex);
-    setTimeout (() => {
-      row = computeRow(tile.dataset.index);
-      if (tile.textContent != '' && row === currentRow) {
-        tile.classList.add('dance'); //Add shake animation
-        tile.addEventListener('animationend', () => {
-        tile.classList.remove('dance'); //Remove class once animation is done
-        }, {once: true}); //run shake animation only once
-      }
-      }, tileColumn * DANCE_ANIMATION_DURATION/5)
+    const tileIndex = Number(tile.dataset.index);
+    setTimeout(() => {
+      row = computeRow(tileIndex);
+      tile.classList.add('dance'); //Add shake animation
+      tile.addEventListener('animationend', () => {
+      tile.classList.remove('dance'); //Remove class once animation is done
+      }, {once: true}); //run shake animation only once
+      }, index * DANCE_ANIMATION_DURATION/5)
   })
 }
 
