@@ -122,7 +122,10 @@ function createTiles() {
             key.setAttribute('data-state', 'correct');
           }
 
-          else if (dailyWord.toLocaleLowerCase().includes(letter)) tile.setAttribute('data-state', 'wrong-location');
+          else if (dailyWord.toLocaleLowerCase().includes(letter)) {
+             tile.setAttribute('data-state', 'wrong-location');
+             key.setAttribute('data-state', 'wrong-location')
+          }
 
           else tile.setAttribute('data-state', 'wrong');
 
