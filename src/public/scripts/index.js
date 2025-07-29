@@ -5,7 +5,7 @@ let currentRow = 1;
 let currentSquareIndex = 0;
 const maxWordLength = 5; //Max word is 5 (Player guesses a five letter word)
 const alertContainer = document.querySelector('[data-alert-container]');
-const FLIP_ANIMATION_DURATION = 500;
+const FLIP_ANIMATION_DURATION = 400;
 
 createTiles();
 startInteraction();
@@ -90,27 +90,45 @@ function createTiles() {
       return;
     }
 
-    //A condition that checks whether word is valid
+    //Add condition that checks whether word is valid
     
     //Flip tiles
     stopInteraction();
     flipTiles();
-    //guessedword = ''; //Reset guessed word
-    //currentRow += 1; //move to the next row
+    currentRow += 1; //move to the next row
+    guessedword = ''; //Reset guessed word
   }
 
   function flipTiles() {
     const minTileIndex = getMinTileIndex(currentRow);
     const maxTileIndex = getMaxTileIndex(currentRow);
-
-    document.querySelectorAll('.tile')
-    .forEach(tile => {
-      if (tile.dataset.index >= minTileIndex && tile.dataset.index <= maxTileIndex) {
+    const activeTiles = getActiveTiles(minTileIndex - 1, maxTileIndex); //Get active tiles
+  
+    activeTiles.forEach(tile => {
+      const tileIndex = Number(tile.dataset.index);
+      const tileColumn = getTileColumn(currentRow, tileIndex);
+    
+        const letter = tile.textContent;
         setTimeout(() => {
           tile.classList.add('flip');
-        }, (tile.dataset.index * FLIP_ANIMATION_DURATION)/2)
-      }
+        }, (tileColumn * FLIP_ANIMATION_DURATION)/2);
+
+        tile.addEventListener('transitionend', (event) => {
+          tile.classList.remove('flip');
+          if (letter.toLowerCase() === dailyWord[tileColumn -1].toLowerCase()) tile.setAttribute('data-state', 'correct');
+
+          if (tileIndex === maxTileIndex) {
+            startInteraction();
+            //Need to check for winning condition..
+          }
+        });
+      
     })
+  }
+
+  function getActiveTiles(startIndex, stopIndex) {
+    const allTiles = document.querySelectorAll('.tile'); //Refernce to the entire game board
+    return Array.from(allTiles).slice(startIndex, stopIndex); //Return array of all active tiles
   }
 
   function handleDeleteButtonPress()
@@ -118,6 +136,7 @@ function createTiles() {
     document.querySelectorAll('.tile')
     .forEach((square)=> {
       const numberOfTries = computeRow(Number(square.dataset.index)) //Reverse engineer the number of tries
+
       if (square.dataset.index === currentSquareIndex.toString() && numberOfTries === currentRow) //Restrict deletion to current row
       {
         square.textContent = '';
@@ -146,7 +165,6 @@ function updateGuessedWord(letter) {
 
     if(currentNumberOfTries === currentRow && squares[i].textContent !== '') //Update word only for the current row
       guessedword += squares[i].textContent.trim();
-
   }
 }
 
@@ -185,9 +203,14 @@ function shakeTiles(tiles){
 }
 
 function getMinTileIndex(row) { //Get the index of the first tile of row in question
-  return 5 * row - 4;
+  return maxWordLength * row - 4;
 }
 
 function getMaxTileIndex(row) { //Get the index of the last tile of row in question
-  return 5 * row;
+  return maxWordLength * row;
+}
+
+//Get the tile column
+function getTileColumn(row, tileIndex) {
+  return tileIndex - maxWordLength * (row -1);
 }
