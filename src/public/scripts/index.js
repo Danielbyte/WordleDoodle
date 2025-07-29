@@ -5,10 +5,11 @@ let currentRow = 1;
 let currentSquareIndex = 0;
 const maxWordLength = 5; //Max word is 5 (Player guesses a five letter word)
 const alertContainer = document.querySelector('[data-alert-container]');
-const FLIP_ANIMATION_DURATION = 400;
+const FLIP_ANIMATION_DURATION = 500;
 const keyboard = document.getElementById('keyboard-container');
 let isWin = false;
 let isGameOver = false;
+const DANCE_ANIMATION_DURATION = 500;
 
 createTiles();
 startInteraction();
@@ -143,7 +144,7 @@ function createTiles() {
           if (tileIndex === maxTileIndex) {
             tile.addEventListener('transitionend', () => {
             startInteraction();
-            if (message === 'win') winState();
+            if (message === 'win') winState(activeTiles);
 
             if (message === 'lose') loseState();
             //Need to check for winning/lose condition..
@@ -154,11 +155,12 @@ function createTiles() {
     })
   }
 
-  function winState()
+  function winState(tiles)
   {
     showAlert('You win', 5000);
     isWin = true;
     stopInteraction();
+    dancingTiles(tiles);
   }
 
   function loseState() {
@@ -240,6 +242,21 @@ function shakeTiles(tiles){
        tile.classList.remove('shake'); //Remove class once animation is done
     }, {once: true}); //run shake animation only once
     }
+  })
+}
+
+function dancingTiles(tiles) {
+  tiles.forEach((tile, index) => {
+    const tileColumn = getTileColumn(currentRow, tileIndex);
+    setTimeout (() => {
+      row = computeRow(tile.dataset.index);
+      if (tile.textContent != '' && row === currentRow) {
+        tile.classList.add('dance'); //Add shake animation
+        tile.addEventListener('animationend', () => {
+        tile.classList.remove('dance'); //Remove class once animation is done
+        }, {once: true}); //run shake animation only once
+      }
+      }, tileColumn * DANCE_ANIMATION_DURATION/5)
   })
 }
 
