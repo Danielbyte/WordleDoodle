@@ -6,6 +6,7 @@ let currentSquareIndex = 0;
 const maxWordLength = 5; //Max word is 5 (Player guesses a five letter word)
 const alertContainer = document.querySelector('[data-alert-container]');
 const FLIP_ANIMATION_DURATION = 400;
+const keyboard = document.getElementById('keyboard-container');
 
 createTiles();
 startInteraction();
@@ -107,17 +108,21 @@ function createTiles() {
     activeTiles.forEach(tile => {
       const tileIndex = Number(tile.dataset.index);
       const tileColumn = getTileColumn(currentRow, tileIndex);
+      const letter = tile.textContent.toLowerCase();
+      let key = keyboard.querySelector(`[data-key="${letter}"i]`);
     
-        const letter = tile.textContent;
-        setTimeout(() => {
+      setTimeout(() => {
           tile.classList.add('flip');
         }, (tileColumn * FLIP_ANIMATION_DURATION)/2);
 
         tile.addEventListener('transitionend', (event) => {
           tile.classList.remove('flip');
-          if (letter.toLowerCase() === dailyWord[tileColumn -1].toLowerCase()) tile.setAttribute('data-state', 'correct');
+          if (letter === dailyWord[tileColumn -1].toLowerCase()) {
+            tile.setAttribute('data-state', 'correct');
+            key.setAttribute('data-state', 'correct');
+          }
 
-          else if (dailyWord.toLocaleLowerCase().includes(letter.toLocaleLowerCase())) tile.setAttribute('data-state', 'wrong-location');
+          else if (dailyWord.toLocaleLowerCase().includes(letter)) tile.setAttribute('data-state', 'wrong-location');
 
           else tile.setAttribute('data-state', 'wrong');
 
