@@ -117,6 +117,8 @@ function createTiles() {
           tile.classList.remove('flip');
           if (letter.toLowerCase() === dailyWord[tileColumn -1].toLowerCase()) tile.setAttribute('data-state', 'correct');
 
+          else if (dailyWord.toLocaleLowerCase().includes(letter.toLocaleLowerCase())) tile.setAttribute('data-state', 'wrong-location');
+
           if (tileIndex === maxTileIndex) {
             startInteraction();
             //Need to check for winning condition..
