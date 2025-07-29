@@ -127,7 +127,10 @@ function createTiles() {
              key.setAttribute('data-state', 'wrong-location')
           }
 
-          else tile.setAttribute('data-state', 'wrong');
+          else {
+             tile.setAttribute('data-state', 'wrong');
+             key.setAttribute('data-state', 'wrong');
+          }
 
           if (tileIndex === maxTileIndex) {
             startInteraction();
