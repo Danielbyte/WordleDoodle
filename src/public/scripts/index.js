@@ -7,6 +7,8 @@ const maxWordLength = 5; //Max word is 5 (Player guesses a five letter word)
 const alertContainer = document.querySelector('[data-alert-container]');
 const FLIP_ANIMATION_DURATION = 400;
 const keyboard = document.getElementById('keyboard-container');
+let isWin = false;
+let isGameOver = false;
 
 createTiles();
 startInteraction();
@@ -54,6 +56,8 @@ function createTiles() {
   }
 
   function handleKeyPress(e){
+    if (isGameOver || isWin) return;
+    
     switch(e.key){
       case 'Enter':
         submitGuess();
@@ -72,6 +76,8 @@ function createTiles() {
 
   function submitGuess()
   {
+    if (isWin || isGameOver) return;
+
     guessedword.trim();
     if (guessedword.length < maxWordLength) {
       showAlert('Not enough letters');
@@ -81,15 +87,13 @@ function createTiles() {
     }
 
     if (guessedword.toLowerCase() === dailyWord.toLowerCase()) {
-      flipTiles();
-      showAlert('You win');
+      flipTiles('win');
       return;
     }
 
     const maxRows = 6;
     if (currentRow === maxRows) {
-      flipTiles();
-      showAlert('You lost');
+      flipTiles('lose');
       return;
     }
 
@@ -97,12 +101,12 @@ function createTiles() {
     
     //Flip tiles
     stopInteraction();
-    flipTiles();
+    flipTiles('next row');
     currentRow += 1; //move to the next row
     guessedword = ''; //Reset guessed word
   }
 
-  function flipTiles() {
+  function flipTiles(message) {
     const minTileIndex = getMinTileIndex(currentRow);
     const maxTileIndex = getMaxTileIndex(currentRow);
     const activeTiles = getActiveTiles(minTileIndex - 1, maxTileIndex); //Get active tiles
@@ -135,12 +139,28 @@ function createTiles() {
           }
 
           if (tileIndex === maxTileIndex) {
+            tile.addEventListener('transitionend', () => {
             startInteraction();
-            //Need to check for winning condition..
+            if (message === 'win') winState();
+
+            if (message === 'lose') loseState();
+            //Need to check for winning/lose condition..
+            }, {once: true})
           }
-        });
+        }, {once: true});
       
     })
+  }
+
+  function winState()
+  {
+    showAlert('You win');
+    isWin = true;
+  }
+
+  function loseState() {
+    showAlert('You lost');
+    isGameOver = true;
   }
 
   function getActiveTiles(startIndex, stopIndex) {
