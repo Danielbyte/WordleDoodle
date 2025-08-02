@@ -1,10 +1,10 @@
 import express from 'express'
 import path, {dirname} from 'path'
 import { fileURLToPath } from 'url';
+import { PORT } from './config/env.js';
+import wordValidationRouter from './src/routes/wordValidationRoute.js';
 
 const app = express();
-
-const PORT = process.env.PORT || 5500
 
 //Get file path from the URL of the current module
 const __fileName = fileURLToPath(import.meta.url);
@@ -17,13 +17,15 @@ app.use(express.json());
 //Tell express to serve all files from the public folder as static files/assets
 app.use(express.static(path.join(__dirName, './src/public')));
 
+app.use('/api/v1/validate', wordValidationRouter);
+
 //Serving up the HTML file from the /public directory
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirName), 'public', 'index.html')
 });
 
 app.listen(PORT, () => {
-  console.log(`Server started on port: ${PORT}`);
+  console.log(`Server started on: http://localhost:${PORT}`);
 });
 
 export default app;
