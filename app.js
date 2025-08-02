@@ -20,8 +20,10 @@ app.use(express.static(path.join(__dirName, './src/public')));
 //Serving up the HTML file from the /public directory
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirName), 'public', 'index.html')
-})
+});
 
 app.listen(PORT, () => {
   console.log(`Server started on port: ${PORT}`);
-})
+});
+
+export default app;
