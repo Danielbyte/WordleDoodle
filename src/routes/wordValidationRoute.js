@@ -1,9 +1,8 @@
 import { Router } from "express";
+import { getWordOfTheDay } from '../controllers/wordFetcher.js'
 
 const wordValidationRouter = Router();
 
-wordValidationRouter.post('/', async (req, res) => {
-  
-});
+wordValidationRouter.get('/', getWordOfTheDay);
 
 export default wordValidationRouter;

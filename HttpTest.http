@@ -1,2 +1,2 @@
-POST http://localhost:5500/api/v1
+GET  http://localhost:5500/api/v1
 Content-Type: application/json
