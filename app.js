@@ -17,7 +17,7 @@ app.use(express.json());
 //Tell express to serve all files from the public folder as static files/assets
 app.use(express.static(path.join(__dirName, './src/public')));
 
-app.use('/api/v1/validate', wordValidationRouter);
+app.use('/api/v1/', wordValidationRouter);
 
 //Serving up the HTML file from the /public directory
 app.get('/', (req, res) => {
