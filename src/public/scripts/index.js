@@ -113,6 +113,12 @@ function createTiles() {
     const minTileIndex = getMinTileIndex(currentRow);
     const maxTileIndex = getMaxTileIndex(currentRow);
     const activeTiles = getActiveTiles(minTileIndex - 1, maxTileIndex); //Get active tiles
+    let wordGuess = '';
+
+    //Get the guessed word
+    activeTiles.forEach(tile => {
+      wordGuess += tile.textContent.toUpperCase();
+    })
   
     activeTiles.forEach(tile => {
       const tileIndex = Number(tile.dataset.index);

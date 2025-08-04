@@ -6,5 +6,5 @@ POST   http://localhost:5500/api/v1/validate
 Content-Type: application/json
 
 {
-  "guess": "Daily"
+  "guess": "daily"
 }
