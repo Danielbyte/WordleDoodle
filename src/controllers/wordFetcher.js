@@ -2316,16 +2316,16 @@ const fallbackWords = [
   "shave"
 ] //fall back words to use if Datamuse API isn't responsive
 
-export const getWordOfTheDay = async(req, res, next) => {
+export const getWordOfTheDay = async() => {
   try {
     const commonWords = await fetchWordFromDataMuse();
     const index = getDayOfYear() % commonWords.length; //Wrap around fallback words array
-    res.status(200).json({success: true, data: commonWords[index]});
+    return commonWords[index];
 
   } catch (error) {
     //Fallback if Datamuse API call fails
     const index = getDayOfYear() % fallbackWords.length; //Wrap around fallback words array
-    res.status(500).json({success: true, data: fallbackWords[index].toUpperCase()});
+    return fallbackWords[index].toUpperCase();
   }
 }
 
