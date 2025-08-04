@@ -5,7 +5,7 @@ fetchWordOfTheDay();
 export const validateWord = async(req, res) => {
   const userGuess = req.body.guess;
   console.log(userGuess);
-  res.status(200).json({correct: true});
+  res.status(200).json({word: wordOfTheDay});
 }
 
 async function fetchWordOfTheDay() {
