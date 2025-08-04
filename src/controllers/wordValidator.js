@@ -38,3 +38,8 @@ async function fetchWordOfTheDay() {
 
   wordOfTheDay = await getWordOfTheDay();
 }
+
+export const verifyWord = async (req, res) => {
+  let userGuess = req.body.guess;
+  res.json({isValidWord: true})
+}
