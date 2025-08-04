@@ -10,6 +10,7 @@ const keyboard = document.getElementById('keyboard-container');
 let isWin = false;
 let isGameOver = false;
 const DANCE_ANIMATION_DURATION = 500;
+const maxRows = 7;
 
 createTiles();
 startInteraction();
@@ -75,7 +76,7 @@ function createTiles() {
     }
   }
 
-  function submitGuess()
+  async function submitGuess()
   {
     if (isWin || isGameOver) return;
 
@@ -87,29 +88,19 @@ function createTiles() {
       return;
     }
 
-    if (guessedword.toLowerCase() === dailyWord.toLowerCase()) {
-      stopInteraction();
-      flipTiles('win');
-      return;
-    }
-
-    const maxRows = 6;
-    if (currentRow === maxRows) {
-      startInteraction();
-      flipTiles('lose');
-      return;
-    }
-
     //Add condition that checks whether word is valid
     
     //Flip tiles
     stopInteraction();
-    flipTiles('next row');
-    currentRow += 1; //move to the next row
+    await flipTiles();
+
+    if (!isWin || !isGameOver)
+      currentRow += 1; //move to the next row
+
     guessedword = ''; //Reset guessed word
   }
 
-  function flipTiles(message) {
+  async function flipTiles() {
     const minTileIndex = getMinTileIndex(currentRow);
     const maxTileIndex = getMaxTileIndex(currentRow);
     const activeTiles = getActiveTiles(minTileIndex - 1, maxTileIndex); //Get active tiles
@@ -120,48 +111,10 @@ function createTiles() {
       wordGuess += tile.textContent.toUpperCase();
     })
   
-    activeTiles.forEach(tile => {
-      const tileIndex = Number(tile.dataset.index);
-      const tileColumn = getTileColumn(currentRow, tileIndex);
-      const letter = tile.textContent.toLowerCase();
-      let key = keyboard.querySelector(`[data-key="${letter}"i]`);
-    
-      setTimeout(() => {
-          tile.classList.add('flip');
-        }, (tileColumn * FLIP_ANIMATION_DURATION)/2);
-
-        tile.addEventListener('transitionend', (event) => {
-          tile.classList.remove('flip');
-          if (letter === dailyWord[tileColumn -1].toLowerCase()) {
-            tile.setAttribute('data-state', 'correct');
-            key.setAttribute('data-state', 'correct');
-          }
-
-          else if (dailyWord.toLocaleLowerCase().includes(letter)) {
-             tile.setAttribute('data-state', 'wrong-location');
-             key.setAttribute('data-state', 'wrong-location')
-          }
-
-          else {
-             tile.setAttribute('data-state', 'wrong');
-             key.setAttribute('data-state', 'wrong');
-          }
-
-          if (tileIndex === maxTileIndex) {
-            tile.addEventListener('transitionend', () => {
-            startInteraction();
-            if (message === 'win') winState(activeTiles);
-
-            if (message === 'lose') loseState();
-            //Need to check for winning/lose condition..
-            }, {once: true})
-          }
-        }, {once: true});
-      
-    })
+    await getTileStates(wordGuess);
   }
 
-  function winState(tiles)
+  async function winState(tiles)
   {
     isWin = true;
     stopInteraction();
@@ -169,7 +122,7 @@ function createTiles() {
     showAlert('You win', 5000);
   }
 
-  function loseState() {
+  async function loseState() {
     showAlert(dailyWord.toLocaleUpperCase(), null);
     isGameOver = true;
     stopInteraction();
@@ -241,7 +194,7 @@ function showAlert(message, duration = 1000) {
 
 function shakeTiles(tiles){
   tiles.forEach(tile => {
-    row = computeRow(tile.dataset.index);
+    let row = computeRow(tile.dataset.index);
     if (tile.textContent != '' && row === currentRow) {
        tile.classList.add('shake'); //Add shake animation
        tile.addEventListener('animationend', () => {
@@ -253,9 +206,8 @@ function shakeTiles(tiles){
 
 function dancingTiles(tiles) {
   tiles.forEach((tile, index) => {
-    const tileIndex = Number(tile.dataset.index);
     setTimeout(() => {
-      row = computeRow(tileIndex);
+
       tile.classList.add('dance'); //Add shake animation
       tile.addEventListener('animationend', () => {
       tile.classList.remove('dance'); //Remove class once animation is done
@@ -275,4 +227,60 @@ function getMaxTileIndex(row) { //Get the index of the last tile of row in quest
 //Get the tile column
 function getTileColumn(row, tileIndex) {
   return tileIndex - maxWordLength * (row -1);
+}
+
+async function getTileStates(userGuess) {
+  await fetch('../api/v1/validate', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      guess: userGuess
+    })
+  })
+  .then(response => {
+    if(!response.ok) throw new Error('Failed to set tile states');
+    return response.json();
+  })
+  .then(result => {
+
+    const minTileIndex = getMinTileIndex(currentRow);
+    const maxTileIndex = getMaxTileIndex(currentRow);
+    const activeTiles = getActiveTiles(minTileIndex - 1, maxTileIndex); //Get active tiles
+  
+    activeTiles.forEach(tile => {
+      const tileIndex = Number(tile.dataset.index);
+      const tileColumn = getTileColumn(currentRow, tileIndex);
+      const letter = tile.textContent.toLowerCase();
+      let key = keyboard.querySelector(`[data-key="${letter}"i]`);
+    
+      setTimeout(() => {
+          tile.classList.add('flip');
+        }, (tileColumn * FLIP_ANIMATION_DURATION)/2);
+
+        tile.addEventListener('transitionend', async () => {
+          tile.classList.remove('flip');
+          tile.setAttribute('data-state', result.states[tileColumn-1]);
+          key.setAttribute('data-state', result.states[tileColumn-1]);
+          
+          if (tileIndex === maxTileIndex) {
+            tile.addEventListener('transitionend', async () => {
+            startInteraction();
+
+            //Check if user has won
+            if (result.winState) {
+              await winState(activeTiles);
+              stopInteraction();
+            }
+
+            if (currentRow === maxRows && result.winState === false) {
+              await loseState();
+            }
+            //Need to check for winning/lose condition..
+            }, {once: true})
+          }
+        }, {once: true});
+    })
+  })
 }
