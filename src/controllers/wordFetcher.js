@@ -2317,13 +2317,35 @@ const fallbackWords = [
 ] //fall back words to use if Datamuse API isn't responsive
 
 export const getWordOfTheDay = async(req, res, next) => {
-  const index = getDayOfYear() % fallbackWords.length; //Wrap around fallback words array
-  res.status(200).json({success: true, data: fallbackWords[index]});
+  try {
+    const commonWords = await fetchWordFromDataMuse();
+    const index = getDayOfYear() % commonWords.length; //Wrap around fallback words array
+    res.status(200).json({success: true, data: commonWords[index]});
+
+  } catch (error) {
+    //Fallback if Datamuse API call fails
+    const index = getDayOfYear() % fallbackWords.length; //Wrap around fallback words array
+    res.status(500).json({success: true, data: fallbackWords[index].toUpperCase()});
+  }
 }
 
-//Day of year ysed as indexer for word of day
+async function fetchWordFromDataMuse() {
+  const response = await fetch('https://api.datamuse.com/words?sp=?????&md=f&max=1000'); //return words based on frequency (from API)
+  //The frequency should help extract more common words
+  const words = await response.json();
+  return words
+  .filter(_word => {
+    const frequency = _word.tags?.find(_tag => _tag.startsWith('f:')); //Reference to frequency
+    //A frequency above 10 will do. Plus return 5 letter words
+    return frequency && parseFloat(frequency.split(':')[1]) > 5 && /^[a-z]{5}$/.test(_word.word);
+  })
+  .map(_word => _word.word.toUpperCase()); //Convert words to uppercase letters
+}
+
+//Day of year used as indexer for word of day
 function getDayOfYear() {
   const now = new Date();
   const start = new Date(now.getFullYear(), 0, 0);
   return Math.floor((now - start)/(1000 * 3600 * 24));
 }
+
