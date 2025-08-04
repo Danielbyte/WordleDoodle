@@ -1,5 +1,5 @@
 
-const dailyWord = 'Daily'; //dummy word that will be replaced by a proper word
+let dailyWord = '';
 let guessedword = '';
 let currentRow = 1;
 let currentSquareIndex = 0;
@@ -236,7 +236,8 @@ async function getTileStates(userGuess) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      guess: userGuess
+      guess: userGuess,
+      numbeOfTries: currentRow
     })
   })
   .then(response => {
@@ -248,7 +249,7 @@ async function getTileStates(userGuess) {
     const minTileIndex = getMinTileIndex(currentRow);
     const maxTileIndex = getMaxTileIndex(currentRow);
     const activeTiles = getActiveTiles(minTileIndex - 1, maxTileIndex); //Get active tiles
-  
+
     activeTiles.forEach(tile => {
       const tileIndex = Number(tile.dataset.index);
       const tileColumn = getTileColumn(currentRow, tileIndex);
@@ -275,9 +276,9 @@ async function getTileStates(userGuess) {
             }
 
             if (currentRow === maxRows && result.winState === false) {
+              dailyWord = result.word;
               await loseState();
             }
-            //Need to check for winning/lose condition..
             }, {once: true})
           }
         }, {once: true});

@@ -4,6 +4,7 @@ fetchWordOfTheDay();
 
 export const validateWord = async(req, res) => {
   const userGuess = req.body.guess;
+  const tries = req.body.numbeOfTries;
   let index = 0;
   let tileStates = [];
   for (const letter of userGuess) { //Iterate through each letter of user guess
@@ -21,10 +22,14 @@ export const validateWord = async(req, res) => {
   }
 
   let isWin = false;
+  let dailyWord = '';
   if (userGuess.toUpperCase() === wordOfTheDay)
     isWin = true;
 
-  res.status(200).json({states: tileStates, winState: isWin});
+  if (tries === 6 && !isWin)
+    dailyWord = wordOfTheDay;
+
+  res.status(200).json({states: tileStates, winState: isWin, word: dailyWord});
 }
 
 async function fetchWordOfTheDay() {
