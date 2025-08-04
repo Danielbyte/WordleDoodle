@@ -19,6 +19,7 @@ app.use(express.static(path.join(__dirName, './src/public')));
 
 app.use('/api/v1', wordValidationRouter);
 app.use('/api/v1/validate', wordValidationRouter);
+app.use('/api/v1/verify', wordValidationRouter);
 
 //Serving up the HTML file from the /public directory
 app.get('/', (req, res) => {

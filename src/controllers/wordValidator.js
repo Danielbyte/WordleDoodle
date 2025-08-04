@@ -39,7 +39,14 @@ async function fetchWordOfTheDay() {
   wordOfTheDay = await getWordOfTheDay();
 }
 
+//An overkill that way result in a overhead (This verification can be done on client side to make make the application faster)
+/*
 export const verifyWord = async (req, res) => {
   let userGuess = req.body.guess;
-  res.json({isValidWord: true})
-}
+  let isValid = false;
+  const response = await fetch(`https://api.datamuse.com/words?sp=${userGuess.toLowerCase()}&max=1`);
+  const match = await response.json();
+  isValid = match.length > 0;
+  console.log(match.length)
+  res.json({isValidWord: isValid})
+}*/
