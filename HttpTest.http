@@ -1,2 +1,6 @@
 GET  http://localhost:5500/api/v1
 Content-Type: application/json
+
+###
+POST   http://localhost:5500/api/v1/validate
+Content-Type: application/json
