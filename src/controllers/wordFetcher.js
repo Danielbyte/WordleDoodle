@@ -2317,5 +2317,13 @@ const fallbackWords = [
 ] //fall back words to use if Datamuse API isn't responsive
 
 export const getWordOfTheDay = async(req, res, next) => {
-  res.status(200).json({success: true, data: fallbackWords[0]});
+  const index = getDayOfYear() % fallbackWords.length; //Wrap around fallback words array
+  res.status(200).json({success: true, data: fallbackWords[index]});
+}
+
+//Day of year ysed as indexer for word of day
+function getDayOfYear() {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 0);
+  return Math.floor((now - start)/(1000 * 3600 * 24));
 }
