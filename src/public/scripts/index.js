@@ -2592,7 +2592,7 @@ async function getTileStates(userGuess) {
           if (tileIndex === maxTileIndex) {
             tile.addEventListener('transitionend', async () => {
             startInteraction();
-            saveGameState();
+            saveKeyboardState();
 
             //Check if user has won
             if (result.winState) {
@@ -2611,10 +2611,9 @@ async function getTileStates(userGuess) {
   })
 }
 
-function saveGameState() {
+function saveKeyboardState() {
   //Function will save game state
   const keyboard = document.getElementById('keyboard-container');
   //Save keyboard state
   window.localStorage.setItem('keyboardState', keyboard.innerHTML);
-  console.log(window.localStorage.getItem('keyboardState'));
 }
