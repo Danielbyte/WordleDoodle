@@ -2586,8 +2586,8 @@ async function getTileStates(userGuess) {
 
         tile.addEventListener('transitionend', async () => {
           tile.classList.remove('flip');
-          tile.setAttribute('data-state', result.states[tileColumn-1]);
-          key.setAttribute('data-state', result.states[tileColumn-1]);
+          tile.setAttribute('data-state', result.states[tileColumn-1]); //Set tile states
+          key.setAttribute('data-state', result.states[tileColumn-1]); //Set keboard states
           
           if (tileIndex === maxTileIndex) {
             tile.addEventListener('transitionend', async () => {
@@ -2600,7 +2600,7 @@ async function getTileStates(userGuess) {
             }
 
             if (currentRow === maxRows && result.winState === false) {
-              dailyWord = result.word;
+              dailyWord = result.word;//Only returned at the end of game (when player loses), else the backend API will return an empty string 
               await loseState();
             }
             }, {once: true})

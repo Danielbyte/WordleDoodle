@@ -17,11 +17,12 @@ app.use(express.json());
 //Tell express to serve all files from the public folder as static files/assets
 app.use(express.static(path.join(__dirName, './src/public')));
 
+//Mount routes
 app.use('/api/v1', wordValidationRouter);
 app.use('/api/v1/validate', wordValidationRouter);
 app.use('/api/v1/verify', wordValidationRouter);
 
-//Serving up the HTML file from the /public directory
+//Serving up the HTML file from the /public directory (Need to serve the main menu page instead (To be done!!!))
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirName), 'public', 'index.html')
 });

@@ -27,7 +27,7 @@ export const validateWord = async(req, res) => {
     isWin = true;
 
   if (tries === 6 && !isWin)
-    dailyWord = wordOfTheDay;
+    dailyWord = wordOfTheDay; //Only return the word once the player looses at the end
 
   res.status(200).json({states: tileStates, winState: isWin, word: dailyWord});
 }
@@ -39,7 +39,7 @@ async function fetchWordOfTheDay() {
   wordOfTheDay = await getWordOfTheDay();
 }
 
-//An overkill that way result in a overhead (This verification can be done on client side to make make the application faster)
+//An overkill that may result in an overhead (This verification can be done on client side to make make the application faster)
 /*
 export const verifyWord = async (req, res) => {
   let userGuess = req.body.guess;
