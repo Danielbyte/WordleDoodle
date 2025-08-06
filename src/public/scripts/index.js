@@ -2662,8 +2662,8 @@ function recoverGameState() {
     //Recover row
     let row = window.localStorage.getItem('row');
 
-    if (row) currentRow = Number(row);
-    
+    if (row) currentRow = Number(row); //Recover row
+
     startInteraction();
   } else if (interaction === 'inactive') stopInteraction();
 }
@@ -2674,4 +2674,13 @@ function saveInteractionState(state) {
 
 function saveRow() {
   window.localStorage.setItem('row', currentRow);
+}
+
+//Function resets the saved game states so that user is allowed to play the following day
+function resetLocalStorageDaily() {
+  /*
+   * Store last reset date
+   * on page load, check if today's date is similar to last reset date
+   * if they are not, clear local storage and update last reset date
+   */
 }
