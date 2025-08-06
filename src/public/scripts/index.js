@@ -2332,6 +2332,7 @@ const maxRows = 7;
 createTiles();
 startInteraction();
 resetLocalStorageDaily();
+scheduleMidnightReset();
 recoverGameState();
 
 function startInteraction() {
@@ -2690,9 +2691,26 @@ function resetLocalStorageDaily() {
 
   if (lastDayOfReset !== today) {
     //clear local storage
-    window.localStorage.clear();
+    window.localStorage.clear(); //Could clear specific keys, I haven't found a use case that requires that as of yet...
 
     //Update last reset date
     window.localStorage.setItem('lastResetDate', today);
   }
+}
+
+//This function will schedule a daily reset at 12 AM to cater for a use case where application remains open overnight
+function scheduleMidnightReset() {
+  const now = new Date();
+  const nextMidnight = new Date();
+  nextMidnight.setHours(24, 0, 0, 0);
+
+  const msUntilMidinight = nextMidnight - now; //get time in miliseconds before next midnight (12 AM)
+
+  setTimeout(() => {
+    window.localStorage.clear();
+    window.localStorage.setItem('lastResetDate', now.Date().toDateString());
+
+    //Re-schechule again for next midnight
+    scheduleMidnightReset();
+  }, msUntilMidinight);
 }
