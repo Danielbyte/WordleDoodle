@@ -2331,6 +2331,7 @@ const maxRows = 7;
 
 createTiles();
 startInteraction();
+resetLocalStorageDaily();
 recoverGameState();
 
 function startInteraction() {
@@ -2683,4 +2684,15 @@ function resetLocalStorageDaily() {
    * on page load, check if today's date is similar to last reset date
    * if they are not, clear local storage and update last reset date
    */
+
+  const today = new Date().toDateString();
+  let lastDayOfReset = window.localStorage.getItem('lastResetDate');
+
+  if (lastDayOfReset !== today) {
+    //clear local storage
+    window.localStorage.clear();
+
+    //Update last reset date
+    window.localStorage.setItem('lastResetDate', today);
+  }
 }
