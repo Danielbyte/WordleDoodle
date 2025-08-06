@@ -2331,6 +2331,7 @@ const maxRows = 7;
 
 createTiles();
 startInteraction();
+recoverGameState();
 
 function startInteraction() {
   document.addEventListener('keydown', handleKeyPress);
@@ -2629,4 +2630,23 @@ function saveBoardState() {
 
 function updateSaveStatus() {
   window.localStorage.setItem('saveStatus', true);
+}
+
+function recoverGameState() {
+  const saveStatus = window.localStorage.getItem('saveStatus'); //Retrieve save status
+
+  if (!saveStatus) //Nothing saved, return (guard clause)
+    return;
+
+  const savedBoard = window.localStorage.getItem('boardState');
+
+  if (savedBoard) {
+    document.getElementById('board-container').innerHTML = savedBoard;
+  }
+
+  const savedKeyBoard = window.localStorage.getItem('keyboardState');
+
+  if (savedKeyBoard) {
+    document.getElementById('keyboard-container').innerHTML = savedKeyBoard;
+  }
 }
