@@ -2617,6 +2617,7 @@ function saveKeyboardState() {
   const keyboard = document.getElementById('keyboard-container');
   //Save keyboard state
   window.localStorage.setItem('keyboardState', keyboard.innerHTML);
+  updateSaveStatus();
 }
 
 function saveBoardState() {
@@ -2624,4 +2625,8 @@ function saveBoardState() {
   const board = document.getElementById('board-container');
   //Save game board state
   window.localStorage.setItem('boardState', board.innerHTML);
+}
+
+function updateSaveStatus() {
+  window.localStorage.setItem('saveStatus', true);
 }
