@@ -2336,11 +2336,13 @@ recoverGameState();
 function startInteraction() {
   document.addEventListener('keydown', handleKeyPress);
   document.addEventListener('click', keyClickEventHandler);
+  saveInteractionState('active');
 }
 
 function stopInteraction() {
   document.removeEventListener('keydown', handleKeyPress);
   document.removeEventListener('click', keyClickEventHandler);
+  saveInteractionState('inactive');
 }
 
 function createTiles() {
@@ -2638,15 +2640,24 @@ function recoverGameState() {
   if (!saveStatus) //Nothing saved, return (guard clause)
     return;
 
+  //Recover game board status
   const savedBoard = window.localStorage.getItem('boardState');
 
   if (savedBoard) {
     document.getElementById('board-container').innerHTML = savedBoard;
   }
 
+  //Recover keyboard status
   const savedKeyBoard = window.localStorage.getItem('keyboardState');
 
   if (savedKeyBoard) {
     document.getElementById('keyboard-container').innerHTML = savedKeyBoard;
   }
+
+  //Recover interaction state
+  //const interaction
+}
+
+function saveInteractionState(state) {
+  window.localStorage.setItem('interactionState', state);
 }
