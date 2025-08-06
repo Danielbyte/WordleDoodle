@@ -2336,7 +2336,6 @@ recoverGameState();
 function startInteraction() {
   document.addEventListener('keydown', handleKeyPress);
   document.addEventListener('click', keyClickEventHandler);
-  saveInteractionState('active');
 }
 
 function stopInteraction() {
@@ -2425,6 +2424,7 @@ function createTiles() {
       currentRow += 1; //move to the next row
 
     guessedword = ''; //Reset guessed word
+    saveRow();
   }
 
   async function flipTiles() {
@@ -2597,6 +2597,7 @@ async function getTileStates(userGuess) {
             startInteraction();
             saveKeyboardState();
             saveBoardState();
+            saveInteractionState('active');
 
             //Check if user has won
             if (result.winState) {
@@ -2655,9 +2656,22 @@ function recoverGameState() {
   }
 
   //Recover interaction state
-  //const interaction
+  const interaction = window.localStorage.getItem('interactionState');
+  
+  if (interaction === 'active') {
+    //Recover row
+    let row = window.localStorage.getItem('row');
+
+    if (row) currentRow = Number(row);
+    
+    startInteraction();
+  } else if (interaction === 'inactive') stopInteraction();
 }
 
 function saveInteractionState(state) {
   window.localStorage.setItem('interactionState', state);
+}
+
+function saveRow() {
+  window.localStorage.setItem('row', currentRow);
 }
