@@ -2329,6 +2329,10 @@ export const getWordOfTheDay = async() => {
   }
 }
 
+export const isValidWord = (userGuess) => {
+  return fallbackWords.includes(userGuess.toLowerCase());
+}
+
 async function fetchWordFromDataMuse() {
   const response = await fetch('https://api.datamuse.com/words?sp=?????&md=f&max=1000'); //return words based on frequency (from API)
   //The frequency should help extract more common words

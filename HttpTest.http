@@ -8,3 +8,30 @@ Content-Type: application/json
 {
   "guess": "daily"
 }
+
+###
+## Test API endpoint if true is returned for valid word with no capital letters
+POST   http://localhost:5500/api/v1/verify
+Content-Type: application/json
+
+{
+  "guess": "diary"
+}
+
+###
+## Test API endpoint  if true is returned for valid word with capital letter at the start
+POST   http://localhost:5500/api/v1/verify
+Content-Type: application/json
+
+{
+  "guess": "Diary"
+}
+
+###
+## Test API endpoint if false is returned for an invalid word
+POST   http://localhost:5500/api/v1/verify
+Content-Type: application/json
+
+{
+  "guess": "Drary"
+}
