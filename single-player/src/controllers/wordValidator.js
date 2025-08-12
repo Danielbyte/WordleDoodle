@@ -1,5 +1,5 @@
-import { getWordOfTheDay } from '../controllers/wordFetcher.js'
-import { isValidWord } from '../controllers/wordFetcher.js'
+import { getWordOfTheDay } from './wordFetcher.js'
+import { isValidWord } from './wordFetcher.js'
 
 let wordOfTheDay = '';
 fetchWordOfTheDay();
@@ -41,8 +41,7 @@ async function fetchWordOfTheDay() {
   wordOfTheDay = await getWordOfTheDay();
 }
 
-//An overkill that may result in an overhead (This verification can be done on client side to make make the application faster)
-
+//Check fallback words if the word exists, could have used a dictionary API, but it can unnecessarily cause an overhead
 export const verifyWord = async (req, res) => {
   let userGuess = req.body.guess;
   let isValid = isValidWord(userGuess);

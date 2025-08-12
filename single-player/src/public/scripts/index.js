@@ -91,7 +91,7 @@ function createTiles() {
       return;
     }
     //Add condition that checks whether word is valid
-    let isValidWord =   await fetch('../api/v1/verify', {
+    let response = await fetch('../api/v1/verify', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -101,6 +101,8 @@ function createTiles() {
     })
   })
 
+  let data = await response.json();
+  let isValidWord = data.isValidWord;
     if (!isValidWord) {
       showAlert('Not a valid word');
       const tiles = document.querySelectorAll('.tile');

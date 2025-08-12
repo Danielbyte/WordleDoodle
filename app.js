@@ -2,7 +2,7 @@ import express from 'express'
 import path, {dirname} from 'path'
 import { fileURLToPath } from 'url';
 import { PORT } from './config/env.js';
-import wordValidationRouter from './src/routes/wordValidationRoute.js';
+import wordValidationRouter from './single-player/src/routes/wordValidationRoute.js';
 
 const app = express();
 
@@ -15,7 +15,7 @@ const __dirName = dirname(__fileName);
 app.use(express.json());
 //Serve the HTML file from the /public directory
 //Tell express to serve all files from the public folder as static files/assets
-app.use(express.static(path.join(__dirName, './src/public')));
+app.use(express.static(path.join(__dirName, './single-player/src/public')));
 
 //Mount routes
 app.use('/api/v1', wordValidationRouter);
@@ -24,7 +24,7 @@ app.use('/api/v1/verify', wordValidationRouter);
 
 //Serving up the HTML file from the /public directory (Need to serve the main menu page instead (To be done!!!))
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirName), 'public', 'index.html')
+  res.sendFile(path.join(__dirName), 'public', 'index.html');
 });
 
 app.listen(PORT, () => {
