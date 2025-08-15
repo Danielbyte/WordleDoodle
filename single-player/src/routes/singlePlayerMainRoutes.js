@@ -1,4 +1,4 @@
-import path, {dirname} from 'path'
+import {dirname, join} from 'path'
 import { fileURLToPath } from 'url';
 import { Router } from 'express';
 const singlePlayerMainRouter = Router();
@@ -13,7 +13,7 @@ singlePlayerMainRouter.get('/', (req, res) => {
 });
 
 singlePlayerMainRouter.get('/gameBoard', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/views', 'gameBoard.html')); //Display the game board
+  res.sendFile(join(__dirname, '../public/views', 'gameBoard.html')); //Display the game board
 });
 
 export default singlePlayerMainRouter;

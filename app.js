@@ -18,7 +18,7 @@ import wordValidationRouter from './single-player/src/routes/wordValidationRoute
 //MIDDLEWARE
 app.use(express.json());
 //Tell express to serve the files from the public directory as static files
-app.use(express.static(join(__dirname, './single-player/src/public')));
+app.use('/cdn',express.static(join(__dirname, './single-player/src/public')));
 
 //Mount routes
 app.use('/',singlePlayerRouter); //We want to call the landing page instead (but for now will just serve the single player router)
