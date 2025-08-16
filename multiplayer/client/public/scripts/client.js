@@ -1,8 +1,8 @@
 //import { io } from 'socket.io-client'
 
-const PORT = process.env.PORT || 5500;
+//const PORT = process.env.PORT || 5500;
 
-const SERVER_URL = PORT; //!== '.env.development.local' ? 'https://wordleDoodle.com' : PORT; //if not development, default to production => app link
+//const SERVER_URL = PORT; //!== '.env.development.local' ? 'https://wordleDoodle.com' : PORT; //if not development, default to production => app link
 
 /*
 //Instantiate client side socket

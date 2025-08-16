@@ -1,6 +1,8 @@
 import express from 'express'
 import { PORT } from './config/env.js';
-import { dirname, join} from 'path'
+import { dirname, join} from 'path';
+import http from 'http';
+import { Server } from 'socket.io';
 
 import { fileURLToPath } from 'url';
 
@@ -9,6 +11,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
+const server = http.createServer(app);//Create an HTTP server from Express
+
+//Attach Socket.IO to HTTP server above
+const io = new Server(server, {
+  cors: {
+    origin: PORT //For now, allow the PORT as an origin(should add the application domain)
+  }
+});
 
 //Load routes
 import singlePlayerRouter from './single-player/src/routes/singlePlayerMainRoutes.js';
@@ -32,7 +42,12 @@ app.use('/api/v1/validate', wordValidationRouter);
 app.use('/api/v1/verify', wordValidationRouter);
 app.use('/api/v1/reset', wordValidationRouter);
 
-app.listen(PORT, () => {
+//Some event listeners for socket.io server
+io.on('connection', (socket) => {
+  console.log(`User connected: ${socket.id}`);
+});
+
+server.listen(PORT, () => {
   console.log(`Server listening on PORT: ${PORT}`);
 });
 
