@@ -7,12 +7,27 @@
   <title>Multiplayer</title>
 </head>
 <body>
-  <h1>Multiplayer main menu</h1>
+  <h3>Multiplayer main menu</h3>
   <!--main menu form of multiplayer mode
   Form should have the following options:
   1.Room code field (manually create room or auto generate room code)
   2.User name field (auto filled when user is logged in with their account)
   3.Join room button
   4.Create room button-->
+
+  <div>
+    <form action="">
+      <div>
+        <input type="text" id="roomCode" name="roomCode" placeholder="Enter room code">
+        <button id="id-auto-gen">Auto Generate</button><br><br>
+        <input type="text" id="username" name="username" placeholder="Enter your username"><br><br>
+      </div>
+
+      <div>
+        <button id="createRoom">Create Room</button><br><br>
+        <button id="joinRoom">Join Room</button>
+      </div>
+    </form>
+  </div>
 </body>
 </html>
