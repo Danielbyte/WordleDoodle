@@ -170,7 +170,7 @@ function createTiles() {
   }
 
 function updateGuessedWord(letter) {
-  //Iterate throuh each square block of the game board and assign letter to corresponding board square
+  //Iterate through each square block of the game board and assign letter to corresponding board square
   guessedword = '';
   let squares = document.querySelectorAll('.tile');
   for(let i = 0; i < squares.length; i++)
