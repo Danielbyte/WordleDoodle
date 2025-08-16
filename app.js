@@ -45,6 +45,20 @@ app.use('/api/v1/reset', wordValidationRouter);
 //Some event listeners for socket.io server
 io.on('connection', (socket) => {
   console.log(`User connected: ${socket.id}`);
+
+  //User creates a room
+  socket.on('createRoom', (userName) => {
+    //user should automatically join the room
+    //Room Id will be automaticall created for the user
+    //assign random room for now
+    const roomId = 76121031;
+    socket.join(roomId);
+    socket.emit('roomCreated', roomId); //Send response to the client
+  });
+
+  socket.on('message', (msg) => {
+    console.log(msg);
+  })
 });
 
 server.listen(PORT, () => {
