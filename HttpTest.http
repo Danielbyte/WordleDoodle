@@ -35,3 +35,8 @@ Content-Type: application/json
 {
   "guess": "Drary"
 }
+
+###
+## Test reset API endpoint
+POST  http://localhost:5500/api/v1/reset
+Content-Type: application/json

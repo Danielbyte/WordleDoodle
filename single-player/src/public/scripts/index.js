@@ -402,6 +402,18 @@ function scheduleMidnightReset() {
     window.localStorage.clear();
     window.localStorage.setItem('lastResetDate', now.Date().toDateString());
 
+    //Reset the word of the day
+    fetch('../api/v1/reset', {
+      method: 'POST'
+    }).then ((response) => {
+      if(response.ok)
+        return response.json();
+      else
+        throw 'failed'
+    }).catch( (e) => {
+      alert(e);
+    });
+
     //Re-schechule again for next midnight
     scheduleMidnightReset();
   }, msUntilMidinight);

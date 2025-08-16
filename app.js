@@ -25,6 +25,7 @@ app.use('/',singlePlayerRouter); //We want to call the landing page instead (but
 app.use('/api/v1', wordValidationRouter);
 app.use('/api/v1/validate', wordValidationRouter);
 app.use('/api/v1/verify', wordValidationRouter);
+app.use('/api/v1/reset', wordValidationRouter);
 
 app.listen(PORT, () => {
   console.log(`Server listening on PORT: ${PORT}`);

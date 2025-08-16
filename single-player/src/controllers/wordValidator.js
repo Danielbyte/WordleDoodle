@@ -47,3 +47,9 @@ export const verifyWord = async (req, res) => {
   let isValid = isValidWord(userGuess);
   res.json({isValidWord: isValid})
 }
+
+export const resetWordOfTheDay = async(req, res) => {
+  wordOfTheDay = "";
+  await fetchWordOfTheDay();
+  res.status(200).json('Word Reset Succeeded'); //
+}
