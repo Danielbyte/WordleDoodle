@@ -9,7 +9,7 @@ const __fileName = fileURLToPath(import.meta.url);
 const __dirname = dirname(__fileName);
 
 multiplayerMainRouter.get('/', (req, res) => {
-  res.send('Multiplaye route');
+  res.send('Multiplayer route');
 })
 
 //Serve the main menu of multiplayer
