@@ -1,4 +1,4 @@
-import { Server } from 'socket.io';
+/*import { Server } from 'socket.io';
 import { createServer } from 'http';
 const httpServer = createServer();
 import { PORT } from '../../config/env.js'; //The port from environment variables
@@ -14,4 +14,4 @@ const io = new Server(httpServer, {
 //Some event listeners for the server
 io.on('connection', (socket) => {
   console.log(`User connected: ${socket.id}`); //Id of the connected socket
-});
+});*/
