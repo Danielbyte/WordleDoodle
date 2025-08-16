@@ -12,6 +12,7 @@ const app = express();
 
 //Load routes
 import singlePlayerRouter from './single-player/src/routes/singlePlayerMainRoutes.js';
+import multiplayerMainRouter from './multiplayer/src/routes/multiPlayerMainRoutes.js';
 import wordValidationRouter from './single-player/src/routes/wordValidationRoute.js';
 
 
@@ -20,8 +21,12 @@ app.use(express.json());
 //Tell express to serve the files from the public directory as static files
 app.use('/cdn',express.static(join(__dirname, './single-player/src/public')));
 
+//Tell Express to serve files in ./multiplayer/client/public as static files
+app.use('/cdn',express.static(join(__dirname, './multiplayer/client/public')));
+
 //Mount routes
 app.use('/',singlePlayerRouter); //We want to call the landing page instead (but for now will just serve the single player router)
+app.use('/mainMenu', multiplayerMainRouter);
 app.use('/api/v1', wordValidationRouter);
 app.use('/api/v1/validate', wordValidationRouter);
 app.use('/api/v1/verify', wordValidationRouter);

@@ -8,8 +8,12 @@ const __fileName = fileURLToPath(import.meta.url);
 //Get the directory name from the file path
 const __dirname = dirname(__fileName);
 
-//we want to display the multiplayer main route at default root folder
 multiplayerMainRouter.get('/', (req, res) => {
+  res.send('Multiplaye route');
+})
+
+//Serve the main menu of multiplayer
+multiplayerMainRouter.get('/mainMenu', (req, res) => {
   res.sendFile(join(__dirname, '../../client/public/views', 'mainMenu.html'));
 })
 
