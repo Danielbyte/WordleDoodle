@@ -39,6 +39,13 @@ export default function handleSocketEvent (io, socket) {
           }));
           return;
         }
+        if (userNameExists(data.username, data.roomcode)) {
+          socket.emit('response', JSON.stringify({
+            code: 403,
+            payload: 'Username is not unique, please use another one.'
+          }));
+          return;
+        }
         break;
   }
   });
@@ -50,4 +57,9 @@ function roomCodeValidAndRoomInvalid(roomcode) {
 
 function isRoomFull(roomcode) {
   return rooms[roomcode].length >= maxRoomCapacity;
+}
+
+//Checks if username already exists in the room
+function userNameExists(username, roomcode) {
+  return rooms[roomcode].some(user => user.username === username);
 }
