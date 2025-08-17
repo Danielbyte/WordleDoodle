@@ -17,7 +17,13 @@ document.getElementById('createRoom').onclick = () => {
   createRoom(userName);
 };
 
+document.getElementById('joinRoom').onclick = () => {
+  const userName = document.getElementById('username').value;
+  const roomID = document.getElementById('id-auto-gen').value;
+  joinRoom(roomID, userName);
+};
+
 //Event listeners
-socket.on('roomCreated', (roomId) => {
-  console.log(`Room id: ${roomId} created. Share`)
+socket.on('message', (msg) => {
+  console.log(`${msg}`);
 });
