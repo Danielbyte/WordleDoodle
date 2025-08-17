@@ -24,6 +24,7 @@ const io = new Server(server, {
 import singlePlayerRouter from './single-player/src/routes/singlePlayerMainRoutes.js';
 import multiplayerMainRouter from './multiplayer/src/routes/multiPlayerMainRoutes.js';
 import wordValidationRouter from './single-player/src/routes/wordValidationRoute.js';
+import handleSocketEvent from './sockets/webSocketServer.js';
 
 
 //MIDDLEWARE
@@ -42,23 +43,9 @@ app.use('/api/v1/validate', wordValidationRouter);
 app.use('/api/v1/verify', wordValidationRouter);
 app.use('/api/v1/reset', wordValidationRouter);
 
-//Some event listeners for socket.io server
+//Handle web socket events
 io.on('connection', (socket) => {
-  console.log(`User connected: ${socket.id}`);
-
-  //User creates a room
-  socket.on('createRoom', (userName) => {
-    //user should automatically join the room
-    //Room Id will be automaticall created for the user
-    //assign random room for now
-    const roomId = 76121031;
-    socket.join(roomId);
-    socket.emit('roomCreated', roomId); //Send response to the client
-  });
-
-  socket.on('message', (msg) => {
-    console.log(msg);
-  })
+  handleSocketEvent(io, socket);
 });
 
 server.listen(PORT, () => {
