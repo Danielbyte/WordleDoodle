@@ -12,12 +12,29 @@ export default function handleSocketEvent (io, socket) {
     let data = null;
 
     try {
-      data = JSON.parse(payload); //Actually doesn't need parsing (but better safe than sorry..)
+      data = JSON.parse(payload);
     } catch(e) {
       console.error(`Failed to parse payload: ${e}`);
       return;
     }
 
     console.log('Parsed payload:', data);
+
+    switch(data.type) {
+      case 'join':
+        //User is joining a room
+        if (roomCodeValidAndRoomInvalid(data.roomcode)) {
+          socket.emit('message', JSON.stringify({
+            code: 404,
+            payload: 'Room not found, please try again'
+          }));
+          return;          
+        }
+        break;
+  }
   });
+}
+
+function roomCodeValidAndRoomInvalid(roomcode) {
+  return roomcode && !(roomcode in rooms)
 }
