@@ -17,7 +17,7 @@ document.getElementById('joinRoom').onclick = () => {
 };
 
 //Event listeners
-socket.on('message', (payload) => {
+socket.on('response', (payload) => {
   let data = JSON.parse(payload);
   console.log(data);
 });

@@ -1,4 +1,6 @@
 let rooms = {}; //Reference to all the rooms
+let maxRoomCapacity = 5; //maximum allowable people in room
+
 export default function handleSocketEvent (io, socket) {
   console.log(`New socket connected: ${socket.id}`);
 
@@ -24,11 +26,18 @@ export default function handleSocketEvent (io, socket) {
       case 'join':
         //User is joining a room
         if (roomCodeValidAndRoomInvalid(data.roomcode)) {
-          socket.emit('message', JSON.stringify({
+          socket.emit('response', JSON.stringify({
             code: 404,
             payload: 'Room not found, please try again'
           }));
           return;          
+        }
+        if (isRoomFull(data.roomcode)) {
+          socket.emit('response', JSON.stringify({
+            code: 403,
+            payload: 'Room is already full'
+          }));
+          return;
         }
         break;
   }
@@ -37,4 +46,8 @@ export default function handleSocketEvent (io, socket) {
 
 function roomCodeValidAndRoomInvalid(roomcode) {
   return roomcode && !(roomcode in rooms)
+}
+
+function isRoomFull(roomcode) {
+  return rooms[roomcode].length >= maxRoomCapacity;
 }
