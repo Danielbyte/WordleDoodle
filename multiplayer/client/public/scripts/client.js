@@ -21,3 +21,8 @@ socket.on('response', (payload) => {
   let data = JSON.parse(payload);
   console.log(data);
 });
+
+socket.on('message', (payload) => {
+  let data = JSON.parse(payload);
+  console.log(data);
+});

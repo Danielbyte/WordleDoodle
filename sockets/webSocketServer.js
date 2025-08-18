@@ -1,6 +1,15 @@
 let rooms = {}; //Reference to all the rooms
 let maxRoomCapacity = 5; //maximum allowable people in room
 
+//Test roomcode
+rooms[12345] = [];
+
+rooms[12345] = [
+  {
+    username: 'danboy'
+  }
+];
+
 export default function handleSocketEvent (io, socket) {
   console.log(`New socket connected: ${socket.id}`);
 
@@ -48,6 +57,9 @@ export default function handleSocketEvent (io, socket) {
           username: data.username,
           isHost: data.isHost
         });
+
+        socket.join(data.roomcode);
+        broadCastEvent(data.roomcode, data.type, `@${data.username} has joined`, io);
         break;
   }
   });
