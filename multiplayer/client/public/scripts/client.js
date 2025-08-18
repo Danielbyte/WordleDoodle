@@ -3,6 +3,11 @@ const socket = io();
 
 document.getElementById('createRoom').onclick = () => {
   const userName = document.getElementById('username').value;
+  socket.emit('data', JSON.stringify({
+    type: 'create',
+    username: userName,
+    isHost: true
+  }));
 };
 
 document.getElementById('joinRoom').onclick = () => {

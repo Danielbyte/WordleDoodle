@@ -110,6 +110,7 @@ function getUniqueRoomCode() {
     console.log(`Roomcode collision: ${uniqueRoomcode}, new room code generating..`);
     uniqueRoomcode = generateRoomCode();
   }
-
+  
+  console.log(`room code: ${uniqueRoomcode}`)
   return uniqueRoomcode;
 }
