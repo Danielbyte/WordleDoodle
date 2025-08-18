@@ -16,12 +16,14 @@ document.getElementById('joinRoom').onclick = () => {
   }));
 };
 
-//Event listeners
+//Event listeners, this was will be for errors returned by the websocket server
 socket.on('response', (payload) => {
   let data = JSON.parse(payload);
   console.log(data);
 });
 
+
+//This event listener will handle successful responses from the websocket server
 socket.on('message', (payload) => {
   let data = JSON.parse(payload);
   console.log(data);

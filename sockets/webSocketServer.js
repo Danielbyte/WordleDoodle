@@ -61,6 +61,10 @@ export default function handleSocketEvent (io, socket) {
         socket.join(data.roomcode); //Socket can join the room
         broadCastEvent(data.roomcode, data.type, `@${data.username} has joined`, io);
         break;
+        
+        //User is creating a room
+        case 'create':
+          break;
   }
   });
 }
@@ -83,4 +87,18 @@ function broadCastEvent(roomcode, type, payload, io) {
     type: type,
     payload: payload
   }));
+}
+
+function generateRoomCode() {
+  //An array of characters used to generate random room code
+  const chars = 'ABCDEFGHIJKLMOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+  let roomcode = '';
+  //room code is 5 characters long
+  for (let counter = 0; counter < 5; counter++) {
+    const randomIndex = Math.floor(Math.random() * chars.length);
+    roomcode += chars.charAt(randomIndex);
+  }
+
+  return roomcode;
 }
