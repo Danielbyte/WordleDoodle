@@ -400,7 +400,7 @@ function scheduleMidnightReset() {
 
   setTimeout(async() => {
     window.localStorage.clear();
-    window.localStorage.setItem('lastResetDate', now.Date().toDateString());
+    window.localStorage.setItem('lastResetDate', now.toDateString());
 
     //Reset the word of the day
     await fetch('../api/v1/reset', {
