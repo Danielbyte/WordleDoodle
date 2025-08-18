@@ -1,15 +1,6 @@
 let rooms = {}; //Reference to all the rooms
 let maxRoomCapacity = 5; //maximum allowable people in room
 
-//Test roomcode
-rooms[12345] = [];
-
-rooms[12345] = [
-  {
-    username: 'danboy'
-  }
-];
-
 export default function handleSocketEvent (io, socket) {
   console.log(`New socket connected: ${socket.id}`);
 
@@ -17,6 +8,7 @@ export default function handleSocketEvent (io, socket) {
   socket.on('data', (payload) => {
     //Parse the data inito JSON object
     let data = null;
+    let roomcode = '';
 
     try {
       data = JSON.parse(payload);
@@ -64,6 +56,15 @@ export default function handleSocketEvent (io, socket) {
         
         //User is creating a room
         case 'create':
+          roomcode = getUniqueRoomCode();
+          rooms[roomcode] = [];
+
+          //Host should join room
+          socket.join(roomcode);
+          rooms[roomcode] = [{
+            username: data.username
+          }]; 
+          broadCastEvent(data.roomcode, data.type, `@${data.username} has created and joined ${data.roomcode}`, io);
           break;
   }
   });
@@ -101,4 +102,14 @@ function generateRoomCode() {
   }
 
   return roomcode;
+}
+
+function getUniqueRoomCode() {
+  let uniqueRoomcode = generateRoomCode();
+  while(uniqueRoomcode in rooms) {
+    console.log(`Roomcode collision: ${uniqueRoomcode}, new room code generating..`);
+    uniqueRoomcode = generateRoomCode();
+  }
+
+  return uniqueRoomcode;
 }
