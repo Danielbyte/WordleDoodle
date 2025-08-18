@@ -58,7 +58,7 @@ export default function handleSocketEvent (io, socket) {
           isHost: data.isHost
         });
 
-        socket.join(data.roomcode);
+        socket.join(data.roomcode); //Socket can join the room
         broadCastEvent(data.roomcode, data.type, `@${data.username} has joined`, io);
         break;
   }
