@@ -4,10 +4,6 @@ let maxRoomCapacity = 5; //maximum allowable people in room
 export default function handleSocketEvent (io, socket) {
   console.log(`New socket connected: ${socket.id}`);
 
-  //Username and roomcode
-  let username = '';
-  let roomcode = '';
-
   //Client sends data with payload/message
   socket.on('data', (payload) => {
     //Parse the data inito JSON object
@@ -46,6 +42,12 @@ export default function handleSocketEvent (io, socket) {
           }));
           return;
         }
+
+        //Passed all the sanity checks and hooks, add this user to the room
+        rooms[data.roomcode].push({
+          username: data.username,
+          isHost: data.isHost
+        });
         break;
   }
   });
@@ -62,4 +64,11 @@ function isRoomFull(roomcode) {
 //Checks if username already exists in the room
 function userNameExists(username, roomcode) {
   return rooms[roomcode].some(user => user.username === username);
+}
+
+function broadCastEvent(roomcode, type, payload, io) {
+  io.to(roomcode).emit('message', JSON.stringify({
+    type: type,
+    payload: payload
+  }));
 }
