@@ -9,6 +9,8 @@ export default function handleSocketEvent (io, socket) {
     //Parse the data inito JSON object
     let data = null;
     let roomcode = '';
+    let placements = [];//Capture user placements
+    let guess = '', roomWord = ''; //will hold user guess and set room word
 
     try {
       data = JSON.parse(payload);
@@ -82,6 +84,8 @@ export default function handleSocketEvent (io, socket) {
           //Check for conditions if game can be started
           //Probably need to check if word is 5 letters, valid, etc..
           if (canStartGame(roomcode, data.isHost)) {
+            // Set the word for particular room
+            rooms[roomcode].word = data.word;
             broadCastEvent(roomcode, data.type, 'Game has started', io);
           } else {
             //broadcast to this socket that the game cannot be started (405 - method not allowed)
@@ -93,15 +97,34 @@ export default function handleSocketEvent (io, socket) {
           break;
 
           //User submits guess (verifyy this word)
-          case 'submit_guess':
-            /*Need to:
+           /* Need to:
             * Do the word checks (assign correct, wrong, ...)
             * Send board state to player's socket
             */
-            break;
+          case 'submit_guess':
+           roomcode = getRooomCode(data.username);
+           guess = data.guess;
+           roomWord = rooms[roomcode].word;
+           for (let index = 0; index < roomWord.length; index++) {
+            if (guess[index] === roomWord[index])
+              placements[index] = 'correct';
+
+            else if (roomWord.contains(guess[index]))
+              placements[index] = 'incorrect';
+
+            else
+              placements[index] = 'wrong';
+           }
+
+           //Send placements to client so that they may update their board to update their board
+           socket.emit('message', JSON.stringify({
+            type: 'placement',
+            placement: placements
+           }));
+          break;
 
           //The most convenient way is to let the client send their board state(without the letters of course) to every socket in the same room but themselves
-          case '':
+          case 'update_board_state':
             /*
             * User needs to update their board state to other players in the room
             */
