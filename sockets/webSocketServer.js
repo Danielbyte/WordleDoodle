@@ -66,7 +66,7 @@ export default function handleSocketEvent (io, socket) {
           rooms[roomcode] = [{
             username: data.username
           }]; 
-          broadCastEvent(roomcode, data.type, `@${data.username} has created and joined ${data.roomcode}`, io);
+          broadCastEvent(roomcode, data.type, `@${data.username} has created and joined ${roomcode}`, io);
           break;
 
         //Host starts the game, sync game boards for all users in this room
@@ -127,8 +127,8 @@ function generateRoomCode() {
   const chars = 'ABCDEFGHIJKLMOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
   let roomcode = '';
-  //room code is 7 characters long
-  for (let counter = 0; counter < 8; counter++) {
+  //room code is 10 characters long
+  for (let counter = 0; counter < 10; counter++) {
     const randomIndex = Math.floor(Math.random() * chars.length);
     roomcode += chars.charAt(randomIndex);
   }
