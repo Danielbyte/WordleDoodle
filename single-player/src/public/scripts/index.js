@@ -398,12 +398,12 @@ function scheduleMidnightReset() {
 
   const msUntilMidinight = nextMidnight - now; //get time in miliseconds before next midnight (12 AM)
 
-  setTimeout(() => {
+  setTimeout(async() => {
     window.localStorage.clear();
-    window.localStorage.setItem('lastResetDate', now.Date().toDateString());
+    window.localStorage.setItem('lastResetDate', now.toDateString());
 
     //Reset the word of the day
-    fetch('../api/v1/reset', {
+    await fetch('../api/v1/reset', {
       method: 'POST'
     }).then ((response) => {
       if(response.ok)

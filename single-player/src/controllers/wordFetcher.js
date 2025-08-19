@@ -2340,7 +2340,7 @@ async function fetchWordFromDataMuse() {
   return words
   .filter(_word => {
     const frequency = _word.tags?.find(_tag => _tag.startsWith('f:')); //Reference to frequency
-    //A frequency above 10 will do. Plus return 5 letter words
+    //A frequency above 5 will do. Plus return 5 letter words
     return frequency && parseFloat(frequency.split(':')[1]) > 5 && /^[a-z]{5}$/.test(_word.word);
   })
   .map(_word => _word.word.toUpperCase()); //Convert words to uppercase letters

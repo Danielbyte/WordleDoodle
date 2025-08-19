@@ -1,5 +1,4 @@
-import { getWordOfTheDay } from './wordFetcher.js'
-import { isValidWord } from './wordFetcher.js'
+import { isValidWord, getWordOfTheDay } from './wordFetcher.js'
 
 let wordOfTheDay = '';
 fetchWordOfTheDay();
