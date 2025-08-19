@@ -84,6 +84,14 @@ export default function handleSocketEvent (io, socket) {
             });
           }
           break;
+
+          //unknown case / not implemented
+          default:
+            socket.emit('response', JSON.stringify({
+              code: 501,
+              payload: 'Not Implemented'
+            }));
+            break;
   }
   });
 }
