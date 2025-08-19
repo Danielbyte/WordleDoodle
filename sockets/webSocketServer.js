@@ -62,6 +62,13 @@ export default function handleSocketEvent (io, socket) {
           //Host should join room
           socket.join(roomcode);
 
+          //Send this room code to the host socket
+          socket.emit('message', JSON.stringify({
+            type: 'roomcode',
+            code: 202,
+            roomId: roomcode
+          }));
+
           //Add created room in rooms and add host to the room
           rooms[roomcode] = [{
             username: data.username
@@ -84,6 +91,11 @@ export default function handleSocketEvent (io, socket) {
             });
           }
           break;
+
+          //User submits guess
+          //The most convenient way is to let the client send their board (without the letters of course)
+          case 'submit_guess':
+            break;
 
           //unknown case / not implemented
           default:
