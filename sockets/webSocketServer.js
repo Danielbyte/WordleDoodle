@@ -66,8 +66,22 @@ export default function handleSocketEvent (io, socket) {
           }]; 
           broadCastEvent(data.roomcode, data.type, `@${data.username} has created and joined ${data.roomcode}`, io);
           break;
+
+        //Host starts the game, sync game boards for all users in this room
+        case 'start_game':
+          //Check for conditions if game can be started
+          if (canStartGame(data.roomcode, data.isHost)) {
+            console.log('starting game');
+            broadCastEvent(data.roomcode, data.type, 'game_start');
+          }
+          break;
   }
   });
+}
+
+function canStartGame(roomcode, isHost) {
+  //Game can only start if there are 2 or more users in room and the host is the one starting the game
+  return rooms[roomcode].length > 1 && isHost;
 }
 
 function roomCodeValidAndRoomInvalid(roomcode) {
