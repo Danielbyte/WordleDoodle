@@ -95,8 +95,8 @@ function generateRoomCode() {
   const chars = 'ABCDEFGHIJKLMOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
   let roomcode = '';
-  //room code is 5 characters long
-  for (let counter = 0; counter < 5; counter++) {
+  //room code is 7 characters long
+  for (let counter = 0; counter < 8; counter++) {
     const randomIndex = Math.floor(Math.random() * chars.length);
     roomcode += chars.charAt(randomIndex);
   }
