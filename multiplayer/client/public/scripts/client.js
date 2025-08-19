@@ -22,8 +22,15 @@ document.getElementById('joinRoom').onclick = () => {
 };
 
 //Host want to start game
-document.getElementById('btn-game-start').onclick = () => {
-
+document.getElementById('btn-start-game').onclick = () => {
+  const userName = document.getElementById('username').value;
+  const _word = document.getElementById('word-of-the-day').value;
+  socket.emit('data', JSON.stringify({
+    type: 'start_game',
+    username: userName,
+    isHost: true,
+    word: _word
+  }));
 };
 
 //Event listeners, this was will be for errors returned by the websocket server

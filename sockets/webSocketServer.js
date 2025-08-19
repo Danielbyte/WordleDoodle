@@ -61,18 +61,21 @@ export default function handleSocketEvent (io, socket) {
 
           //Host should join room
           socket.join(roomcode);
+
+          //Add created room in rooms and add host to the room
           rooms[roomcode] = [{
             username: data.username
           }]; 
-          broadCastEvent(data.roomcode, data.type, `@${data.username} has created and joined ${data.roomcode}`, io);
+          broadCastEvent(roomcode, data.type, `@${data.username} has created and joined ${data.roomcode}`, io);
           break;
 
         //Host starts the game, sync game boards for all users in this room
         case 'start_game':
+          roomcode = getRooomCode(data.username);
           //Check for conditions if game can be started
-          if (canStartGame(data.roomcode, data.isHost)) {
-            console.log('starting game');
-            broadCastEvent(data.roomcode, data.type, 'game_start');
+          //Probably need to check if word is 5 letters, valid, etc..
+          if (canStartGame(roomcode, data.isHost)) {
+            broadCastEvent(roomcode, data.type, 'Game has started', io);
           } else {
             //broadcast to this socket that the game cannot be started (405 - method not allowed)
             socket.emit('response', {
@@ -83,6 +86,15 @@ export default function handleSocketEvent (io, socket) {
           break;
   }
   });
+}
+
+//Get the room code
+function getRooomCode(username) {
+  for (let roomcode in rooms) {
+    if (rooms[roomcode].find(user => user.username === username))
+      return roomcode;
+  }
+  return null;
 }
 
 function canStartGame(roomcode, isHost) {
