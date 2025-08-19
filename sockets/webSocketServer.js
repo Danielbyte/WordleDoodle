@@ -92,11 +92,20 @@ export default function handleSocketEvent (io, socket) {
           }
           break;
 
-          //User submits guess
-          //The most convenient way is to let the client send their board (without the letters of course)
+          //User submits guess (verifyy this word)
           case 'submit_guess':
+            /*Need to:
+            * Do the word checks (assign correct, wrong, ...)
+            * Send board state to player's socket
+            */
             break;
 
+          //The most convenient way is to let the client send their board state(without the letters of course) to every socket in the same room but themselves
+          case '':
+            /*
+            * User needs to update their board state to other players in the room
+            */
+            break;
           //unknown case / not implemented
           default:
             socket.emit('response', JSON.stringify({
