@@ -1,8 +1,6 @@
 import { Router } from "express";
 //import { getWordOfTheDay } from '../controllers/wordFetcher.js'
-import { validateWord } from '../controllers/wordValidator.js';
-import { verifyWord } from '../controllers/wordValidator.js';
-import { resetWordOfTheDay } from '../controllers/wordValidator.js'
+import { validateWord, verifyWord, resetWordOfTheDay } from '../controllers/wordValidator.js';
 
 const wordValidationRouter = Router();
 
