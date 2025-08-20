@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <script src="/socket.io/socket.io.js"></script>
+  <script src="/cdn/scripts/client.js" defer></script>
+  <title>Multiplayer</title>
+</head>
+<body>
+  <!--Most of the staff doesn't belong here, for test purposed (i.e, to test if the websocket server endpoints are returning the correct/expected responses)-->
+
+  <h3>Multiplayer main menu</h3>
+  <!--main menu form of multiplayer mode
+  Form should have the following options:
+  1.Room code field (manually create room or auto generate room code)
+  2.User name field (auto filled when user is logged in with their account)
+  3.Join room button
+  4.Create room button-->
+  <div>
+      <div>
+        <input type="text" id="roomCode" name="roomCode" placeholder="Enter room code">
+        <button id="id-auto-gen">Auto Generate</button><br><br>
+        <input type="text" id="username" name="username" placeholder="Enter your username" required><br><br>
+      </div>
+
+      <div>
+        <button id="createRoom">Create Room</button><br><br>
+        <button id="joinRoom">Join Room</button> <br><br>
+        <input type="text" id="word-of-the-day" name="word-of-the-day" placeholder="Word of the day"> <button id="btn-start-game">Start Game</button> <br><br>
+        <button id="board-state">Update board state</button> <br><br>
+        <input type="text" id="input-user-guess"> <button id="btn-submit-guess">Submit guess</button>
+      </div>
+  </div>
+</body>
+</html>
