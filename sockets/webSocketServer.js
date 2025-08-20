@@ -104,8 +104,8 @@ export default function handleSocketEvent (io, socket) {
             */
           case 'submit_guess':
            roomcode = getRooomCode(data.username);
-           guess = data.guess;
-           roomWord = rooms[roomcode].word;
+           guess = data.guess.toUpperCase();
+           roomWord = rooms[roomcode].word.toUpperCase();
            for (let index = 0; index < roomWord.length; index++) {
             if (guess[index] === roomWord[index])
               placements[index] = 'correct-location';
