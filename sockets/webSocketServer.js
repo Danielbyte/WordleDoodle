@@ -133,7 +133,7 @@ export default function handleSocketEvent (io, socket) {
           case 'update_board_state_to_room':
             boardState = data.board;
             roomcode = getRooomCode(data.username);
-            socket.to(roomcode).emit(data.type, JSON.stringify({
+            socket.to(roomcode).emit('message', JSON.stringify({
               username: data.username,
               board: boardState
             }))
