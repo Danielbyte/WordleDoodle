@@ -11,6 +11,7 @@ export default function handleSocketEvent (io, socket) {
     let roomcode = '';
     let placements = [];//Capture user placements
     let guess = '', roomWord = ''; //will hold user guess and set room word
+    let boardState = ''; //The color coded board state of user (without the letters)
 
     try {
       data = JSON.parse(payload);
@@ -107,10 +108,10 @@ export default function handleSocketEvent (io, socket) {
            roomWord = rooms[roomcode].word;
            for (let index = 0; index < roomWord.length; index++) {
             if (guess[index] === roomWord[index])
-              placements[index] = 'correct';
+              placements[index] = 'correct-location';
 
             else if (roomWord.contains(guess[index]))
-              placements[index] = 'incorrect';
+              placements[index] = 'wrong-location';
 
             else
               placements[index] = 'wrong';
@@ -123,12 +124,14 @@ export default function handleSocketEvent (io, socket) {
            }));
           break;
 
-          //The most convenient way is to let the client send their board state(without the letters of course) to every socket in the same room but themselves
-          case 'update_board_state':
-            /*
+          /*
             * User needs to update their board state to other players in the room
-            */
+            * The most convenient way is to let the client send their board state(without the letters of course) to every socket in the same room but themselves
+          */
+          case 'update_board_state_to_room':
+
             break;
+
           //unknown case / not implemented
           default:
             socket.emit('response', JSON.stringify({
