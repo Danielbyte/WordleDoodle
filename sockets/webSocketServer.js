@@ -110,7 +110,7 @@ export default function handleSocketEvent (io, socket) {
             if (guess[index] === roomWord[index])
               placements[index] = 'correct-location';
 
-            else if (roomWord.contains(guess[index]))
+            else if (roomWord.includes(guess[index]))
               placements[index] = 'wrong-location';
 
             else

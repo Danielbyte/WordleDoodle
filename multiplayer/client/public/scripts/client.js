@@ -44,6 +44,17 @@ document.getElementById('board-state').onclick = () => {
   }));
 };
 
+document.getElementById('btn-submit-guess').onclick = () => {
+  const userName = document.getElementById('username').value;
+  const testGuess = document.getElementById('input-user-guess').value;
+
+  socket.emit('data', JSON.stringify({
+    type: 'submit_guess',
+    guess: testGuess,
+    username: userName
+  }));
+}
+
 //Event listeners, this was will be for errors returned by the websocket server
 socket.on('response', (payload) => {
   let data = JSON.parse(payload);
