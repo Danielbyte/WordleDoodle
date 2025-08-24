@@ -15,6 +15,10 @@ multiplayerMainRouter.get('/', (req, res) => {
 //Serve the main menu of multiplayer
 multiplayerMainRouter.get('/multiplayerMain', (req, res) => {
   res.sendFile(join(__dirname, '../../client/public/views', 'mainMenu.html'));
+});
+
+multiplayerMainRouter.get('/player-board', (req, res) => {
+  res.sendFile(join(__dirname, '../../client/public/views', 'board.html'))
 })
 
 export default multiplayerMainRouter;
