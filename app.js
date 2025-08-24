@@ -22,7 +22,7 @@ const io = new Server(server, {
 
 //Load routes
 import singlePlayerRouter from './single-player/src/routes/singlePlayerMainRoutes.js';
-import multiplayerRouter from './multiplayer/src/routes/multiPlayerMainRoutes.js';
+import multiplayerRouter from './multiplayer/src/routes/multiPlayerRoutes.js';
 import wordValidationRouter from './single-player/src/routes/wordValidationRoute.js';
 import handleSocketEvent from './sockets/webSocketServer.js';
 
