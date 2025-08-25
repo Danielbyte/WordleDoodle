@@ -8,9 +8,17 @@
 .main-board {
   background-color: lightgray;
   grid-row: 1 / span 2; /*The main board should span the entire two rows*/
-  border: 2px solid black;
+  border: 1px solid black;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+.board1 , .board2,
+.board3, .board4 {
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: lightblue;
+}
