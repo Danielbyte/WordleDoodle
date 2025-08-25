@@ -2,11 +2,15 @@
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  gap: 4px;
-  height: 100vh; /*Board should occupy the full page*/
+  height: 98vh; /*Board should occupy 98% the full page*/
 }
 
 .main-board {
   background-color: lightgray;
   grid-row: 1 / span 2; /*The main board should span the entire two rows*/
+  border: 2px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
