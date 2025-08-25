@@ -1,0 +1,12 @@
+.game-board-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 4px;
+  height: 100vh; /*Board should occupy the full page*/
+}
+
+.main-board {
+  background-color: lightgray;
+  grid-row: 1 / span 2; /*The main board should span the entire two rows*/
+}

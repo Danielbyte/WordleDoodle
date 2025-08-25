@@ -3,12 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
   <script src="/socket.io/socket.io.js"></script> <!--socket.io API-->
+  <link rel="stylesheet" href="/cdn/styles/board.css">
   <script src="/cdn/scripts/client.js" defer></script>
   <title>board-multiplayer</title>
 </head>
 <body>
-  <div class="game-layout-container">
+  <div class="game-board-container">
+    <div class="main-board">Main board</div>
+    <div style="background-color: lightblue;">Player 1</div>
+    <div style="background-color: red;">Player 2</div>
+    <div style="background-color: lightpink;">Player 3</div>
+    <div style="background-color: lightgreen;">Player 4</div>
+    <div></div>
   </div>
 </body>
 </html>
