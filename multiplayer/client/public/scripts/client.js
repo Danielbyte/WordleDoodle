@@ -4,15 +4,6 @@ let isInitialised = false;
 
 initialiseBoard();
 
-document.getElementById('createRoom').onclick = () => {
-  const userName = document.getElementById('username').value;
-  socket.emit('data', JSON.stringify({
-    type: 'create',
-    username: userName,
-    isHost: true
-  }));
-};
-
 document.getElementById('joinRoom').onclick = () => {
   const userName = document.getElementById('username').value;
   const roomID = document.getElementById('roomCode').value;
@@ -102,11 +93,12 @@ function addCreateRoomButton() {
   //Get the main-menu tag
   let mainMenu = document.getElementById('main-menu');
   let createRoomBtn = document.createElement('button');
-  createRoomBtn.id = 'create-room';
+  createRoomBtn.id = 'btn-create-room';
   createRoomBtn.innerText = 'Create Room';
 
   //Add a click event listener to to the button
   createRoomBtn.addEventListener('click', () => {
+    createRoom(); //create room before displaying the multiplayer game-play page
     document.getElementById('main-menu').remove(); //Remove the main menu div => main menu page
     loadGameBoardContainer(); //Load multiplayer game loayout with all the boards
   })
@@ -141,4 +133,14 @@ function loadGameBoardContainer() {
   gameBoardContainer.appendChild(board4);
 
   document.body.appendChild(gameBoardContainer);
+}
+
+// Function that allows the host to create a room
+function createRoom() {
+  const userName = document.getElementById('user-name').value;
+  socket.emit('data', JSON.stringify({
+    type: 'create',
+    username: userName,
+    isHost: true
+  }));
 }
