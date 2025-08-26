@@ -101,6 +101,7 @@ function addCreateRoomButton() {
     createRoom(); //create room before displaying the multiplayer game-play page
     document.getElementById('main-menu').remove(); //Remove the main menu div => main menu page
     loadGameBoardContainer(); //Load multiplayer game loayout with all the boards
+    displayHostBoard();
   })
 
   mainMenu.appendChild(createRoomBtn);
@@ -143,4 +144,15 @@ function createRoom() {
     username: userName,
     isHost: true
   }));
+}
+
+function displayHostBoard() {
+  let hostBoard = document.querySelector('.main-board');
+  let wordOfTheDayTextField = document.createElement('input');
+  wordOfTheDayTextField.id = 'word-of-the-day';
+  wordOfTheDayTextField.name = 'word-of-the-day';
+  wordOfTheDayTextField.placeholder = 'Set word';
+  hostBoard.appendChild(wordOfTheDayTextField);
+  hostBoard.appendChild(document.createElement('br'));
+  hostBoard.appendChild(document.createElement('br'));
 }
