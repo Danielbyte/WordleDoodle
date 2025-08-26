@@ -148,11 +148,24 @@ function createRoom() {
 
 function displayHostBoard() {
   let hostBoard = document.querySelector('.main-board');
+
+  let hostBoardContainer = document.createElement('div');
+  hostBoardContainer.classList = 'host-board-container';
+
+  
   let wordOfTheDayTextField = document.createElement('input');
   wordOfTheDayTextField.id = 'word-of-the-day';
   wordOfTheDayTextField.name = 'word-of-the-day';
   wordOfTheDayTextField.placeholder = 'Set word';
-  hostBoard.appendChild(wordOfTheDayTextField);
-  hostBoard.appendChild(document.createElement('br'));
-  hostBoard.appendChild(document.createElement('br'));
+  hostBoardContainer.appendChild(wordOfTheDayTextField);
+
+  hostBoardContainer.appendChild(document.createElement('br'));
+  hostBoardContainer.appendChild(document.createElement('br'));
+
+  let startGameButton = document.createElement('button');
+  startGameButton.id = 'btn-start-game';
+  startGameButton.innerText = 'Start Game';
+  hostBoardContainer.appendChild(startGameButton);
+
+  hostBoard.appendChild(hostBoardContainer);
 }
