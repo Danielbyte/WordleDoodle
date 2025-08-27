@@ -47,8 +47,25 @@ socket.on('message', (payload) => {
    * n will then be used to map the game boards.
    * That is, n = 1 => map board to board1...
    */
-
+  let guestPositionInRoom;
+  switch(data.type) {
+    case 'join':
+      guestPositionInRoom = Number(data.position) - 1;//Subtract 1 to exclude the host
+      mapGuestBoard(guestPositionInRoom);
+      break;
+  }
 });
+
+function mapGuestBoard(position) {
+  //let gameBoard = document.querySelector('.game-board-container');
+  let board;
+  switch(position) {
+    case 1:
+      board = document.querySelector('.board1');
+      board.textContent = 'Player 1'
+      break;
+  }
+}
 
 function initialiseBoard() {
   if (isInitialised)
