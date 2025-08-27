@@ -69,13 +69,13 @@ function initialiseBoard() {
     return;
  
   //Add the main menu page
-  addUserNameTestField();
+  addUserNameTextField();
   addCreateRoomButton();
 
   isInitialised = true;
 }
 
-function addUserNameTestField() {
+function addUserNameTextField() {
   let mainMenu = document.getElementById('main-menu');
 
     //Create username field and create room button
