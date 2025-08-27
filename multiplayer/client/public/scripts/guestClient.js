@@ -48,5 +48,7 @@ function addJoinRoomButton() {
     let menu = document.querySelector('.guest-main-menu-container');
     menu.remove();
   })
-  document.body.append(joinRoomButton);
+
+  //Append button to main menu container
+  document.querySelector('.guest-main-menu-container').appendChild(joinRoomButton);
 }
