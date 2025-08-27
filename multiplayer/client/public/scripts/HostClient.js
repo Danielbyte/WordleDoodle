@@ -5,29 +5,6 @@ let username = '';
 
 initialiseBoard();
 /*
-document.getElementById('joinRoom').onclick = () => {
-  const userName = document.getElementById('username').value;
-  const roomID = document.getElementById('roomCode').value;
-  socket.emit('data', JSON.stringify({
-    type: 'join',
-    roomcode: roomID,
-    username: userName,
-    isHost: false
-  }));
-};*/
-/*
-//Host want to start game
-document.getElementById('btn-start-game').onclick = () => {
-  const userName = document.getElementById('username').value;
-  const _word = document.getElementById('word-of-the-day').value;
-  socket.emit('data', JSON.stringify({
-    type: 'start_game',
-    username: userName,
-    isHost: true,
-    word: _word
-  }));
-};*/
-/*
 document.getElementById('board-state').onclick = () => {
   const userName = document.getElementById('username').value;
   const testBoardState = '<div class="tile" data-index="23"></div><div class="tile" data-index="24"></div><div class="tile" data-index="25"></div><div class="tile" data-index="26"></div><div class="tile" data-index="27"></div><div class="tile" data-index="28"></div><div class="tile" data-index="29"></div><div class="tile" data-index="30"></div>';
