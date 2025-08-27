@@ -13,8 +13,8 @@ multiplayerRouter.get('/', (req, res) => {
 })
 
 //Serve the main menu of multiplayer
-multiplayerRouter.get('/multiplayerMenu', (req, res) => {
-  res.sendFile(join(__dirname, '../../client/public/views', 'menu.html'));
+multiplayerRouter.get('/guest-board', (req, res) => {
+  res.sendFile(join(__dirname, '../../client/public/views', 'guestBoard.html'));
 });
 
 multiplayerRouter.get('/host-board', (req, res) => {
