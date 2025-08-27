@@ -47,8 +47,39 @@ function addJoinRoomButton() {
     //Clear the menu page
     let menu = document.querySelector('.guest-main-menu-container');
     menu.remove();
+    displayGameBoard();
   })
 
   //Append button to main menu container
   document.querySelector('.guest-main-menu-container').appendChild(joinRoomButton);
+}
+
+//Game board
+function displayGameBoard() {
+  let gameBoardContainer = document.createElement('div');
+  gameBoardContainer.classList.add('game-board-container');
+  
+  //Add Player boards
+  let mainBoard = document.createElement('div');
+  mainBoard.classList.add('main-board');
+  gameBoardContainer.appendChild(mainBoard); //Should probably assign the username as the board id...
+
+  //The rest of the boards
+  let board1 = document.createElement('div');
+  board1.classList.add('board1');
+  gameBoardContainer.appendChild(board1);
+
+  let board2 = document.createElement('div');
+  board2.classList.add('board2');
+  gameBoardContainer.appendChild(board2);
+
+  let board3 = document.createElement('div');
+  board3.classList.add('board3');
+  gameBoardContainer.appendChild(board3);
+
+  let board4 = document.createElement('div');
+  board4.classList.add('board4');
+  gameBoardContainer.appendChild(board4); //chat panel this...
+
+  document.body.appendChild(gameBoardContainer);
 }
