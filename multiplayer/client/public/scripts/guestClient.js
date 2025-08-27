@@ -1,6 +1,6 @@
 const socket = io();
 let username = '';
-
+let roomId = '';
 displayGuestMainMenu();
 
 function displayGuestMainMenu() {
@@ -46,6 +46,18 @@ function addJoinRoomButton() {
   joinRoomButton.addEventListener('click', () => {
     //Clear the menu page
     let menu = document.querySelector('.guest-main-menu-container');
+    //Get guest username
+    username = document.getElementById('username').value;
+
+    //guest joins room
+    roomId = document.getElementById('room-code').value; //Reference to room code
+    socket.emit('data', JSON.stringify({
+      type: 'join',
+      roomcode: roomId,
+      username: username,
+      isHost: false
+    }));
+    
     menu.remove();
     displayGameBoard();
   })
