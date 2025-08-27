@@ -4,16 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <script src="/socket.io/socket.io.js"></script>
+   <link rel="stylesheet" href="/cdn/styles/board.css">
   <script src="/cdn/scripts/guestClient.js" defer></script>
   <title>Multiplayer</title>
 </head>
 <body>
-  <div>
-      <div id="guest-main-menu-container">
-        <input type="text" id="username" name="username" placeholder="Enter your username" required><br><br>
-      </div>
-
-      <div><button id="joinRoom">Join Room</button> <br><br></div>
-  </div>
+    <div class="guest-main-menu-container"></div>
+    <div><button id="joinRoom">Join Room</button> <br><br></div>
 </body>
 </html>
