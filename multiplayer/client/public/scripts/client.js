@@ -149,10 +149,14 @@ function createRoom() {
 }
 
 function displayHostBoard() {
-  let hostBoard = document.querySelector('.main-board');
+  createWordOfTheDayTextField();
+  createStartGameButton();
+}
 
+function createWordOfTheDayTextField() {
+  let hostBoard = document.querySelector('.main-board');
   let hostBoardContainer = document.createElement('div');
-  hostBoardContainer.classList = 'host-board-container';
+  hostBoardContainer.classList.add('host-board-container');
 
   
   let wordOfTheDayTextField = document.createElement('input');
@@ -163,7 +167,13 @@ function displayHostBoard() {
 
   hostBoardContainer.appendChild(document.createElement('br'));
   hostBoardContainer.appendChild(document.createElement('br'));
+  hostBoard.appendChild(hostBoardContainer);
+}
 
+function createStartGameButton() {
+  let hostBoardContainer = document.querySelector('.host-board-container');
+  let hostBoard = document.querySelector('.main-board');
+  
   let startGameButton = document.createElement('button');
   startGameButton.id = 'btn-start-game';
   startGameButton.innerText = 'Start Game';
@@ -177,7 +187,7 @@ function displayHostBoard() {
       word: _word
     }));
   });
-  hostBoardContainer.appendChild(startGameButton);
 
+  hostBoardContainer.appendChild(startGameButton);
   hostBoard.appendChild(hostBoardContainer);
 }
