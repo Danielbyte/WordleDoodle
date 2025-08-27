@@ -39,6 +39,15 @@ socket.on('response', (payload) => {
 socket.on('message', (payload) => {
   let data = JSON.parse(payload);
   console.log(data);
+
+  //Map guest(s) to board the minute they join
+  /*
+   * Flow of things:
+   * socket server should respond with the guest's number (n) in the room, i.e, if the guest is third person to join room => server should send a 3
+   * n will then be used to map the game boards.
+   * That is, n = 1 => map board to board1...
+   */
+
 });
 
 function initialiseBoard() {
