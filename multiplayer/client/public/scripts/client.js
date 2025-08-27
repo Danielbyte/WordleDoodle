@@ -1,9 +1,10 @@
 //This client file will be served by Express server (app.js)
 const socket = io();
 let isInitialised = false;
+let username = '';
 
 initialiseBoard();
-
+/*
 document.getElementById('joinRoom').onclick = () => {
   const userName = document.getElementById('username').value;
   const roomID = document.getElementById('roomCode').value;
@@ -13,8 +14,8 @@ document.getElementById('joinRoom').onclick = () => {
     username: userName,
     isHost: false
   }));
-};
-
+};*/
+/*
 //Host want to start game
 document.getElementById('btn-start-game').onclick = () => {
   const userName = document.getElementById('username').value;
@@ -25,8 +26,8 @@ document.getElementById('btn-start-game').onclick = () => {
     isHost: true,
     word: _word
   }));
-};
-
+};*/
+/*
 document.getElementById('board-state').onclick = () => {
   const userName = document.getElementById('username').value;
   const testBoardState = '<div class="tile" data-index="23"></div><div class="tile" data-index="24"></div><div class="tile" data-index="25"></div><div class="tile" data-index="26"></div><div class="tile" data-index="27"></div><div class="tile" data-index="28"></div><div class="tile" data-index="29"></div><div class="tile" data-index="30"></div>';
@@ -36,8 +37,9 @@ document.getElementById('board-state').onclick = () => {
     username: userName,
     board: testBoardState
   }));
-};
+};*/
 
+/*
 document.getElementById('btn-submit-guess').onclick = () => {
   const userName = document.getElementById('username').value;
   const testGuess = document.getElementById('input-user-guess').value;
@@ -47,7 +49,7 @@ document.getElementById('btn-submit-guess').onclick = () => {
     guess: testGuess,
     username: userName
   }));
-}
+}*/
 
 //Event listeners, this was will be for errors returned by the websocket server
 socket.on('response', (payload) => {
@@ -138,10 +140,10 @@ function loadGameBoardContainer() {
 
 // Function that allows the host to create a room
 function createRoom() {
-  const userName = document.getElementById('user-name').value;
+  username = document.getElementById('user-name').value;
   socket.emit('data', JSON.stringify({
     type: 'create',
-    username: userName,
+    username: username,
     isHost: true
   }));
 }
@@ -165,6 +167,16 @@ function displayHostBoard() {
   let startGameButton = document.createElement('button');
   startGameButton.id = 'btn-start-game';
   startGameButton.innerText = 'Start Game';
+
+  startGameButton.addEventListener('click', () => {
+    const _word = document.getElementById('word-of-the-day').value;
+    socket.emit('data', JSON.stringify({
+      type: 'start_game',
+      username: username,
+      isHost: true,
+      word: _word
+    }));
+  });
   hostBoardContainer.appendChild(startGameButton);
 
   hostBoard.appendChild(hostBoardContainer);

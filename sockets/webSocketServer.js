@@ -90,10 +90,11 @@ export default function handleSocketEvent (io, socket) {
             broadCastEvent(roomcode, data.type, 'Game has started', io);
           } else {
             //broadcast to this socket that the game cannot be started (405 - method not allowed)
-            socket.emit('response', {
+            socket.emit('response', JSON.stringify(
+              {
               code: 405,
               payload: 'Not enough participants in room'
-            });
+            }));
           }
           break;
 
