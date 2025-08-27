@@ -41,5 +41,12 @@ function addJoinRoomButton() {
   let joinRoomButton = document.createElement('button');
   joinRoomButton.id = 'join-room';
   joinRoomButton.innerText = 'Join Room';
+
+  //Add event listener to the join room button
+  joinRoomButton.addEventListener('click', () => {
+    //Clear the menu page
+    let menu = document.querySelector('.guest-main-menu-container');
+    menu.remove();
+  })
   document.body.append(joinRoomButton);
 }
