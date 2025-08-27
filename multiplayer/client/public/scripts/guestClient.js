@@ -6,6 +6,7 @@ displayGuestMainMenu();
 function displayGuestMainMenu() {
   addRoomCodeTextField();
   addUserNameTextField();
+  addJoinRoomButton();
 }
 
 function addRoomCodeTextField() {
@@ -34,4 +35,11 @@ function addUserNameTextField() {
 
   menuContainer.appendChild(document.createElement('br'));
   menuContainer.appendChild(document.createElement('br'));
+}
+
+function addJoinRoomButton() {
+  let joinRoomButton = document.createElement('button');
+  joinRoomButton.id = 'join-room';
+  joinRoomButton.innerText = 'Join Room';
+  document.body.append(joinRoomButton);
 }
