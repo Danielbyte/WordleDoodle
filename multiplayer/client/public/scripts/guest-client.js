@@ -310,7 +310,7 @@ function handleDeleteButtonPress() {
     })
 }
 
-function submitGuess() {
+async function submitGuess() {
     if (isWin || isGameOver) return;
 
     guessedword.trim();
@@ -320,6 +320,25 @@ function submitGuess() {
       shakeTiles(tiles);
       return;
     }
+
+        //Add condition that checks whether word is valid
+    let response = await fetch('../api/v1/verify', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      guess: guessedword,
+    })
+  })
+
+  let data = await response.json();
+  let isValidWord = data.isValidWord;
+  if(!isValidWord) {
+      const tiles = document.querySelectorAll('.tile');
+      shakeTiles(tiles);
+      return;
+  }
 }
 
 function shakeTiles(tiles){
