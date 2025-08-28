@@ -22,7 +22,7 @@ const io = new Server(server, {
 
 //Load routes
 import singlePlayerRouter from './single-player/src/routes/singlePlayerMainRoutes.js';
-import multiplayerMainRouter from './multiplayer/src/routes/multiPlayerMainRoutes.js';
+import multiplayerRouter from './multiplayer/src/routes/multiPlayerRoutes.js';
 import wordValidationRouter from './single-player/src/routes/wordValidationRoute.js';
 import handleSocketEvent from './sockets/webSocketServer.js';
 
@@ -37,7 +37,7 @@ app.use('/cdn',express.static(join(__dirname, './multiplayer/client/public')));
 
 //Mount routes
 app.use('/',singlePlayerRouter); //We want to call the landing page instead (but for now will just serve the single player router)
-app.use('/', multiplayerMainRouter);
+app.use('/', multiplayerRouter);
 app.use('/api/v1', wordValidationRouter);
 app.use('/api/v1/validate', wordValidationRouter);
 app.use('/api/v1/verify', wordValidationRouter);

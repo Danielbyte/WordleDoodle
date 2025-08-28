@@ -50,11 +50,18 @@ export default function handleSocketEvent (io, socket) {
         //Passed all the sanity checks and hooks, add this user to the room
         rooms[data.roomcode].push({
           username: data.username,
-          isHost: data.isHost
+          isHost: data.isHost,
+          position: getSocketPosition(data.username)
         });
 
         socket.join(data.roomcode); //Socket can join the room
-        broadCastEvent(data.roomcode, data.type, `@${data.username} has joined`, io);
+
+        io.to(data.roomcode).emit('message', JSON.stringify({
+        type: data.type,
+        payload: `@${data.username} has joined the room`,
+        position: `${getSocketPosition(data.username)}`
+        }));
+        //broadCastEvent(data.roomcode, data.type, `@${data.username} has joined`, io);
         break;
         
         //User is creating a room
@@ -90,10 +97,11 @@ export default function handleSocketEvent (io, socket) {
             broadCastEvent(roomcode, data.type, 'Game has started', io);
           } else {
             //broadcast to this socket that the game cannot be started (405 - method not allowed)
-            socket.emit('response', {
+            socket.emit('response', JSON.stringify(
+              {
               code: 405,
               payload: 'Not enough participants in room'
-            });
+            }));
           }
           break;
 
@@ -157,6 +165,15 @@ function getRooomCode(username) {
       return roomcode;
   }
   return null;
+}
+
+function getSocketPosition(username) {
+  for (let roomcode in rooms) {
+    if (rooms[roomcode].find(user => user.username === username)) {
+      return rooms[roomcode].length;
+    }
+    
+  }
 }
 
 function canStartGame(roomcode, isHost) {

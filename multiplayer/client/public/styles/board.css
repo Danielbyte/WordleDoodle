@@ -1,0 +1,53 @@
+.game-board-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  height: 98vh; /*Board should occupy 98% the full page*/
+}
+
+.main-board {
+  background-color: lightgray;
+  grid-row: 1 / span 2; /*The main board should span the entire two rows*/
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/**/
+@media (min-width: 0px) and (max-width: 1000px) {
+  .game-board-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, 700px);
+  }
+
+  .main-board {
+    grid-row: 1 /span 1;
+  }
+}
+
+@media (min-width: 1001px) and (max-width: 1500px) {
+  .game-board-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(5, 500px);
+  }
+
+  .main-board {
+    grid-row: 1 / span 1;
+  }
+}
+
+.board1 , .board2,
+.board3, .board4 {
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: lightblue;
+}
+
+.host-board-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
