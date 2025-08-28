@@ -2,7 +2,6 @@ const socket = io();
 let username = '';
 let roomId = '';
 let clientRoomPosition;
-let dailyWord = '';
 let guessedword = '';
 let currentRow = 1;
 let currentSquareIndex = 0;
@@ -321,7 +320,7 @@ async function submitGuess() {
       return;
     }
 
-        //Add condition that checks whether word is valid
+    //Add condition that checks whether word is valid
     let response = await fetch('../api/v1/verify', {
     method: 'POST',
     headers: {
@@ -339,6 +338,13 @@ async function submitGuess() {
       shakeTiles(tiles);
       return;
   }
+
+  //Send word to websocket server
+  socket.emit('data', JSON.stringify({
+    type: 'submit_guess',
+    guess: guessedword,
+    username: username
+  }));
 }
 
 function shakeTiles(tiles){
