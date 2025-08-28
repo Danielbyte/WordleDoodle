@@ -51,7 +51,7 @@ export default function handleSocketEvent (io, socket) {
         rooms[data.roomcode].push({
           username: data.username,
           isHost: data.isHost,
-          position: getSocketPosition(data.username)
+          position: rooms[data.roomcode].length + 1
         });
 
         socket.join(data.roomcode); //Socket can join the room
@@ -94,8 +94,9 @@ export default function handleSocketEvent (io, socket) {
           //Probably need to check if word is 5 letters, valid, etc..
           if (canStartGame(roomcode, data.isHost)) {
             // Set the word for particular room
+            let room = rooms[roomcode];
             rooms[roomcode].word = data.word;
-            broadCastEvent(roomcode, data.type, 'Game has started', io);
+            broadCastEvent(roomcode, data.type, room, io);
           } else {
             //broadcast to this socket that the game cannot be started (405 - method not allowed)
             socket.emit('response', JSON.stringify(

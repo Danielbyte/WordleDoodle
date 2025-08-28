@@ -180,6 +180,7 @@ function createTiles() {
 
     let guestPositionInRoom;
     let userName;
+    let room;
     switch(data.type) {
       case 'join':
         userName = data.username;
@@ -196,6 +197,21 @@ function createTiles() {
         }
         mapGuestBoards(guestPositionInRoom, userName);
         break;
+
+        case 'start_game':
+          //Sync guest boards at the start of game
+          data.payload.forEach(user => {
+            if(user.position && user.username !== username) {
+              guestPositionInRoom = user.position;
+              if (guestPositionInRoom > clientRoomPosition) {
+                guestPositionInRoom -= 2;
+              } else {
+                guestPositionInRoom -= 1;
+              }
+              mapGuestBoards(guestPositionInRoom, user.username);
+            }
+          });
+          break;
     }
   });
 
