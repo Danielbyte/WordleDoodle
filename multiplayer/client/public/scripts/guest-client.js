@@ -94,4 +94,29 @@ function displayGameBoard() {
   gameBoardContainer.appendChild(board4); //chat panel this...
 
   document.body.appendChild(gameBoardContainer);
+  displayGuestBoard();
+  createTiles();
 }
+
+function displayGuestBoard() {
+  let mainBoard = document.querySelector('.main-board');
+  let boardContainer = document.createElement('div');
+  boardContainer.id = 'board-container';
+  let board = document.createElement('div');
+  board.id = 'board';
+
+  boardContainer.appendChild(board);
+  mainBoard.appendChild(boardContainer);
+}
+
+function createTiles() {
+    const gameBoard = document.getElementById('board');
+
+    for (let index = 0; index < 30; index++) {
+      const tile = document.createElement('div'); //Dynamically create a div tag
+      tile.classList.add('tile'); //div tag class is a tile
+      tile.setAttribute('data-index', index + 1);
+      tile.textContent = '';
+      gameBoard.appendChild(tile);
+    }
+  }
