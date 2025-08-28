@@ -297,7 +297,16 @@ function computeRow(index) {
 }
 
 function handleDeleteButtonPress() {
+    document.querySelectorAll('.tile')
+    .forEach((square)=> {
+      const numberOfTries = computeRow(Number(square.dataset.index)) //Reverse engineer the number of tries
 
+      if (square.dataset.index === currentSquareIndex.toString() && numberOfTries === currentRow) //Restrict deletion to current row
+      {
+        square.textContent = '';
+        --currentSquareIndex;
+      }
+    })
 }
 
 function submitGuess() {
@@ -305,6 +314,22 @@ function submitGuess() {
 }
 
 function keyClickEventHandler() {
-
+    const keys = document.querySelectorAll('.keyboard-row button');
+    for (let i = 0; i < keys.length; i++) {
+      keys[i].onclick = ({target}) => {
+        const key = target.getAttribute('data-key');
+        switch(key)
+        {
+          case 'enter':
+            submitGuess();
+            break;
+          case 'del':
+            handleDeleteButtonPress();
+            break;
+          default:
+            updateGuessedWord(key);
+        }
+      }  
+    }
 }
   
