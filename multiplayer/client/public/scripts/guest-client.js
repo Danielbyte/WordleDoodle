@@ -171,3 +171,9 @@ function createTiles() {
     let game = document.getElementById('game');
     game.appendChild(keyBoardContainer);
   }
+
+  //Websocket server event listeners
+  socket.on('message', (payload) => {
+    let data = JSON.parse(payload);
+    console.log(data);
+  })
