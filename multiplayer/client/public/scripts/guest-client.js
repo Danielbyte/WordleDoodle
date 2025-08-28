@@ -1,6 +1,7 @@
 const socket = io();
 let username = '';
 let roomId = '';
+let clientRoomPosition;
 displayGuestMainMenu();
 
 function displayGuestMainMenu() {
@@ -176,4 +177,45 @@ function createTiles() {
   socket.on('message', (payload) => {
     let data = JSON.parse(payload);
     console.log(data);
-  })
+
+    let guestPositionInRoom;
+    let userName;
+    switch(data.type) {
+      case 'join':
+        userName = data.username;
+        if (userName === username) {
+          clientRoomPosition = Number(data.position);
+          return; //Some guard clause, no need to map board if username is the same as the main guest..
+        }
+
+        guestPositionInRoom = Number(data.position);
+        if (guestPositionInRoom > clientRoomPosition) {
+          guestPositionInRoom -= 2; //Displace by 2 positions (1 for the host and the other for the client)
+        } else {
+          guestPositionInRoom -= 1;
+        }
+        mapGuestBoards(guestPositionInRoom, userName);
+        break;
+    }
+  });
+
+  function mapGuestBoards(position, userName) {
+    let board;
+    switch(position) {
+      case 1:
+        board = document.querySelector('.board1');
+        board.textContent = `@${userName}`;
+        break;
+      
+        case 2:
+          board = document.querySelector('.board2');
+          board.textContent = `@${userName}`;
+          break;
+
+        case 3:
+          board = document.querySelector('.board3');
+          board.textContent = `@${userName}`;
+          break;
+    }
+  }
+  

@@ -59,7 +59,8 @@ export default function handleSocketEvent (io, socket) {
         io.to(data.roomcode).emit('message', JSON.stringify({
         type: data.type,
         payload: `@${data.username} has joined the room`,
-        position: `${getSocketPosition(data.username)}`
+        position: `${getSocketPosition(data.username)}`,
+        username: data.username
         }));
         //broadCastEvent(data.roomcode, data.type, `@${data.username} has joined`, io);
         break;
