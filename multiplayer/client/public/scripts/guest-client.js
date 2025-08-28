@@ -2,6 +2,14 @@ const socket = io();
 let username = '';
 let roomId = '';
 let clientRoomPosition;
+let dailyWord = '';
+let guessedword = '';
+let currentRow = 1;
+let currentSquareIndex = 0;
+const maxWordLength = 5; //Max word is 5 (Player guesses a five letter word)
+let isWin = false;
+let isGameOver = false;
+
 displayGuestMainMenu();
 
 function displayGuestMainMenu() {
@@ -180,7 +188,7 @@ function createTiles() {
 
     let guestPositionInRoom;
     let userName;
-    let room;
+
     switch(data.type) {
       case 'join':
         userName = data.username;
@@ -209,6 +217,7 @@ function createTiles() {
                 guestPositionInRoom -= 1;
               }
               mapGuestBoards(guestPositionInRoom, user.username);
+              startInteraction();
             }
           });
           break;
@@ -234,4 +243,68 @@ function createTiles() {
           break;
     }
   }
+
+  function startInteraction() {
+    document.addEventListener('keydown', handleKeyPress);
+    document.addEventListener('click', keyClickEventHandler);
+  }
+
+    function handleKeyPress(e){
+    if (isGameOver || isWin) return;
+
+    switch(e.key){
+      case 'Enter':
+        submitGuess();
+        break;
+      case 'Backspace':
+      case 'Delete':
+        handleDeleteButtonPress();
+        break;
+      default:
+        if (e.key.match(/^[A-Za-z]$/)) { //A regular expression that matches letters from A-Z
+          updateGuessedWord(e.key.toLowerCase());
+        }
+        break;
+    }
+  }
+
+  function updateGuessedWord(letter) {
+  //Iterate through each square block of the game board and assign letter to corresponding board square
+  guessedword = '';
+  let squares = document.querySelectorAll('.tile');
+  for(let i = 0; i < squares.length; i++)
+  {
+    const currentNumberOfTries = computeRow(squares[i].dataset.index);
+
+    if (squares[i].textContent.trim() === '' && currentNumberOfTries === currentRow) //Only update word for the current row
+    {
+      squares[i].textContent = letter;
+      guessedword += letter;
+      currentSquareIndex = i + 1;
+      currentRow = computeRow(currentSquareIndex);
+      return;
+    }
+
+    if(currentNumberOfTries === currentRow && squares[i].textContent !== '') //Update word only for the current row
+      guessedword += squares[i].textContent.trim();
+  }
+}
+
+//Deduce the row
+function computeRow(index) {
+  let row = index/maxWordLength; //Calculate the current row undex/number of tries
+  return Number.isInteger(row) ? row : Math.ceil(row); //Return row number/number of tries as an integer (whole number)
+}
+
+function handleDeleteButtonPress() {
+
+}
+
+function submitGuess() {
+
+}
+
+function keyClickEventHandler() {
+
+}
   
