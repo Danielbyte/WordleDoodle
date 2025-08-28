@@ -8,7 +8,8 @@ let currentSquareIndex = 0;
 const maxWordLength = 5; //Max word is 5 (Player guesses a five letter word)
 let isWin = false;
 let isGameOver = false;
-const alertContainer = document.querySelector('[data-alert-container]');
+//const alertContainer = document.querySelector('[data-alert-container]');
+const FLIP_ANIMATION_DURATION = 500;
 
 displayGuestMainMenu();
 
@@ -137,6 +138,7 @@ function createTiles() {
 
   function addKeyBoard() {
     let keyBoardContainer = document.createElement('div');
+    keyBoardContainer.id = 'keyboard-container';
     let keyBoard = `<div class="keyboard-row">
           <button data-key="q">q</button>
           <button data-key="w">w</button>
@@ -225,18 +227,43 @@ function createTiles() {
 
         case 'placement_verification':
           verifiedPlacements = data.placement;
-          updateTileStates(verifiedPlacements);
+          updateStatesAndFlipTiles(verifiedPlacements);
+
+          if (!isWin || !isGameOver)
+            currentRow += 1;
+
+          guessedword = '';
           break;
     }
   });
 
-  function updateTileStates(states) {
+  function updateStatesAndFlipTiles(states) {
     const minTileIndex = getMinTileIndex(currentRow);
     const maxTileIndex = getMaxTileIndex(currentRow);
     const activeTiles = getActiveTiles(minTileIndex - 1, maxTileIndex); //Get active tiles
+    const keyboard = document.getElementById('keyboard-container');
 
     activeTiles.forEach(tile => {
-      console.log(tile.textContent);
+      const tileIndex = Number(tile.dataset.index);
+      const tileColumn = getTileColumn(currentRow, tileIndex);
+      const letter = tile.textContent.toLowerCase();
+      let key = keyboard.querySelector(`[data-key="${letter}"i]`);
+      
+      setTimeout(() => {
+          tile.classList.add('flip');
+        }, (tileColumn * FLIP_ANIMATION_DURATION)/2);
+
+        tile.addEventListener('transitionend', () => {
+          tile.classList.remove('flip');
+          tile.setAttribute('data-state', states[tileColumn-1]); //Set tile states
+          key.setAttribute('data-state', states[tileColumn-1]); //Set keboard states
+          
+          if (tileIndex === maxTileIndex) {
+            tile.addEventListener('transitionend', () => {
+            startInteraction();
+            }, {once: true})
+          }
+        }, {once: true});
     })
 
   }
@@ -253,6 +280,11 @@ function getMaxTileIndex(row) { //Get the index of the last tile of row in quest
     const allTiles = document.querySelectorAll('.tile'); //Refernce to the entire game board
     return Array.from(allTiles).slice(startIndex, stopIndex); //Return array of all active tiles
   }
+
+  //Get the tile column
+function getTileColumn(row, tileIndex) {
+  return tileIndex - maxWordLength * (row -1);
+}
 
   function mapGuestBoards(position, userName) {
     let board;

@@ -118,7 +118,7 @@ export default function handleSocketEvent (io, socket) {
            roomWord = rooms[roomcode].word.toUpperCase();
            for (let index = 0; index < roomWord.length; index++) {
             if (guess[index] === roomWord[index])
-              placements[index] = 'correct-location';
+              placements[index] = 'correct';
 
             else if (roomWord.includes(guess[index]))
               placements[index] = 'wrong-location';
