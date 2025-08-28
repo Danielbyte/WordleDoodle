@@ -50,7 +50,8 @@ export default function handleSocketEvent (io, socket) {
         //Passed all the sanity checks and hooks, add this user to the room
         rooms[data.roomcode].push({
           username: data.username,
-          isHost: data.isHost
+          isHost: data.isHost,
+          position: getSocketPosition(data.username)
         });
 
         socket.join(data.roomcode); //Socket can join the room
