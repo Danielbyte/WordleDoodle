@@ -127,9 +127,9 @@ export default function handleSocketEvent (io, socket) {
               placements[index] = 'wrong';
            }
 
-           //Send placements to client so that they may update their board to update their board
+           //Send placements to client so that they may update their board state
            socket.emit('message', JSON.stringify({
-            type: 'placement',
+            type: 'placement_verification',
             placement: placements
            }));
           break;

@@ -188,6 +188,7 @@ function createTiles() {
 
     let guestPositionInRoom;
     let userName;
+    let verifiedPlacements;
 
     switch(data.type) {
       case 'join':
@@ -221,8 +222,37 @@ function createTiles() {
             }
           });
           break;
+
+        case 'placement_verification':
+          verifiedPlacements = data.placement;
+          updateTileStates(verifiedPlacements);
+          break;
     }
   });
+
+  function updateTileStates(states) {
+    const minTileIndex = getMinTileIndex(currentRow);
+    const maxTileIndex = getMaxTileIndex(currentRow);
+    const activeTiles = getActiveTiles(minTileIndex - 1, maxTileIndex); //Get active tiles
+
+    activeTiles.forEach(tile => {
+      console.log(tile.textContent);
+    })
+
+  }
+
+  function getMinTileIndex(row) { //Get the index of the first tile of row in question
+  return maxWordLength * row - 4;
+}
+
+function getMaxTileIndex(row) { //Get the index of the last tile of row in question
+  return maxWordLength * row;
+}
+
+  function getActiveTiles(startIndex, stopIndex) {
+    const allTiles = document.querySelectorAll('.tile'); //Refernce to the entire game board
+    return Array.from(allTiles).slice(startIndex, stopIndex); //Return array of all active tiles
+  }
 
   function mapGuestBoards(position, userName) {
     let board;
