@@ -6,7 +6,7 @@
 }
 
 .main-board {
-  background-color: lightgray;
+  background-color: #0e0f11;
   grid-row: 1 / span 2; /*The main board should span the entire two rows*/
   border: 1px solid black;
   display: flex;
@@ -43,7 +43,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: lightblue;
+  background-color: #0e0f11;
 }
 
 .host-board-container {
