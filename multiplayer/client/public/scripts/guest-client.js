@@ -9,6 +9,7 @@ let currentSquareIndex = 0;
 const maxWordLength = 5; //Max word is 5 (Player guesses a five letter word)
 let isWin = false;
 let isGameOver = false;
+const alertContainer = document.querySelector('[data-alert-container]');
 
 displayGuestMainMenu();
 
@@ -310,8 +311,32 @@ function handleDeleteButtonPress() {
 }
 
 function submitGuess() {
+    if (isWin || isGameOver) return;
 
+    guessedword.trim();
+    if (guessedword.length < maxWordLength) {
+      //showAlert('Not enough letters');
+      const tiles = document.querySelectorAll('.tile');
+      shakeTiles(tiles);
+      return;
+    }
 }
+
+function shakeTiles(tiles){
+  tiles.forEach(tile => {
+    let row = computeRow(tile.dataset.index);
+    if (tile.textContent != '' && row === currentRow) {
+       tile.classList.add('shake'); //Add shake animation
+       tile.addEventListener('animationend', () => {
+       tile.classList.remove('shake'); //Remove class once animation is done
+    }, {once: true}); //run shake animation only once
+    }
+  })
+}
+
+/*function showAlert(message, duration = 1000) {
+
+}*/
 
 function keyClickEventHandler() {
     const keys = document.querySelectorAll('.keyboard-row button');
