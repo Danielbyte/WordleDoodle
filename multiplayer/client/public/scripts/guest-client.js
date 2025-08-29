@@ -246,12 +246,12 @@ function createTiles() {
         case 'placement_verification':
           verifiedPlacements = data.placement;
           updateStatesAndFlipTiles(verifiedPlacements);
+          broadcastBoardState(verifiedPlacements);
           
           if (!isWin || !isGameOver)
             currentRow += 1;
 
           guessedword = '';
-          broadcastBoardState();
           break;
 
         case 'board_broadcast':
@@ -283,14 +283,13 @@ function createTiles() {
     }
   }
 
-  function broadcastBoardState() {
-    let board = document.getElementById('board-container');
-    
+  function broadcastBoardState(verifiedPlacements) {
     socket.emit('data', JSON.stringify({
       type: 'broadcast_board_state_to_room',
       username: username,
-      board: `${board.innerHTML}`,
-      position: clientRoomPosition
+      board: verifiedPlacements,
+      position: clientRoomPosition,
+      row: currentRow
     }));
   }
 
