@@ -141,13 +141,14 @@ export default function handleSocketEvent (io, socket) {
             * probably need to send encryped IDs instead (or at the least, the encrypted username) -> Future improvement
           */
           case 'broadcast_board_state_to_room':
-            boardState = data.board;
+            boardState = data.placements;
             roomcode = getRooomCode(data.username);
             socket.to(roomcode).emit('message', JSON.stringify({
               type: 'board_broadcast',
               username: data.username,
-              board: boardState,
-              position: data.position
+              placements: boardState,
+              position: data.position,
+              row: data.row
             }))
             break;
 

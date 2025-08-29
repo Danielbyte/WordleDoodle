@@ -172,17 +172,26 @@ header{
   border-color: hsl(200, 1%, 34%);
 }
 .keyboard-row [data-state="wrong"],
-.tile[data-state="wrong"]{ /*Some data attributes to set the color for a wrong placement/letter that is not contained in word of the day*/
+.tile[data-state="wrong"],
+.tile1[data-state="wrong"],
+.tile2[data-state="wrong"],
+.tile3[data-state="wrong"]{ /*Some data attributes to set the color for a wrong placement/letter that is not contained in word of the day*/
   border: none;
   background-color: hsl(240, 2%, 23%);
 }
 .keyboard-row [data-state="wrong-location"],
-.tile[data-state="wrong-location"]{ /*Some data attributes to set the color for a wrong placement but letter contained in the word*/
+.tile[data-state="wrong-location"],
+.tile1[data-state="wrong-location"],
+.tile2[data-state="wrong-location"],
+.tile3[data-state="wrong-location"]{ /*Some data attributes to set the color for a wrong placement but letter contained in the word*/
   border: none;
   background-color: hsl(49, 51%, 47%);
 }
 .keyboard-row [data-state="correct"],
-.tile[data-state="correct"]{ /*Some data attributes to set the color for a correct placement*/
+.tile[data-state="correct"],
+.tile1[data-state="correct"],
+.tile2[data-state="correct"],
+.tile3[data-state="correct"]{ /*Some data attributes to set the color for a correct placement*/
   border: none;
   background-color: hsl(115, 29%, 43%);
 }

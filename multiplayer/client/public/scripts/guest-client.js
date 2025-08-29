@@ -261,18 +261,15 @@ function createTiles() {
               } else {
                 guestPositionInRoom -= 1;
               }
-          //updateGuestBoardStates(guestPositionInRoom, data.board);
+          updateGuestBoardStates(guestPositionInRoom, data.placements, data.row);
           break;
     }
   });
 
-  function updateGuestBoardStates(position, guestBoard) {
-    let board;
+  function updateGuestBoardStates(position, states, row) {
     switch(position) {
       case 1:
-        board = document.getElementById('board');
-        board.innerHTML = '';
-        board.innerHTML = guestBoard;
+        updateOpponentBoard('tile1', states, row)
         break;
 
       case 2:
@@ -287,16 +284,28 @@ function createTiles() {
     socket.emit('data', JSON.stringify({
       type: 'broadcast_board_state_to_room',
       username: username,
-      board: verifiedPlacements,
+      placements: verifiedPlacements,
       position: clientRoomPosition,
       row: currentRow
     }));
   }
 
+  function updateOpponentBoard(tileClass, states, row) {
+    const minTileIndex = getMinTileIndex(row);
+    const maxTileIndex = getMaxTileIndex(row);
+    const activeTiles = getActiveTiles(minTileIndex - 1, maxTileIndex, tileClass); //Get active tiles
+
+    activeTiles.forEach(tile => {
+      const tileIndex = Number(tile.dataset.index);
+      const tileColumn = getTileColumn(row, tileIndex);
+      tile.setAttribute('data-state', states[tileColumn -1]) 
+    })
+  }
+
   function updateStatesAndFlipTiles(states) {
     const minTileIndex = getMinTileIndex(currentRow);
     const maxTileIndex = getMaxTileIndex(currentRow);
-    const activeTiles = getActiveTiles(minTileIndex - 1, maxTileIndex); //Get active tiles
+    const activeTiles = getActiveTiles(minTileIndex - 1, maxTileIndex, 'tile'); //Get active tiles
     const keyboard = document.getElementById('keyboard-container');
 
     activeTiles.forEach(tile => {
@@ -332,8 +341,8 @@ function getMaxTileIndex(row) { //Get the index of the last tile of row in quest
   return maxWordLength * row;
 }
 
-  function getActiveTiles(startIndex, stopIndex) {
-    const allTiles = document.querySelectorAll('.tile'); //Refernce to the entire game board
+  function getActiveTiles(startIndex, stopIndex, tileClass) {
+    const allTiles = document.querySelectorAll(`.${tileClass}`); //Refernce to the entire game board
     return Array.from(allTiles).slice(startIndex, stopIndex); //Return array of all active tiles
   }
 
