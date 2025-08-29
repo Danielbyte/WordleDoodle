@@ -108,12 +108,16 @@ function displayGameBoard() {
   displayGuestBoard();
   createTiles();
   createTilesForOtherBoards('board-1', 'tile1');
+  createTilesForOtherBoards('board-2', 'tile2');
+  createTilesForOtherBoards('board-3', 'tile3');
   addKeyBoard();
 }
 
 function displayGuestBoard() {
   configureBoard('main-board', 'board', 'board-container');
   configureBoard('board1', 'board-1', 'board-container');
+  configureBoard('board2', 'board-2', 'board-container');
+  configureBoard('board3', 'board-3', 'board-container');
 }
 
 function configureBoard(configBoard, configBoardId, containerId) {
@@ -269,13 +273,18 @@ function createTiles() {
   function updateGuestBoardStates(position, states, row) {
     switch(position) {
       case 1:
-        updateOpponentBoard('tile1', states, row)
+        updateOpponentBoard('tile1', states, row);
         break;
 
       case 2:
+        updateOpponentBoard('tile2', states, row);
         break;
 
       case 3:
+        updateOpponentBoard('tile3', states, row);
+        break;
+
+      default:
         break;
     }
   }
