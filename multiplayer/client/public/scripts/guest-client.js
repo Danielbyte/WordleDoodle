@@ -10,6 +10,7 @@ let isWin = false;
 let isGameOver = false;
 //const alertContainer = document.querySelector('[data-alert-container]');
 const FLIP_ANIMATION_DURATION = 500;
+let maxOpponents = 3;
 
 displayGuestMainMenu();
 
@@ -91,7 +92,6 @@ function displayGameBoard() {
   board1.classList.add('board1');
   gameBoardContainer.appendChild(board1);
 
-
   let board2 = document.createElement('div');
   board2.classList.add('board2');
   gameBoardContainer.appendChild(board2);
@@ -105,15 +105,18 @@ function displayGameBoard() {
   gameBoardContainer.appendChild(board4); //chat panel this...
 
   document.body.appendChild(gameBoardContainer);
-  displayGuestBoard();
+  createGuestBoards();
   createTiles();
-  createTilesForOtherBoards('board-1', 'tile1');
-  createTilesForOtherBoards('board-2', 'tile2');
-  createTilesForOtherBoards('board-3', 'tile3');
+  configureOpponentBoards();
   addKeyBoard();
 }
 
-function displayGuestBoard() {
+function configureOpponentBoards() {
+  for (let i = 1; i <= maxOpponents; i++)
+    configureOpponentBoard(`board-${i}`, `tile${i}`);
+}
+
+function createGuestBoards() {
   configureBoard('main-board', 'board', 'board-container');
   configureBoard('board1', 'board-1', 'board-container');
   configureBoard('board2', 'board-2', 'board-container');
@@ -146,7 +149,7 @@ function createTiles() {
   }
 }
 
-function createTilesForOtherBoards(boardId, tileClass) {
+function configureOpponentBoard(boardId, tileClass) {
   const gameBoard = document.getElementById(boardId);
 
   for (let index = 0; index < 30; index++) {
