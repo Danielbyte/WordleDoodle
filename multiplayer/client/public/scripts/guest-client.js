@@ -91,6 +91,7 @@ function displayGameBoard() {
   board1.classList.add('board1');
   gameBoardContainer.appendChild(board1);
 
+
   let board2 = document.createElement('div');
   board2.classList.add('board2');
   gameBoardContainer.appendChild(board2);
@@ -106,22 +107,27 @@ function displayGameBoard() {
   document.body.appendChild(gameBoardContainer);
   displayGuestBoard();
   createTiles();
+  createTilesForOtherBoards('board-1', 'tile1');
   addKeyBoard();
 }
 
 function displayGuestBoard() {
-  let mainBoard = document.querySelector('.main-board');
+  configureBoard('main-board', 'board', 'board-container');
+  configureBoard('board1', 'board-1', 'board-container');
+}
+
+function configureBoard(configBoard, configBoardId, containerId) {
+  let boardToBeConfigured = document.querySelector(`.${configBoard}`);
   let boardContainer = document.createElement('div');
-  boardContainer.id = 'board-container';
+  boardContainer.id = containerId;
   let board = document.createElement('div');
-  board.id = 'board';
+  board.id = configBoardId;
 
   boardContainer.appendChild(board);
   let game = document.createElement('div');
   game.id = 'game';
-
   game.appendChild(boardContainer);
-  mainBoard.appendChild(game);
+  boardToBeConfigured.appendChild(game);
 }
 
 function createTiles() {
@@ -130,6 +136,18 @@ function createTiles() {
     for (let index = 0; index < 30; index++) {
       const tile = document.createElement('div'); //Dynamically create a div tag
       tile.classList.add('tile'); //div tag class is a tile
+      tile.setAttribute('data-index', index + 1);
+      tile.textContent = '';
+      gameBoard.appendChild(tile);
+    }
+  }
+
+  function createTilesForOtherBoards(boardId, tileClass) {
+    const gameBoard = document.getElementById(boardId);
+
+    for (let index = 0; index < 30; index++) {
+      const tile = document.createElement('div'); //Dynamically create a div tag
+      tile.classList.add(tileClass); //div tag class is a tile
       tile.setAttribute('data-index', index + 1);
       tile.textContent = '';
       gameBoard.appendChild(tile);
@@ -206,7 +224,7 @@ function createTiles() {
         } else {
           guestPositionInRoom -= 1;
         }
-        mapGuestBoards(guestPositionInRoom, userName);
+        //mapGuestBoards(guestPositionInRoom, userName);
         break;
 
         case 'start_game':
@@ -219,7 +237,7 @@ function createTiles() {
               } else {
                 guestPositionInRoom -= 1;
               }
-              mapGuestBoards(guestPositionInRoom, user.username);
+              //mapGuestBoards(guestPositionInRoom, user.username);
               startInteraction();
             }
           });
@@ -228,14 +246,53 @@ function createTiles() {
         case 'placement_verification':
           verifiedPlacements = data.placement;
           updateStatesAndFlipTiles(verifiedPlacements);
-
+          
           if (!isWin || !isGameOver)
             currentRow += 1;
 
           guessedword = '';
+          broadcastBoardState();
+          break;
+
+        case 'board_broadcast':
+            guestPositionInRoom = data.position;
+            if (guestPositionInRoom > clientRoomPosition) {
+              guestPositionInRoom -= 2;
+              } else {
+                guestPositionInRoom -= 1;
+              }
+          //updateGuestBoardStates(guestPositionInRoom, data.board);
           break;
     }
   });
+
+  function updateGuestBoardStates(position, guestBoard) {
+    let board;
+    switch(position) {
+      case 1:
+        board = document.getElementById('board');
+        board.innerHTML = '';
+        board.innerHTML = guestBoard;
+        break;
+
+      case 2:
+        break;
+
+      case 3:
+        break;
+    }
+  }
+
+  function broadcastBoardState() {
+    let board = document.getElementById('board-container');
+    
+    socket.emit('data', JSON.stringify({
+      type: 'broadcast_board_state_to_room',
+      username: username,
+      board: `${board.innerHTML}`,
+      position: clientRoomPosition
+    }));
+  }
 
   function updateStatesAndFlipTiles(states) {
     const minTileIndex = getMinTileIndex(currentRow);
@@ -291,7 +348,7 @@ function getTileColumn(row, tileIndex) {
     switch(position) {
       case 1:
         board = document.querySelector('.board1');
-        board.textContent = `@${userName}`;
+        //board.textContent = `@${userName}`;
         break;
       
         case 2:

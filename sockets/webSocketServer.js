@@ -140,12 +140,14 @@ export default function handleSocketEvent (io, socket) {
             * Socket should send username with the payload so that sockets in the room know which board to update
             * probably need to send encryped IDs instead (or at the least, the encrypted username) -> Future improvement
           */
-          case 'update_board_state_to_room':
+          case 'broadcast_board_state_to_room':
             boardState = data.board;
             roomcode = getRooomCode(data.username);
             socket.to(roomcode).emit('message', JSON.stringify({
+              type: 'board_broadcast',
               username: data.username,
-              board: boardState
+              board: boardState,
+              position: data.position
             }))
             break;
 
