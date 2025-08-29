@@ -2,31 +2,10 @@
 const socket = io();
 let isInitialised = false;
 let username = '';
+let maxOpponents = 4;
+const maxWordLength = 5; //Max word is 5 (Player guesses a five letter word)
 
 initialiseBoard();
-/*
-document.getElementById('board-state').onclick = () => {
-  const userName = document.getElementById('username').value;
-  const testBoardState = '<div class="tile" data-index="23"></div><div class="tile" data-index="24"></div><div class="tile" data-index="25"></div><div class="tile" data-index="26"></div><div class="tile" data-index="27"></div><div class="tile" data-index="28"></div><div class="tile" data-index="29"></div><div class="tile" data-index="30"></div>';
-
-  socket.emit('data', JSON.stringify({
-    type: 'update_board_state_to_room',
-    username: userName,
-    board: testBoardState
-  }));
-};*/
-
-/*
-document.getElementById('btn-submit-guess').onclick = () => {
-  const userName = document.getElementById('username').value;
-  const testGuess = document.getElementById('input-user-guess').value;
-
-  socket.emit('data', JSON.stringify({
-    type: 'submit_guess',
-    guess: testGuess,
-    username: userName
-  }));
-}*/
 
 //Event listeners, this was will be for errors returned by the websocket server
 socket.on('response', (payload) => {
@@ -50,39 +29,67 @@ socket.on('message', (payload) => {
   let guestPositionInRoom;
   switch(data.type) {
     case 'join':
-      guestPositionInRoom = Number(data.position) - 1;//Subtract 1 to exclude the host
-      mapGuestBoard(guestPositionInRoom);
-      break;
+      //guestPositionInRoom = Number(data.position) - 1;//Subtract 1 to exclude the host
+    break;
+
+    case 'board_broadcast':
+      guestPositionInRoom = data.position - 1;
+      updateGuestBoardStates(guestPositionInRoom, data.placements, data.row);
+    break;
   }
 });
 
-function mapGuestBoard(position) {
-  //let gameBoard = document.querySelector('.game-board-container');
-  let board;
+function updateGuestBoardStates(position, states, row) {
   switch(position) {
     case 1:
-      board = document.querySelector('.board1');
-      board.textContent = 'Player 1'
-      break;
+      updateGuestBoard('tile1', states, row);
+    break;
 
     case 2:
-      board = document.querySelector('.board2');
-      board.textContent = 'Player 2'
-      break;
+      updateGuestBoard('tile2', states, row);
+    break;
 
     case 3:
-      board = document.querySelector('.board3');
-      board.textContent = 'Player 3'
-      break;
+      updateGuestBoard('tile3', states, row);
+    break;
 
     case 4:
-      board = document.querySelector('.board4');
-      board.textContent = 'Player 4'
-      break;
+      updateGuestBoard('tile4', states, row)
+    break;
 
     default:
-      break;
-  }
+    break;
+    }
+}
+
+function updateGuestBoard(tileClass, states, row) {
+  const minTileIndex = getMinTileIndex(row);
+  const maxTileIndex = getMaxTileIndex(row);
+  const activeTiles = getActiveTiles(minTileIndex - 1, maxTileIndex, tileClass); //Get active tiles
+
+  activeTiles.forEach(tile => {
+    const tileIndex = Number(tile.dataset.index);
+    const tileColumn = getTileColumn(row, tileIndex);
+    tile.setAttribute('data-state', states[tileColumn -1]) 
+  })
+}
+
+  function getMinTileIndex(row) { //Get the index of the first tile of row in question
+  return maxWordLength * row - 4;
+}
+
+function getMaxTileIndex(row) { //Get the index of the last tile of row in question
+  return maxWordLength * row;
+}
+
+function getActiveTiles(startIndex, stopIndex, tileClass) {
+  const allTiles = document.querySelectorAll(`.${tileClass}`); //Refernce to the entire game board
+  return Array.from(allTiles).slice(startIndex, stopIndex); //Return array of all active tiles
+}
+
+//Get the tile column
+function getTileColumn(row, tileIndex) {
+  return tileIndex - maxWordLength * (row -1);
 }
 
 function initialiseBoard() {
@@ -157,6 +164,46 @@ function loadGameBoardContainer() {
   gameBoardContainer.appendChild(board4);
 
   document.body.appendChild(gameBoardContainer);
+  createGuestBoards();
+  configureGuestBoards();
+}
+
+function createGuestBoards() {
+  //Create mini-boards for the other guest opponents
+  for (let i = 1; i <= maxOpponents; i++) {
+    createBoard(`board${i}`, `board-${i}`);
+  }
+}
+
+function createBoard(configBoard, configBoardId) {
+  let boardToBeConfigured = document.querySelector(`.${configBoard}`);
+  let boardContainer = document.createElement('div');
+  boardContainer.id = 'board-container';
+  let board = document.createElement('div');
+  board.id = configBoardId;
+
+  boardContainer.appendChild(board);
+  let game = document.createElement('div');
+  game.id = 'game';
+  game.appendChild(boardContainer);
+  boardToBeConfigured.appendChild(game);
+}
+
+function configureGuestBoards() {
+  for (let i = 1; i <= maxOpponents; i++)
+    configureBoard(`board-${i}`, `tile${i}`);
+}
+
+function configureBoard(boardId, tileClass) {
+  const gameBoard = document.getElementById(boardId);
+
+  for (let index = 0; index < 30; index++) {
+    const tile = document.createElement('div'); //Dynamically create a div tag
+    tile.classList.add(tileClass); //div tag class is a tile
+    tile.setAttribute('data-index', index + 1);
+    tile.textContent = '';
+    gameBoard.appendChild(tile);
+  }
 }
 
 // Function that allows the host to create a room
