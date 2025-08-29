@@ -92,7 +92,7 @@ function displayGameBoard() {
 
   document.body.appendChild(gameBoardContainer);
   createGuestBoards();
-  createTiles();
+  configureBoard('board', 'tile');
   configureOpponentBoards();
   addKeyBoard();
 }
@@ -108,7 +108,7 @@ function addOpponentBoardClasses(gameBoardContainer) {
 
 function configureOpponentBoards() {
   for (let i = 1; i <= maxOpponents; i++)
-    configureOpponentBoard(`board-${i}`, `tile${i}`);
+    configureBoard(`board-${i}`, `tile${i}`);
 }
 
 function createGuestBoards() {
@@ -134,19 +134,7 @@ function createBoard(configBoard, configBoardId) {
   boardToBeConfigured.appendChild(game);
 }
 
-function createTiles() {
-  const gameBoard = document.getElementById('board');
-
-  for (let index = 0; index < 30; index++) {
-    const tile = document.createElement('div'); //Dynamically create a div tag
-    tile.classList.add('tile'); //div tag class is a tile
-    tile.setAttribute('data-index', index + 1);
-    tile.textContent = '';
-    gameBoard.appendChild(tile);
-  }
-}
-
-function configureOpponentBoard(boardId, tileClass) {
+function configureBoard(boardId, tileClass) {
   const gameBoard = document.getElementById(boardId);
 
   for (let index = 0; index < 30; index++) {
