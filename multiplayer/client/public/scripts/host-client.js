@@ -4,29 +4,6 @@ let isInitialised = false;
 let username = '';
 
 initialiseBoard();
-/*
-document.getElementById('board-state').onclick = () => {
-  const userName = document.getElementById('username').value;
-  const testBoardState = '<div class="tile" data-index="23"></div><div class="tile" data-index="24"></div><div class="tile" data-index="25"></div><div class="tile" data-index="26"></div><div class="tile" data-index="27"></div><div class="tile" data-index="28"></div><div class="tile" data-index="29"></div><div class="tile" data-index="30"></div>';
-
-  socket.emit('data', JSON.stringify({
-    type: 'update_board_state_to_room',
-    username: userName,
-    board: testBoardState
-  }));
-};*/
-
-/*
-document.getElementById('btn-submit-guess').onclick = () => {
-  const userName = document.getElementById('username').value;
-  const testGuess = document.getElementById('input-user-guess').value;
-
-  socket.emit('data', JSON.stringify({
-    type: 'submit_guess',
-    guess: testGuess,
-    username: userName
-  }));
-}*/
 
 //Event listeners, this was will be for errors returned by the websocket server
 socket.on('response', (payload) => {
