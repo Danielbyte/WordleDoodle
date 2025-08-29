@@ -219,17 +219,7 @@ socket.on('message', (payload) => {
 
     case 'start_game':
       //Sync guest boards at the start of game
-      data.payload.forEach(user => {
-        if(user.position && user.username !== username) {
-          guestPositionInRoom = user.position;
-          if (guestPositionInRoom > clientRoomPosition) {
-            guestPositionInRoom -= 2;
-          } else {
-              guestPositionInRoom -= 1;
-          }
-          startInteraction();
-          }
-      });
+      startInteraction();
     break;
 
     case 'placement_verification':
