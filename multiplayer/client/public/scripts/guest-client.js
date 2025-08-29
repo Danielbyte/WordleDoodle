@@ -117,16 +117,18 @@ function configureOpponentBoards() {
 }
 
 function createGuestBoards() {
-  configureBoard('main-board', 'board', 'board-container');
-  configureBoard('board1', 'board-1', 'board-container');
-  configureBoard('board2', 'board-2', 'board-container');
-  configureBoard('board3', 'board-3', 'board-container');
+  createBoard('main-board', 'board'); //Create board for the main guest board
+
+  //Create mini-boards for the other guest opponents
+  for (let i = 1; i <= maxOpponents; i++) {
+    createBoard(`board${i}`, `board-${i}`);
+  }
 }
 
-function configureBoard(configBoard, configBoardId, containerId) {
+function createBoard(configBoard, configBoardId) {
   let boardToBeConfigured = document.querySelector(`.${configBoard}`);
   let boardContainer = document.createElement('div');
-  boardContainer.id = containerId;
+  boardContainer.id = 'board-container';
   let board = document.createElement('div');
   board.id = configBoardId;
 
