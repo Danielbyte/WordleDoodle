@@ -51,7 +51,7 @@ export default function handleSocketEvent (io, socket) {
         rooms[data.roomcode].push({
           username: data.username,
           isHost: data.isHost,
-          position: getSocketPosition(data.username)
+          position: rooms[data.roomcode].length + 1
         });
 
         socket.join(data.roomcode); //Socket can join the room
@@ -59,7 +59,8 @@ export default function handleSocketEvent (io, socket) {
         io.to(data.roomcode).emit('message', JSON.stringify({
         type: data.type,
         payload: `@${data.username} has joined the room`,
-        position: `${getSocketPosition(data.username)}`
+        position: `${getSocketPosition(data.username)}`,
+        username: data.username
         }));
         //broadCastEvent(data.roomcode, data.type, `@${data.username} has joined`, io);
         break;
@@ -93,8 +94,9 @@ export default function handleSocketEvent (io, socket) {
           //Probably need to check if word is 5 letters, valid, etc..
           if (canStartGame(roomcode, data.isHost)) {
             // Set the word for particular room
+            let room = rooms[roomcode];
             rooms[roomcode].word = data.word;
-            broadCastEvent(roomcode, data.type, 'Game has started', io);
+            broadCastEvent(roomcode, data.type, room, io);
           } else {
             //broadcast to this socket that the game cannot be started (405 - method not allowed)
             socket.emit('response', JSON.stringify(
@@ -116,7 +118,7 @@ export default function handleSocketEvent (io, socket) {
            roomWord = rooms[roomcode].word.toUpperCase();
            for (let index = 0; index < roomWord.length; index++) {
             if (guess[index] === roomWord[index])
-              placements[index] = 'correct-location';
+              placements[index] = 'correct';
 
             else if (roomWord.includes(guess[index]))
               placements[index] = 'wrong-location';
@@ -125,9 +127,9 @@ export default function handleSocketEvent (io, socket) {
               placements[index] = 'wrong';
            }
 
-           //Send placements to client so that they may update their board to update their board
+           //Send placements to client so that they may update their board state
            socket.emit('message', JSON.stringify({
-            type: 'placement',
+            type: 'placement_verification',
             placement: placements
            }));
           break;
@@ -138,12 +140,15 @@ export default function handleSocketEvent (io, socket) {
             * Socket should send username with the payload so that sockets in the room know which board to update
             * probably need to send encryped IDs instead (or at the least, the encrypted username) -> Future improvement
           */
-          case 'update_board_state_to_room':
-            boardState = data.board;
+          case 'broadcast_board_state_to_room':
+            boardState = data.placements;
             roomcode = getRooomCode(data.username);
             socket.to(roomcode).emit('message', JSON.stringify({
+              type: 'board_broadcast',
               username: data.username,
-              board: boardState
+              placements: boardState,
+              position: data.position,
+              row: data.row
             }))
             break;
 

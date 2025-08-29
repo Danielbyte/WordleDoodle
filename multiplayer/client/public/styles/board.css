@@ -6,7 +6,7 @@
 }
 
 .main-board {
-  background-color: lightgray;
+  background-color: #0e0f11;
   grid-row: 1 / span 2; /*The main board should span the entire two rows*/
   border: 1px solid black;
   display: flex;
@@ -43,11 +43,240 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: lightblue;
+  background-color: #0e0f11;
 }
 
 .host-board-container {
   display: flex;
   align-items: center;
   flex-direction: column;
+}
+
+#container{
+  display: flex;
+  background-color: black;
+  height: 100%;
+  align-items: center;
+  flex-direction: column;
+}
+
+#game{
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+header{
+  border-bottom: 1px solid rgb(58, 58, 60);
+}
+
+.title{
+  color: transparent;
+  background: linear-gradient(to right, hsl(49, 70%, 40%), hsl(115, 29%, 43%), hsl(240, 30%, 23%));
+  margin: 6.4px 0 6.4px 0;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+}
+
+#board-container{
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+/*Style the board*/
+#board, #board-1,
+#board-2, #board-3,
+#board-4{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /*Create 5 equal width columns*/
+  grid-gap: 5px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/*Style the squares*/
+.tile, .tile1,
+.tile2, .tile3,
+.tile4{
+  border: .05em solid rgb(58, 58, 60);
+  min-width: 60px;
+  min-height: 60px;
+  font-size: 35px;
+  font-weight: bold;
+  color: gainsboro;
+  text-transform: uppercase;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  transition: transform 250ms linear;
+}
+
+#keyboard-container{
+  height: 200px;
+}
+.keyboard-row{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto 8px;
+  touch-action: manipulation;
+}
+.keyboard-row button{
+  font-family: inherit;
+  font-size: inherit;
+  border: none;
+  padding: 0;
+  height: 58px;
+  cursor: pointer;
+  background-color: hsl(
+    var(--hue, 200),
+    var(--saturation, 1%),
+    calc(var(--lightness-offset, 0%) + var(--lightness, 51%)) /*Whatever offset we have on our lightness, add it to the current lightness*/
+  );
+  color: rgb(215, 218, 220);
+  flex-grow: 1;
+  text-transform: uppercase;
+  margin-right: 6px;
+  border-radius: .25em;
+  user-select: none;
+}
+.keyboard-row button.wide-button{
+  flex-grow: 1.5;
+}
+.spacer-half{
+  flex-grow: 0.5;
+}
+.keyboard-row button.wrong{
+  --lightness: 23%;
+}
+.keyboard-row button.wrong-location{
+  --hue: 49;
+  --saturation: 51%;
+  --lightness: 47%;
+}
+.keyboard-row button.correct-location{
+  --hue: 115;
+  --saturation: 29%;
+  --lightness: 43%;
+}
+
+
+.keyboard-row button:hover, .keyboard-row button:focus {
+  --lightness-offset: 10%; /*Make button 10% lighter everytime a user hovers on it*/
+}
+
+.tile[data-state="active"]{ /*Some data attributes to set the color for an active board square*/
+  border-color: hsl(200, 1%, 34%);
+}
+.keyboard-row [data-state="wrong"],
+.tile[data-state="wrong"],
+.tile1[data-state="wrong"],
+.tile2[data-state="wrong"],
+.tile3[data-state="wrong"],
+.tile3[data-state="wrong"] { /*Some data attributes to set the color for a wrong placement/letter that is not contained in word of the day*/
+  border: none;
+  background-color: hsl(240, 2%, 23%);
+}
+.keyboard-row [data-state="wrong-location"],
+.tile[data-state="wrong-location"],
+.tile1[data-state="wrong-location"],
+.tile2[data-state="wrong-location"],
+.tile3[data-state="wrong-location"],
+.tile4[data-state="wrong-location"] { /*Some data attributes to set the color for a wrong placement but letter contained in the word*/
+  border: none;
+  background-color: hsl(49, 51%, 47%);
+}
+.keyboard-row [data-state="correct"],
+.tile[data-state="correct"],
+.tile1[data-state="correct"],
+.tile2[data-state="correct"],
+.tile3[data-state="correct"],
+.tile4[data-state="correct"] { /*Some data attributes to set the color for a correct placement*/
+  border: none;
+  background-color: hsl(115, 29%, 43%);
+}
+
+.alert-container{
+  position: fixed;
+  top: 10vh;
+  left: 50vw;
+  transform: translate(-50%);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.alert {
+  pointer-events: none;
+  background-color: hsl(204, 7%, 85%);
+  padding: .75em;
+  border-radius: .25em;
+  opacity: 1;
+  transition: opacity 500ms ease-in-out;
+  margin-bottom: .5em;
+}
+.alert:last-child {
+  margin-bottom: 0;
+}
+.alert.hide {
+  opacity: 0; /*Alert should fade away*/
+}
+
+.tile.dance{
+  animation: dance 500ms ease-in-out;
+}
+@keyframes dance{
+  20% {
+    transform: translateY(-50%);
+  }
+  40% {
+    transform: translateY(5%);
+  }
+  60% {
+    transform: translateY(-25%);
+  }
+  80% {
+    transform: translateY(2.5%);
+  }
+  90% {
+    transform: translateY(-5%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.tile.shake{
+  animation: shake 250ms ease-in-out;
+}
+@keyframes shake{
+  10%{
+    transform: translateX(-5%);
+  }
+  30%{
+    transform: translateX(5%);
+  }
+  50%{
+    transform: translateX(-7.5%);
+  }
+  70%{
+    transform: translateX(7.5%);
+  }
+  90%{
+    transform: translateX(-5%);
+  }
+  100%{
+    transform: translateX(0);
+  }
+}
+
+.tile.flip{
+  transform: rotateX(90deg);
 }
