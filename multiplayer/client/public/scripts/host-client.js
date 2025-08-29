@@ -28,40 +28,10 @@ socket.on('message', (payload) => {
   let guestPositionInRoom;
   switch(data.type) {
     case 'join':
-      guestPositionInRoom = Number(data.position) - 1;//Subtract 1 to exclude the host
-      mapGuestBoard(guestPositionInRoom);
+      //guestPositionInRoom = Number(data.position) - 1;//Subtract 1 to exclude the host
       break;
   }
 });
-
-function mapGuestBoard(position) {
-  //let gameBoard = document.querySelector('.game-board-container');
-  let board;
-  switch(position) {
-    case 1:
-      board = document.querySelector('.board1');
-      board.textContent = 'Player 1'
-      break;
-
-    case 2:
-      board = document.querySelector('.board2');
-      board.textContent = 'Player 2'
-      break;
-
-    case 3:
-      board = document.querySelector('.board3');
-      board.textContent = 'Player 3'
-      break;
-
-    case 4:
-      board = document.querySelector('.board4');
-      board.textContent = 'Player 4'
-      break;
-
-    default:
-      break;
-  }
-}
 
 function initialiseBoard() {
   if (isInitialised)
