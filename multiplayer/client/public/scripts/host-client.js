@@ -2,6 +2,7 @@
 const socket = io();
 let isInitialised = false;
 let username = '';
+let maxOpponents = 4;
 
 initialiseBoard();
 
@@ -134,6 +135,46 @@ function loadGameBoardContainer() {
   gameBoardContainer.appendChild(board4);
 
   document.body.appendChild(gameBoardContainer);
+  createGuestBoards();
+  configureGuestBoards();
+}
+
+function createGuestBoards() {
+  //Create mini-boards for the other guest opponents
+  for (let i = 1; i <= maxOpponents; i++) {
+    createBoard(`board${i}`, `board-${i}`);
+  }
+}
+
+function createBoard(configBoard, configBoardId) {
+  let boardToBeConfigured = document.querySelector(`.${configBoard}`);
+  let boardContainer = document.createElement('div');
+  boardContainer.id = 'board-container';
+  let board = document.createElement('div');
+  board.id = configBoardId;
+
+  boardContainer.appendChild(board);
+  let game = document.createElement('div');
+  game.id = 'game';
+  game.appendChild(boardContainer);
+  boardToBeConfigured.appendChild(game);
+}
+
+function configureGuestBoards() {
+  for (let i = 1; i <= maxOpponents; i++)
+    configureBoard(`board-${i}`, `tile${i}`);
+}
+
+function configureBoard(boardId, tileClass) {
+  const gameBoard = document.getElementById(boardId);
+
+  for (let index = 0; index < 30; index++) {
+    const tile = document.createElement('div'); //Dynamically create a div tag
+    tile.classList.add(tileClass); //div tag class is a tile
+    tile.setAttribute('data-index', index + 1);
+    tile.textContent = '';
+    gameBoard.appendChild(tile);
+  }
 }
 
 // Function that allows the host to create a room
