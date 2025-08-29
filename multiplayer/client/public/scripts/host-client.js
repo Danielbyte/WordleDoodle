@@ -3,6 +3,7 @@ const socket = io();
 let isInitialised = false;
 let username = '';
 let maxOpponents = 4;
+const maxWordLength = 5; //Max word is 5 (Player guesses a five letter word)
 
 initialiseBoard();
 
@@ -29,9 +30,67 @@ socket.on('message', (payload) => {
   switch(data.type) {
     case 'join':
       //guestPositionInRoom = Number(data.position) - 1;//Subtract 1 to exclude the host
-      break;
+    break;
+
+    case 'board_broadcast':
+      guestPositionInRoom = data.position - 1;
+      updateGuestBoardStates(guestPositionInRoom, data.placements, data.row);
+    break;
   }
 });
+
+function updateGuestBoardStates(position, states, row) {
+  switch(position) {
+    case 1:
+      updateGuestBoard('tile1', states, row);
+    break;
+
+    case 2:
+      updateGuestBoard('tile2', states, row);
+    break;
+
+    case 3:
+      updateGuestBoard('tile3', states, row);
+    break;
+
+    case 4:
+      updateGuestBoard('tile4', states, row)
+    break;
+
+    default:
+    break;
+    }
+}
+
+function updateGuestBoard(tileClass, states, row) {
+  const minTileIndex = getMinTileIndex(row);
+  const maxTileIndex = getMaxTileIndex(row);
+  const activeTiles = getActiveTiles(minTileIndex - 1, maxTileIndex, tileClass); //Get active tiles
+
+  activeTiles.forEach(tile => {
+    const tileIndex = Number(tile.dataset.index);
+    const tileColumn = getTileColumn(row, tileIndex);
+    tile.setAttribute('data-state', states[tileColumn -1]) 
+  })
+}
+
+  function getMinTileIndex(row) { //Get the index of the first tile of row in question
+  return maxWordLength * row - 4;
+}
+
+function getMaxTileIndex(row) { //Get the index of the last tile of row in question
+  return maxWordLength * row;
+}
+
+function getActiveTiles(startIndex, stopIndex, tileClass) {
+  const allTiles = document.querySelectorAll(`.${tileClass}`); //Refernce to the entire game board
+  return Array.from(allTiles).slice(startIndex, stopIndex); //Return array of all active tiles
+}
+
+//Get the tile column
+function getTileColumn(row, tileIndex) {
+  return tileIndex - maxWordLength * (row -1);
+}
 
 function initialiseBoard() {
   if (isInitialised)
