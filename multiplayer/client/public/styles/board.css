@@ -89,7 +89,9 @@ header{
 }
 
 /*Style the board*/
-#board, #board-1{
+#board, #board-1,
+#board-2, #board-3,
+#board-4{
   display: grid;
   grid-template-columns: repeat(5, 1fr); /*Create 5 equal width columns*/
   grid-gap: 5px;
@@ -98,7 +100,9 @@ header{
 }
 
 /*Style the squares*/
-.tile, .tile1{
+.tile, .tile1,
+.tile2, .tile3,
+.tile4{
   border: .05em solid rgb(58, 58, 60);
   min-width: 60px;
   min-height: 60px;
@@ -175,7 +179,8 @@ header{
 .tile[data-state="wrong"],
 .tile1[data-state="wrong"],
 .tile2[data-state="wrong"],
-.tile3[data-state="wrong"]{ /*Some data attributes to set the color for a wrong placement/letter that is not contained in word of the day*/
+.tile3[data-state="wrong"],
+.tile3[data-state="wrong"] { /*Some data attributes to set the color for a wrong placement/letter that is not contained in word of the day*/
   border: none;
   background-color: hsl(240, 2%, 23%);
 }
@@ -183,7 +188,8 @@ header{
 .tile[data-state="wrong-location"],
 .tile1[data-state="wrong-location"],
 .tile2[data-state="wrong-location"],
-.tile3[data-state="wrong-location"]{ /*Some data attributes to set the color for a wrong placement but letter contained in the word*/
+.tile3[data-state="wrong-location"],
+.tile4[data-state="wrong-location"] { /*Some data attributes to set the color for a wrong placement but letter contained in the word*/
   border: none;
   background-color: hsl(49, 51%, 47%);
 }
@@ -191,7 +197,8 @@ header{
 .tile[data-state="correct"],
 .tile1[data-state="correct"],
 .tile2[data-state="correct"],
-.tile3[data-state="correct"]{ /*Some data attributes to set the color for a correct placement*/
+.tile3[data-state="correct"],
+.tile4[data-state="correct"] { /*Some data attributes to set the color for a correct placement*/
   border: none;
   background-color: hsl(115, 29%, 43%);
 }
