@@ -206,14 +206,6 @@ socket.on('message', (payload) => {
       userName = data.username;
       if (userName === username) {
         clientRoomPosition = Number(data.position);
-        return; //Some guard clause, no need to map board if username is the same as the main guest..
-      }
-
-      guestPositionInRoom = Number(data.position);
-      if (guestPositionInRoom > clientRoomPosition) {
-        guestPositionInRoom -= 2; //Displace by 2 positions (1 for the host and the other for the client)
-      } else {
-        guestPositionInRoom -= 1;
       }
     break;
 
