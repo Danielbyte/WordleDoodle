@@ -135,33 +135,33 @@ function configureBoard(configBoard, configBoardId, containerId) {
 }
 
 function createTiles() {
-    const gameBoard = document.getElementById('board');
+  const gameBoard = document.getElementById('board');
 
-    for (let index = 0; index < 30; index++) {
-      const tile = document.createElement('div'); //Dynamically create a div tag
-      tile.classList.add('tile'); //div tag class is a tile
-      tile.setAttribute('data-index', index + 1);
-      tile.textContent = '';
-      gameBoard.appendChild(tile);
-    }
+  for (let index = 0; index < 30; index++) {
+    const tile = document.createElement('div'); //Dynamically create a div tag
+    tile.classList.add('tile'); //div tag class is a tile
+    tile.setAttribute('data-index', index + 1);
+    tile.textContent = '';
+    gameBoard.appendChild(tile);
   }
+}
 
-  function createTilesForOtherBoards(boardId, tileClass) {
-    const gameBoard = document.getElementById(boardId);
+function createTilesForOtherBoards(boardId, tileClass) {
+  const gameBoard = document.getElementById(boardId);
 
-    for (let index = 0; index < 30; index++) {
-      const tile = document.createElement('div'); //Dynamically create a div tag
-      tile.classList.add(tileClass); //div tag class is a tile
-      tile.setAttribute('data-index', index + 1);
-      tile.textContent = '';
-      gameBoard.appendChild(tile);
-    }
+  for (let index = 0; index < 30; index++) {
+    const tile = document.createElement('div'); //Dynamically create a div tag
+    tile.classList.add(tileClass); //div tag class is a tile
+    tile.setAttribute('data-index', index + 1);
+    tile.textContent = '';
+    gameBoard.appendChild(tile);
   }
+}
 
-  function addKeyBoard() {
-    let keyBoardContainer = document.createElement('div');
-    keyBoardContainer.id = 'keyboard-container';
-    let keyBoard = `<div class="keyboard-row">
+function addKeyBoard() {
+  let keyBoardContainer = document.createElement('div');
+  keyBoardContainer.id = 'keyboard-container';
+  let keyBoard = `<div class="keyboard-row">
           <button data-key="q">q</button>
           <button data-key="w">w</button>
           <button data-key="e">e</button>
@@ -200,10 +200,9 @@ function createTiles() {
 
     keyBoardContainer.innerHTML = keyBoard;
 
-
     let game = document.getElementById('game');
     game.appendChild(keyBoardContainer);
-  }
+}
 
 //Websocket server event listeners
 socket.on('message', (payload) => {
