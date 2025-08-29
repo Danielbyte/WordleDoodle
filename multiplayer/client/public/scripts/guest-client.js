@@ -226,16 +226,20 @@ socket.on('message', (payload) => {
     break;
 
     case 'board_broadcast':
-      guestPositionInRoom = data.position;
-      if (guestPositionInRoom > clientRoomPosition) {
-        guestPositionInRoom -= 2;
-      } else {
-          guestPositionInRoom -= 1;
-      }
+      guestPositionInRoom = getGuestPositionInRoom(data.position);
       updateGuestBoardStates(guestPositionInRoom, data.placements, data.row);
     break;
   }
 });
+
+function getGuestPositionInRoom(guestPositionInRoom) {
+  if (guestPositionInRoom > clientRoomPosition) {
+      guestPositionInRoom -= 2;
+    } else {
+        guestPositionInRoom -= 1;
+    }
+    return guestPositionInRoom;
+}
 
 function updateGuestBoardStates(position, states, row) {
   switch(position) {
@@ -321,7 +325,7 @@ function getActiveTiles(startIndex, stopIndex, tileClass) {
   return Array.from(allTiles).slice(startIndex, stopIndex); //Return array of all active tiles
 }
 
-  //Get the tile column
+//Get the tile column
 function getTileColumn(row, tileIndex) {
   return tileIndex - maxWordLength * (row -1);
 }
