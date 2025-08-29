@@ -88,27 +88,22 @@ function displayGameBoard() {
   gameBoardContainer.appendChild(mainBoard); //Should probably assign the username as the board id...
 
   //The rest of the boards
-  let board1 = document.createElement('div');
-  board1.classList.add('board1');
-  gameBoardContainer.appendChild(board1);
-
-  let board2 = document.createElement('div');
-  board2.classList.add('board2');
-  gameBoardContainer.appendChild(board2);
-
-  let board3 = document.createElement('div');
-  board3.classList.add('board3');
-  gameBoardContainer.appendChild(board3);
-
-  let board4 = document.createElement('div');
-  board4.classList.add('board4');
-  gameBoardContainer.appendChild(board4); //chat panel this...
+  addOpponentBoardClasses(gameBoardContainer);
 
   document.body.appendChild(gameBoardContainer);
   createGuestBoards();
   createTiles();
   configureOpponentBoards();
   addKeyBoard();
+}
+
+function addOpponentBoardClasses(gameBoardContainer) {
+  let board;
+  for (let i = 1; i <= (maxOpponents + 1); i++) { //Add one to include chats field
+    board = document.createElement('div');
+    board.classList.add(`board${i}`);
+    gameBoardContainer.appendChild(board);
+  }
 }
 
 function configureOpponentBoards() {
