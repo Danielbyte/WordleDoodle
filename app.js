@@ -25,6 +25,8 @@ import singlePlayerRouter from './single-player/src/routes/singlePlayerMainRoute
 import multiplayerRouter from './multiplayer/src/routes/multiPlayerRoutes.js';
 import wordValidationRouter from './single-player/src/routes/wordValidationRoute.js';
 import handleSocketEvent from './sockets/webSocketServer.js';
+import userRouter from './routes/userRoutes.js';
+import authRouter from './routes/authRoutes.js';
 
 
 //MIDDLEWARE
@@ -36,6 +38,8 @@ app.use('/cdn',express.static(join(__dirname, './single-player/src/public')));
 app.use('/cdn',express.static(join(__dirname, './multiplayer/client/public')));
 
 //Mount routes
+app.use('/api/v1/auth', authRouter); //If user wants to register, the can hit the following endpoint: /api/v1/auth/register
+app.use('api/v1/users', userRouter);
 app.use('/',singlePlayerRouter); //We want to call the landing page instead (but for now will just serve the single player router)
 app.use('/', multiplayerRouter);
 app.use('/api/v1', wordValidationRouter);
