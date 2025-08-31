@@ -33,6 +33,7 @@ import authRouter from './routes/authRoutes.js';
 app.use(express.json());
 //Tell express to serve the files from the public directory as static files
 app.use('/cdn',express.static(join(__dirname, './single-player/src/public')));
+app.use('/cdn',express.static(join(__dirname, './public')));
 
 //Tell Express to serve files in ./multiplayer/client/public as static files
 app.use('/cdn',express.static(join(__dirname, './multiplayer/client/public')));

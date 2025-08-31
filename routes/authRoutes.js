@@ -10,7 +10,7 @@ const __dirname = dirname(__fileName);
 
 authRouter.get('/', (req, res) => {
   //Respond with the landing page
-  res.sendFile(join(__dirname, '../public/views/landingPage.html'));
+  res.sendFile(join(__dirname, '../public/views', 'landing-page.html'));
 });
 
 authRouter.post('/register', (req, res) => {
