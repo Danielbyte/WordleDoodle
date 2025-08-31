@@ -69,3 +69,38 @@ body {
   border-color: #FFEB3B;
   box-shadow: 0 0 10px rgba(255, 235, 59, 0.15);
 }
+
+.btn {
+  display: block;
+  width: 100%;
+  padding: 0.9rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: 'Fredoka One', cursive;
+  transition: all 0.2s ease-in-out;
+}
+
+.login-button {
+  background: #4CAF50;
+  color: white;
+}
+
+.login-button:hover {
+  background: #45A049;
+  transform: scale(1.02);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.register-button {
+  background: #FFEB3B;
+  color: #212121;
+}
+
+.register-button:hover {
+  background: #FDD835;
+  transform: scale(1.02);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
