@@ -38,9 +38,8 @@ app.use('/cdn',express.static(join(__dirname, './single-player/src/public')));
 app.use('/cdn',express.static(join(__dirname, './multiplayer/client/public')));
 
 //Mount routes
-app.use('/api/v1/auth', authRouter); //If user wants to register, the can hit the following endpoint: /api/v1/auth/register
-app.use('api/v1/users', userRouter);
-app.use('/',singlePlayerRouter); //We want to call the landing page instead (but for now will just serve the single player router)
+app.use('/', authRouter); //Display the landing page when app is opened
+app.use('/api/v1/users', userRouter);
 app.use('/', multiplayerRouter);
 app.use('/api/v1', wordValidationRouter);
 app.use('/api/v1/validate', wordValidationRouter);
