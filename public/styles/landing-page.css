@@ -110,6 +110,7 @@ body {
   font-size: 0.9rem;
   display: flex;
   justify-content: center;
+  gap: 0.5rem;
 }
 
 .footer-link {
