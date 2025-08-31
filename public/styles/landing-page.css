@@ -19,6 +19,7 @@ body {
   text-align: center;
   z-index: 100;
   position: relative;
+  border-radius: 2rem;
 }
 
 .login-card h1 {
