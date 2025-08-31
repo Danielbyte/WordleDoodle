@@ -20,3 +20,18 @@ body {
   z-index: 100;
   position: relative;
 }
+
+.login-card h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #4CAF50;
+  cursor: default;
+  perspective: 800px;
+}
+
+.login-card h1 span {
+  display: inline-block;
+  will-change: transform;
+  transition: transform 0.15s;
+  transform-style: preserve-3d;
+}
