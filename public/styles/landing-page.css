@@ -131,3 +131,7 @@ body {
 .separator {
   color: #999;
 }
+
+.background-rotating-letters {
+  position: absolute;
+}
