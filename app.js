@@ -20,13 +20,14 @@ const io = new Server(server, {
   }
 });
 
-//Load routes
+//Load routes/modules
 //import singlePlayerRouter from './single-player/src/routes/singlePlayerMainRoutes.js';
 import multiplayerRouter from './multiplayer/src/routes/multiPlayerRoutes.js';
 import wordValidationRouter from './single-player/src/routes/wordValidationRoute.js';
 import handleSocketEvent from './sockets/webSocketServer.js';
 import userRouter from './routes/userRoutes.js';
 import authRouter from './routes/authRoutes.js';
+import connectToDatabase from './database/mongodb.js';
 
 
 //MIDDLEWARE
@@ -52,8 +53,10 @@ io.on('connection', (socket) => {
   handleSocketEvent(io, socket);
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, async () => {
   console.log(`Server listening on PORT: ${PORT}`);
+
+  await connectToDatabase();
 });
 
 export default app;
