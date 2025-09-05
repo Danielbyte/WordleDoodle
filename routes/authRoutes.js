@@ -1,28 +1,13 @@
 import { Router } from "express";
-
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
+import { register, login, logout } from '../controllers/authController.js'
 
 const authRouter = Router();
 
-const __fileName = fileURLToPath(import.meta.url);
-const __dirname = dirname(__fileName);
+//Path: /api/v1/auth/register
+authRouter.post('/register', register);
 
-authRouter.get('/', (req, res) => {
-  //Respond with the landing page
-  res.sendFile(join(__dirname, '../public/views', 'landing-page.html'));
-});
+authRouter.post('/login', login);
 
-authRouter.post('/register', (req, res) => {
-  res.send({title: 'resgister'})
-});
-
-authRouter.post('/login', (req, res) => {
-  res.send({title: 'login'})
-});
-
-authRouter.post('/logout', (req, res) => {
-  res.send({title: 'logout'})
-});
+authRouter.post('/logout', logout);
 
 export default authRouter;
