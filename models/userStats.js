@@ -26,3 +26,8 @@ const statsSchema = new mongoose.Schema({
   }
 }, {timestamps: true});
 
+//create a model for schema
+const Stats = mongoose.model('Stats', statsSchema);
+
+export default Stats;
+
