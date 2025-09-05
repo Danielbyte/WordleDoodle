@@ -44,8 +44,8 @@ app.use('/cdn',express.static(join(__dirname, './public')));
 app.use('/cdn',express.static(join(__dirname, './multiplayer/client/public')));
 
 //Mount routes
-app.use('/', homePageRoute);
-app.use('/api/v1/auth', authRouter); //Display the landing page when app is opened
+app.use('/', homePageRoute); //Display the landing page when app is opened
+app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/', multiplayerRouter);
 app.use('/api/v1', wordValidationRouter);
