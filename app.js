@@ -28,6 +28,7 @@ import handleSocketEvent from './sockets/webSocketServer.js';
 import userRouter from './routes/userRoutes.js';
 import authRouter from './routes/authRoutes.js';
 import connectToDatabase from './database/mongodb.js';
+import errorMiddleWare from './middlewares/erroMiddleWare.js';
 
 
 //MIDDLEWARE
@@ -47,6 +48,7 @@ app.use('/api/v1', wordValidationRouter);
 app.use('/api/v1/validate', wordValidationRouter);
 app.use('/api/v1/verify', wordValidationRouter);
 app.use('/api/v1/reset', wordValidationRouter);
+app.use(errorMiddleWare);
 
 //Handle web socket events
 io.on('connection', (socket) => {
