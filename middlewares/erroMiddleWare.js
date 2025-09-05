@@ -21,6 +21,17 @@ const errorMiddleWare = (err, req, res, next) => {
       error = new Error(message);
       error.statusCode = 400;
     }
+
+   //Mongoose validation error
+   if (err.name === 'ValidationError') {
+    //Form the error message by mapping over the values of the object and show the message for each one
+    const message = Object.values(err.errors).map(val => val.message);
+    error = new Error(message.join(', '));
+    error.statusCode = 400;
+   }
+ 
+   //Return response from this middleware
+   res.status(error.statusCode || 500).json({success: false, error: error.message || 'Server Error'});
   } catch (error) {
     //send the error to the next step/process of the application to let us know that an erroe happened
     next(error);
