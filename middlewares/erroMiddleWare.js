@@ -12,7 +12,14 @@ const errorMiddleWare = (err, req, res, next) => {
       const message = 'Resource not found';
 
       error = new Error(message);
-      error.statusCode = '404';
+      error.statusCode = 404;
+    }
+
+    //mongoose duplicate key
+    if (err.code === 11000) {
+      const message = 'Duplicate field value enetered';
+      error = new Error(message);
+      error.statusCode = 400;
     }
   } catch (error) {
     //send the error to the next step/process of the application to let us know that an erroe happened
