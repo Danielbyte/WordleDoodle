@@ -33,6 +33,8 @@ import errorMiddleWare from './middlewares/erroMiddleWare.js';
 
 //MIDDLEWARE
 app.use(express.json());
+app.use(express.urlencoded({extended: false}));
+
 //Tell express to serve the files from the public directory as static files
 app.use('/cdn',express.static(join(__dirname, './single-player/src/public')));
 app.use('/cdn',express.static(join(__dirname, './public')));
@@ -48,6 +50,7 @@ app.use('/api/v1', wordValidationRouter);
 app.use('/api/v1/validate', wordValidationRouter);
 app.use('/api/v1/verify', wordValidationRouter);
 app.use('/api/v1/reset', wordValidationRouter);
+
 app.use(errorMiddleWare);
 
 //Handle web socket events
