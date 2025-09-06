@@ -47,7 +47,7 @@ export const register = async (req, res, next) => {
         token,
         user: newUsers[0]
       }
-    })
+    });
   } catch (error) {
     //If anything goes wrong, just immediatley abort mission
     await session.abortTransaction();
@@ -56,6 +56,43 @@ export const register = async (req, res, next) => {
   }
 }
 
-export const login = async (req, res, next) => {}
+export const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({email}); //search user by email address
+
+    //If user doesn't exist
+    if (!user) {
+      const error = new Error('User not found');
+      error.statusCode = 404;
+      throw error;
+    }
+
+    //If the user exist, we verify the password
+    //Compare the password the user is using to login against the one that is in the db
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      const error = new Error('Invalid password');
+      error.statusCode = 401;
+      throw error;
+    }
+
+    //Entered password is valid, generate a new token
+    const token = jwt.sign({userId: user._id }, JWT_SECRET, {expiresIn: JWT_EXPIRES_IN});
+
+    res.status(200).json({
+      success: true,
+      message: 'User signed in successfully',
+      data: {
+        token,
+        user
+      }
+    });
+
+  } catch (error) {
+    next(error); //Forward error to error handling middleware
+  }
+}
 
 export const logout = async (req, res, next) => {}
