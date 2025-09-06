@@ -23,7 +23,7 @@ const io = new Server(server, {
 //Load routes/modules
 import singlePlayerRouter from './single-player/src/routes/singlePlayerMainRoutes.js';
 import multiplayerRouter from './multiplayer/src/routes/multiPlayerRoutes.js';
-import wordValidationRouter from './single-player/src/routes/wordValidationRoute.js';
+import wordRouter from './single-player/src/routes/wordValidationRoute.js';
 import handleSocketEvent from './sockets/webSocketServer.js';
 import userRouter from './routes/userRoutes.js';
 import authRouter from './routes/authRoutes.js';
@@ -49,10 +49,8 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/singleplayer', singlePlayerRouter);
 app.use('/', multiplayerRouter);
-app.use('/api/v1', wordValidationRouter);
-app.use('/api/v1/validate', wordValidationRouter);
-app.use('/api/v1/verify', wordValidationRouter);
-app.use('/api/v1/reset', wordValidationRouter);
+app.use('/api/v1/word', wordRouter);
+
 
 app.use(errorMiddleWare);
 

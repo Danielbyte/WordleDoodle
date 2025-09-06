@@ -2,10 +2,10 @@ import { Router } from "express";
 //import { getWordOfTheDay } from '../controllers/wordFetcher.js'
 import { validateWord, verifyWord, resetWordOfTheDay } from '../controllers/wordValidator.js';
 
-const wordValidationRouter = Router();
+const wordRouter = Router();
 
-wordValidationRouter.post('/validate', validateWord);
-wordValidationRouter.post('/verify', verifyWord); //endpoint verifiies if guessed word is valid..
-wordValidationRouter.post('/reset', resetWordOfTheDay);
+wordRouter.post('/validate', validateWord);
+wordRouter.post('/verify', verifyWord); //endpoint verifiies if guessed word is valid..
+wordRouter.post('/reset', resetWordOfTheDay);
 
-export default wordValidationRouter;
+export default wordRouter;
