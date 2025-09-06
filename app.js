@@ -29,7 +29,7 @@ import userRouter from './routes/userRoutes.js';
 import authRouter from './routes/authRoutes.js';
 import homePageRoute from './routes/homePageRoutes.js';
 import connectToDatabase from './database/mongodb.js';
-import errorMiddleWare from './middlewares/erroMiddleWare.js';
+import errorMiddleWare from './middlewares/errorMiddleWare.js';
 
 
 //MIDDLEWARE
