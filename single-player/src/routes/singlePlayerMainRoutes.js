@@ -12,7 +12,7 @@ singlePlayerMainRouter.get('/', (req, res) => {
   res.send('Single player routes');
 });
 
-singlePlayerMainRouter.get('/singlePlayerGameBoard', (req, res) => {
+singlePlayerMainRouter.get('/board', (req, res) => {
   res.sendFile(join(__dirname, '../public/views', 'singlePlayerGameBoard.html')); //Display the game board
 });
 

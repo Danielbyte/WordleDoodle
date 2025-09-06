@@ -21,7 +21,7 @@ const io = new Server(server, {
 });
 
 //Load routes/modules
-//import singlePlayerRouter from './single-player/src/routes/singlePlayerMainRoutes.js';
+import singlePlayerRouter from './single-player/src/routes/singlePlayerMainRoutes.js';
 import multiplayerRouter from './multiplayer/src/routes/multiPlayerRoutes.js';
 import wordValidationRouter from './single-player/src/routes/wordValidationRoute.js';
 import handleSocketEvent from './sockets/webSocketServer.js';
@@ -47,6 +47,7 @@ app.use('/cdn',express.static(join(__dirname, './multiplayer/client/public')));
 app.use('/', homePageRoute); //Display the landing page when app is opened
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
+app.use('/singleplayer', singlePlayerRouter);
 app.use('/', multiplayerRouter);
 app.use('/api/v1', wordValidationRouter);
 app.use('/api/v1/validate', wordValidationRouter);
