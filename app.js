@@ -34,7 +34,7 @@ import errorMiddleWare from './middlewares/errorMiddleWare.js';
 
 //MIDDLEWARE
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({extended: true}));
 
 //Tell express to serve the files from the public directory as static files
 app.use('/cdn',express.static(join(__dirname, './single-player/src/public')));

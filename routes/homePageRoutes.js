@@ -12,4 +12,8 @@ homePageRoute.get('/', (req, res) => {
   res.sendFile(join(__dirname, '../public/views', 'landing-page.html'));
 });
 
+homePageRoute.get('/register', (req, res) => {
+  res.sendFile(join(__dirname, '../public/views', 'user-registration.html'));
+});
+
 export default homePageRoute;
