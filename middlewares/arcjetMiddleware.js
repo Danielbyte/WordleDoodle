@@ -1,6 +1,6 @@
 import aj from '../config/arcjet.js'
 
-const arcjetMiddleware = (req, res, next) => {
+const arcjetMiddleware = async (req, res, next) => {
   try {
     const decision = await aj.protect(req); //Protect this request and tell me your decision (should the request be denied or allowed)
 
