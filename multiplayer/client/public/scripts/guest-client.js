@@ -406,7 +406,7 @@ async function submitGuess() {
     }
 
     //Add condition that checks whether word is valid
-    let response = await fetch('../api/v1/verify', {
+    let response = await fetch('../api/v1/word/verify', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

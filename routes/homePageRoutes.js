@@ -16,4 +16,8 @@ homePageRoute.get('/register', (req, res) => {
   res.sendFile(join(__dirname, '../public/views', 'user-registration.html'));
 });
 
+homePageRoute.get('/email/verify', (req, res) => {
+  res.sendFile(join(__dirname, '../public/views', 'otp-verification.html'));
+});
+
 export default homePageRoute;
