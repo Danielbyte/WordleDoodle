@@ -403,7 +403,7 @@ function scheduleMidnightReset() {
     window.localStorage.setItem('lastResetDate', now.toDateString());
 
     //Reset the word of the day
-    await fetch('../api/v1/reset', {
+    await fetch('../api/v1/word/reset', {
       method: 'POST'
     }).then ((response) => {
       if(response.ok)
