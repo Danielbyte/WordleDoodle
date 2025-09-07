@@ -1,9 +1,10 @@
-import { Router } from "express";
-import { getUser} from "../controllers/userController.js";
+import { Router } from 'express';
+import { getUser} from '../controllers/userController.js';
+import authorize from '../middlewares/authMiddleWare.js';
 
 const userRouter = Router();
 
-userRouter.get('/:id', getUser); //get user stats
+userRouter.get('/:id', authorize, getUser); //get user stats
 
 userRouter.post('/', (req, res) => {
   res.send({title: 'CREATE new user'})
