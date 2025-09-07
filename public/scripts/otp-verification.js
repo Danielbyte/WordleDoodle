@@ -1,3 +1,6 @@
+addEventListenersForUserInput();
+
+function addEventListenersForUserInput() {
 const inputs = document.querySelectorAll('.otp-input');
 
 inputs.forEach((input, index) => {
@@ -13,3 +16,4 @@ inputs.forEach((input, index) => {
     }
   })
 });
+}
