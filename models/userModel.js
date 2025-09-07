@@ -14,7 +14,10 @@ const userSchema = new mongoose.Schema({
     unique: true,
     trim: true,
     lowercase: true,
-    match: [/\S+@\S+\.\S+/, 'Please fill a valid email address']
+    match: [/\S+@\S+\.\S+/, 'Please fill a valid email address'],
+    otp: {type: String}, //OTP for verification
+    otpExpiry: {type: Date},
+    isVerified: {type: Boolean, default: false}
   },
   password: {
     type: String,
