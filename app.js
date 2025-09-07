@@ -30,11 +30,13 @@ import authRouter from './routes/authRoutes.js';
 import homePageRoute from './routes/homePageRoutes.js';
 import connectToDatabase from './database/mongodb.js';
 import errorMiddleWare from './middlewares/errorMiddleWare.js';
+import arcjetMiddleware from './middlewares/arcjetMiddleware.js';
 
 
 //MIDDLEWARE
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(arcjetMiddleware)
 
 //Tell express to serve the files from the public directory as static files
 app.use('/cdn',express.static(join(__dirname, './single-player/src/public')));

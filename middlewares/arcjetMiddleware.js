@@ -2,7 +2,8 @@ import aj from '../config/arcjet.js'
 
 const arcjetMiddleware = async (req, res, next) => {
   try {
-    const decision = await aj.protect(req); //Protect this request and tell me your decision (should the request be denied or allowed)
+    //requested: 1 => Deduct one token in the bucket per request
+    const decision = await aj.protect(req, {requested: 1}); //Protect this request and tell me your decision (should the request be denied or allowed)
 
     if (decision.isDenied()) {
       //try todec figure out the reason for the denial
