@@ -2,6 +2,7 @@ import mongoose from "mongoose"
 import User from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 import { JWT_EXPIRES_IN, JWT_SECRET } from "../config/env.js";
 
 export const register = async (req, res, next) => {
@@ -30,8 +31,13 @@ export const register = async (req, res, next) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt); //Hash the plain user password with the generated salt
 
+    //Generate OTP and OTP expiry period
+    const otp = generateOTP();
+    const otpExpiryPeriod = 10 * 60 * 1000; //otp will be invalid after 10 minutes
+    const otpExpiry = new Date(Date.now() + otpExpiryPeriod);
+
     //create new User
-    const newUsers = await User.create([{username, email, password: hashedPassword}], {session});
+    const newUsers = await User.create([{username, email, password: hashedPassword, otp: otp, otpExpiry: otpExpiry}], {session});
 
     //Generate a token for the user so they can login
     const token = jwt.sign({userId: newUsers[0]._id }, JWT_SECRET, {expiresIn: JWT_EXPIRES_IN});
@@ -96,3 +102,5 @@ export const login = async (req, res, next) => {
 }
 
 export const logout = async (req, res, next) => {}
+
+const generateOTP = () => crypto.randomInt(100000, 999999).toString(); //Randomly generate a six digit number === OTP
