@@ -1,10 +1,10 @@
 import { Router } from "express";
 import authorize from '../middlewares/authMiddleWare.js';
-import { getUserStats } from '../controllers/statisticsController.js';
+import { createUserStats, getUserStats } from '../controllers/statisticsController.js';
 
 const statisticsRouter = Router();
 
-statisticsRouter.post('/', authorize, (req, res) => res.send({title: 'CREATE statistics'}));
+statisticsRouter.post('/', authorize, createUserStats);
 
 statisticsRouter.get('/stats/:id', authorize, getUserStats);
 

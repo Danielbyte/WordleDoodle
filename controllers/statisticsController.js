@@ -8,6 +8,8 @@ export const createUserStats = async (req, res, next) => {
       //For which user are we creating the stats.
       user: req.user._id, //This is coming from the middleware that comes before creating any subscription
     });
+
+    res.status(201).json({success: true, data: statistics})
   } catch (e) {
     next(e);
   }
