@@ -1,7 +1,7 @@
 //Email template to send the OTP
 
 export const textVersionEmailTemplate = (otpCode) => {
-  const textVersion = `
+  `
   Welcome to WordleDoodle!
 
   To complete your account verification, please enter the OTP below:
@@ -11,11 +11,11 @@ export const textVersionEmailTemplate = (otpCode) => {
   This code will expire in 10 minutes. 
   Please do not share it with anyone.`;
 
-  return textVersion;
+  //return textVersion;
 }
 
 export const htmlVersionEmailTemplate = (otpCode) => {
-  const htmlVersion = `
+  `
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -73,5 +73,5 @@ export const htmlVersionEmailTemplate = (otpCode) => {
     </body>
     </html>`;
 
-  return htmlVersion;
+  //return htmlVersion;
 }
