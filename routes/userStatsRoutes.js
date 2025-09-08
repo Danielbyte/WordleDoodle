@@ -8,4 +8,8 @@ statisticsRouter.post('/', authorize, createUserStats);
 
 statisticsRouter.get('/stats/:id', authorize, getUserStats);
 
+statisticsRouter.put('/:id', (req, res) => res.send({title: 'UPDATE statistics'}));
+
+statisticsRouter.delete('/:id', (req, res) => res.send({title: 'DELETE user statistics'}));
+
 export default statisticsRouter;
