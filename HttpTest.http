@@ -78,3 +78,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkZ
   "email": "masangodaniel.dev@gmail.com",
   "password": "d@n@761213"
 }
+
+###
+## Test if user is authorised when a token is provided
+GET    http://localhost:5500/api/v1/users/stats/68bdf83727e1f5e9391bf1d4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkZjgzNzI3ZTFmNWU5MzkxYmYxZDQiLCJpYXQiOjE3NTcyODExMDAsImV4cCI6MTc1NzM2NzUwMH0.ZVv9PnHyflOF5zpnMTlqa3rKZECgdm19Hds-yMYq3ZY
+
+{
+  "email": "masangodaniel.dev@gmail.com",
+  "password": "d@n@761213"
+}

@@ -19,7 +19,7 @@ const statsSchema = new mongoose.Schema({
     sixthTry: {type: Number, default: 0}
   },
   user: {
-    typeof: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'User', //Reference to the User model we created earlier
     required: true,
     index: true //Optimise the queries by indexing the User field
