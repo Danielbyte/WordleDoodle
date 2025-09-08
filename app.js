@@ -31,6 +31,7 @@ import homePageRoute from './routes/homePageRoutes.js';
 import connectToDatabase from './database/mongodb.js';
 import errorMiddleWare from './middlewares/errorMiddleWare.js';
 import arcjetMiddleware from './middlewares/arcjetMiddleware.js';
+import statisticsRoute from './routes/userStatsRoutes.js'
 
 
 //MIDDLEWARE
@@ -52,6 +53,7 @@ app.use('/api/v1/users', userRouter);
 app.use('/singleplayer', singlePlayerRouter);
 app.use('/', multiplayerRouter);
 app.use('/api/v1/word', wordRouter);
+app.use('/api/v1/statistics', statisticsRoute);
 
 
 app.use(errorMiddleWare);
