@@ -1,5 +1,5 @@
 import express from 'express'
-import { PORT } from './config/env.js';
+import { PORT, SESSION_SECRET } from './config/env.js';
 import { dirname, join} from 'path';
 import http from 'http';
 import { Server } from 'socket.io';
@@ -39,7 +39,15 @@ import otpRouter from './routes/otpRoutes.js';
 //MIDDLEWARE
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(arcjetMiddleware)
+app.use(arcjetMiddleware);
+
+//Session middleware
+app.use(session({
+  secret: SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: {secure: false}
+}))
 
 //Tell express to serve the files from the public directory as static files
 app.use('/cdn',express.static(join(__dirname, './single-player/src/public')));
