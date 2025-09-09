@@ -8,7 +8,7 @@ import { sendOtpEmail } from "../utils/send-email.js";
 
 export const register = async (req, res, next) => {
   //Implement user registration logic
-  const session = await mongoose.startSession()
+  const session = await mongoose.startSession();
   session.startTransaction();
 
   //Databases should be atomic (An operation can either complete or fail (no in between))
