@@ -18,3 +18,33 @@ function wrapTitleWithSpanTag () {
     titleElement.appendChild(spanElement);
   });
 }
+
+document.getElementById('registration-form').addEventListener('submit', async (e) => {
+  e.preventDefault(); //prevent normal form submission
+  const username = document.getElementById('username').value;
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+
+  try {
+    const response = await fetch('api/v1/auth/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: username,
+        email: email,
+        password: password
+      })
+    });
+
+    if (!response.ok) {
+      //Need to display a page that something went wrong
+    }
+
+    //Redirect user to otp page
+    window.location.href = '/register/otp/verify'
+  } catch (err) {
+    console.error(err);
+  }
+});

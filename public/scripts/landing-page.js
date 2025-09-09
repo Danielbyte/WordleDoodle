@@ -19,6 +19,6 @@ function wrapTitleWithSpanTag () {
   });
 }
 
-document.getElementById('js-register-button').addEventListener('click', async () => {
+document.getElementById('js-register-button').addEventListener('click', () => {
   window.location.href = '/register';
 });
