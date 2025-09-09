@@ -3,6 +3,7 @@ import { PORT } from './config/env.js';
 import { dirname, join} from 'path';
 import http from 'http';
 import { Server } from 'socket.io';
+import session from 'express-session';
 
 import { fileURLToPath } from 'url';
 
