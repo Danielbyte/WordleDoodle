@@ -18,3 +18,7 @@ function wrapTitleWithSpanTag () {
     titleElement.appendChild(spanElement);
   });
 }
+
+document.getElementById('js-register-button').addEventListener('click', async () => {
+  window.location.href = '/register';
+});

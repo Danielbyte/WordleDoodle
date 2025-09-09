@@ -49,6 +49,12 @@ export const register = async (req, res, next) => {
     await session.commitTransaction();
     session.endSession();
 
+    //Store email in session
+    req.session.email = email;
+
+    //To avoid making unnecessary calls to db, will just add the otp to the session as well
+    req.session.otp = otp;
+
     res.status(201).json({
       success: true,
       message: 'User created successfully',
