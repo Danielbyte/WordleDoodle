@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import { JWT_EXPIRES_IN, JWT_SECRET } from "../config/env.js";
+import { sendOtpEmail } from "../utils/send-email.js";
 
 export const register = async (req, res, next) => {
   //Implement user registration logic
@@ -35,6 +36,8 @@ export const register = async (req, res, next) => {
     const otp = generateOTP();
     const otpExpiryPeriod = 10 * 60 * 1000; //otp will be invalid after 10 minutes
     const otpExpiry = new Date(Date.now() + otpExpiryPeriod);
+    //Send otp
+    await sendOtpEmail(email, otp);
 
     //create new User
     const newUsers = await User.create([{username, email, password: hashedPassword, otp: otp, otpExpiry: otpExpiry}], {session});

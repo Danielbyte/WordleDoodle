@@ -1,7 +1,7 @@
 import { htmlVersionEmailTemplate, textVersionEmailTemplate } from "./email-template.js";
 import transporter, { accountEmail } from "../config/nodemailer.js";
 
-export const sendOtpEmail = async({to, otpCode}) => {
+export const sendOtpEmail = async(to, otpCode) => {
   if(!to) throw new Error('Reciepient address not provided');
 
   const textVersion = textVersionEmailTemplate(otpCode);
