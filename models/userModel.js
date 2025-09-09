@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { type } from "os";
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -15,9 +16,16 @@ const userSchema = new mongoose.Schema({
     trim: true,
     lowercase: true,
     match: [/\S+@\S+\.\S+/, 'Please fill a valid email address'],
-    otp: {type: String}, //OTP for verification
-    otpExpiry: {type: Date},
-    isVerified: {type: Boolean, default: false}
+  },
+  otp: {
+    type: String //OTP for verification
+  },
+  otpExpiry: {
+    type: Date
+  },
+  isVerified: {
+    type: Boolean,
+    default: false
   },
   password: {
     type: String,
