@@ -45,3 +45,21 @@ document.getElementById('js-continue-button').addEventListener('click', async ()
     console.error(error);
   }
 });
+
+document.getElementById('js-resend-otp').addEventListener('click', async (event) => {
+  event.preventDefault();
+
+  try {
+    const response = await fetch('/api/v1/otp/resend', {
+      method: 'POST'
+    });
+
+    if (!response.ok) {
+      //Need to display a page that something went wrong
+      return;
+    }
+    document.getElementById('js-otp-sent').textContent = 'New OTP sent to email address used to register';
+  } catch (error) {
+    console.error(error);
+  }
+})
