@@ -22,3 +22,26 @@ function wrapTitleWithSpanTag () {
 document.getElementById('js-register-button').addEventListener('click', () => {
   window.location.href = '/register';
 });
+
+document.getElementById('js-login-button').addEventListener('click', async() => {
+  const email = document.getElementById('js-email').value;
+  const password = document.getElementById('js-password').value;
+  const response = await fetch('/api/v1/auth/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        email: email,
+        password:password
+      })
+  });
+
+  if (!response.ok) {
+    //Do something
+    return;
+  }
+
+  let data = await response.json();
+  console.log(data.data);
+});
