@@ -35,6 +35,12 @@ document.getElementById('js-continue-button').addEventListener('click', async ()
         otp: otp
       })
     });
+
+    if (!response.ok) {
+      //Need to display a page that something went wrong
+      return;
+    }
+    window.location.href = '/';
   } catch (error) {
     console.error(error);
   }

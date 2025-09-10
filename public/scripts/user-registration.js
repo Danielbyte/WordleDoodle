@@ -40,6 +40,7 @@ document.getElementById('registration-form').addEventListener('submit', async (e
 
     if (!response.ok) {
       //Need to display a page that something went wrong
+      return;
     }
 
     //Redirect user to otp page
