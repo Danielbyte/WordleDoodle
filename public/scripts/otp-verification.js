@@ -14,6 +14,28 @@ inputs.forEach((input, index) => {
     if (e.key === 'Backspace' && !input.value && index > 0) {
       inputs[index - 1].focus();
     }
-  })
+  });
 });
 }
+
+document.getElementById('js-continue-button').addEventListener('click', async () => {
+  let otp ='';
+  const otpInputs = document.querySelectorAll('.otp-input');
+  otpInputs.forEach((input) => {
+    otp += input.value;
+  });
+
+  try {
+    const response = await fetch('/api/v1/otp/verify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        otp: otp
+      })
+    });
+  } catch (error) {
+    console.error(error);
+  }
+});

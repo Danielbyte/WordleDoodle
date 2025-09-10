@@ -26,7 +26,7 @@ document.getElementById('registration-form').addEventListener('submit', async (e
   const password = document.getElementById('password').value;
 
   try {
-    const response = await fetch('api/v1/auth/register', {
+    const response = await fetch('/api/v1/auth/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

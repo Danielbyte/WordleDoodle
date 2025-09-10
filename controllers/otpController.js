@@ -6,9 +6,10 @@ export const verifyOTP = async (req, res, next) => {
   session.startTransaction();
   try {
     //Try verifying the OTP entered by the user
-    const {email, otp } = req.body;
-    const user = User.findOne({email});
-
+    const { otp } = req.body;
+    const email = req.session.email;
+    const user = await User.findOne({email});
+    
     //Check if user exists in the db
     if (!user) return res.status(400).json({message: 'User not found'});
     if (user.isVerified) return res.status(400).json({message: 'User already verified'});
@@ -19,6 +20,9 @@ export const verifyOTP = async (req, res, next) => {
     //Verify user
     user.isVerified = true;
     user.otpExpiry = undefined;
+
+    //Save user
+    await user.save();
     //Commit transaction
     await session.commitTransaction();
     session.endSession();
