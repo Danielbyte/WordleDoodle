@@ -112,7 +112,7 @@ export const login = async (req, res, next) => {
 
 export const logout = async (req, res, next) => {}
 
-export const mainMenu = (req, res, next) => {
+export const mainMenu = (req, res) => {
   req.session.token = req.headers.authorization;
   res.json({redirectUrl: '/menu'});
 }
