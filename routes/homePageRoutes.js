@@ -21,7 +21,7 @@ homePageRoute.get('/register/otp/verify', authorizePage, (req, res) => {
   res.sendFile(join(__dirname, '../public/views', 'otp-verification.html'));
 });
 
-homePageRoute.get('/menu', (req, res) => {
+homePageRoute.get('/menu', authorizePage, (req, res) => {
   res.sendFile(join(__dirname, '../public/views', 'main-menu.html'));
 });
 

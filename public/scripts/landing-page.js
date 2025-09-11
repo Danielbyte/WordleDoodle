@@ -43,5 +43,18 @@ document.getElementById('js-login-button').addEventListener('click', async() => 
   }
 
   let data = await response.json();
-  console.log(data.data);
+  try {
+    //User login, request the server foe permission to serve the menu form
+    const token = data.data.token;
+    fetch('/api/v1/auth/menu', {
+    method: 'POST',
+    headers: {'Authorization': `Bearer ${token}`}
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.redirectUrl) window.location.href = data.redirectUrl;
+  })
+  } catch (err) {
+    console.error(err);
+  }
 });

@@ -112,4 +112,9 @@ export const login = async (req, res, next) => {
 
 export const logout = async (req, res, next) => {}
 
+export const mainMenu = (req, res, next) => {
+  req.session.token = req.headers.authorization;
+  res.json({redirectUrl: '/menu'});
+}
+
 const generateOTP = () => crypto.randomInt(100000, 999999).toString(); //Randomly generate a six digit number === OTP
