@@ -5,7 +5,7 @@
   overflow: hidden;
   display: flex;
   justify-self: center;
-  background: url('/cdn/images/spritesheet.png') 0 0 no-repeat;
+  background: url('/cdn/images/turtle-sprite.png') 0 0 no-repeat;
 }
 
 .turtle-container:hover {
@@ -16,13 +16,6 @@
   from {background-position: 0 0;}
   to {background-position: -1104px 0;}
 }
-
-/*
-.turtle-container img {
-  width: 100%;
-  height: 100%;
-  display: block;
-}*/
 
 .menu-btn {
   display: block;
