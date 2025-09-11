@@ -1,0 +1,60 @@
+let animationPeriod = 0.03;
+
+wrapTitleWithSpanTag();
+
+//Function wraps each of the title element (wordledoodle) into a span tag so that it can hav the jiggle animation when user hovers above
+function wrapTitleWithSpanTag () {
+  //grab title element
+  const titleElement = document.getElementById('title');
+  const text = titleElement.textContent;
+
+  titleElement.textContent = '';
+
+  //Break down the contents/word of title element into its constituent characters and store in array
+  [...text].forEach((character, index) => {
+    const spanElement = document.createElement('span');
+    spanElement.textContent = character;
+    spanElement.style.animationDelay = `${(index * animationPeriod)}s`;
+    titleElement.appendChild(spanElement);
+  });
+}
+
+document.getElementById('js-register-button').addEventListener('click', () => {
+  window.location.href = '/register';
+});
+
+document.getElementById('js-login-button').addEventListener('click', async() => {
+  const email = document.getElementById('js-email').value;
+  const password = document.getElementById('js-password').value;
+  const response = await fetch('/api/v1/auth/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        email: email,
+        password:password
+      })
+  });
+
+  if (!response.ok) {
+    //Do something
+    return;
+  }
+
+  let data = await response.json();
+  try {
+    //User login, request the server foe permission to serve the menu form
+    const token = data.data.token;
+    fetch('/api/v1/auth/menu', {
+    method: 'POST',
+    headers: {'Authorization': `Bearer ${token}`}
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.redirectUrl) window.location.href = data.redirectUrl;
+  })
+  } catch (err) {
+    console.error(err);
+  }
+});

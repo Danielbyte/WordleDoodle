@@ -1,0 +1,36 @@
+.login-button {
+  background: #4CAF50;
+  color: white;
+}
+
+.login-button:hover {
+  background: #45A049;
+  transform: scale(1.02);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.footer-links {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.footer-link {
+  color: #555;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s;
+  display: inline-block;
+}
+
+.footer-link:hover {
+  text-decoration: none;
+  color: #4CAF50;
+  animation: jiggle 0.6s ease both;
+}
+
+.separator {
+  color: #999;
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/cdn/styles/common.css">
+    <link rel="stylesheet" href="/cdn/styles/otp.css">
+    <script src="/cdn/scripts/otp-verification.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+  <title>WordleDoodle</title>
+</head>
+<body>
+  <div class="otp-card">
+    <h2>One-Time Pin</h2>
+    <p id="js-otp-sent">We've sent an OTP to the email address used to register</p>
+    <p>Please enter the One-Time Pin</p>
+
+    <div class="otp-inputs">
+      <input type="text" maxlength="1" class="otp-input">
+      <input type="text" maxlength="1" class="otp-input">
+      <input type="text" maxlength="1" class="otp-input">
+      <input type="text" maxlength="1" class="otp-input">
+      <input type="text" maxlength="1" class="otp-input">
+      <input type="text" maxlength="1" class="otp-input">
+    </div>
+
+    <div class="links">
+      <a href="#" id="js-resend-otp">Resend OTP</a>
+      <a href="#">Help</a>
+    </div>
+
+    <div class="btns">
+      <button class="btn cancel">Cancel</button>
+      <button class="btn continue" id="js-continue-button">Continue</button>
+    </div>
+  </div>
+</body>
+</html>

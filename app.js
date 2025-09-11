@@ -1,8 +1,9 @@
 import express from 'express'
-import { PORT } from './config/env.js';
+import { PORT, SESSION_SECRET } from './config/env.js';
 import { dirname, join} from 'path';
 import http from 'http';
 import { Server } from 'socket.io';
+import session from 'express-session';
 
 import { fileURLToPath } from 'url';
 
@@ -20,36 +21,63 @@ const io = new Server(server, {
   }
 });
 
-//Load routes
+//Load routes/modules
 import singlePlayerRouter from './single-player/src/routes/singlePlayerMainRoutes.js';
 import multiplayerRouter from './multiplayer/src/routes/multiPlayerRoutes.js';
-import wordValidationRouter from './single-player/src/routes/wordValidationRoute.js';
+import wordRouter from './single-player/src/routes/wordValidationRoute.js';
 import handleSocketEvent from './sockets/webSocketServer.js';
+import userRouter from './routes/userRoutes.js';
+import authRouter from './routes/authRoutes.js';
+import homePageRoute from './routes/homePageRoutes.js';
+import connectToDatabase from './database/mongodb.js';
+import errorMiddleWare from './middlewares/errorMiddleWare.js';
+import arcjetMiddleware from './middlewares/arcjetMiddleware.js';
+import statisticsRoute from './routes/userStatsRoutes.js';
+import otpRouter from './routes/otpRoutes.js';
 
 
 //MIDDLEWARE
 app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+app.use(arcjetMiddleware);
+
+//Session middleware
+app.use(session({
+  secret: SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: {secure: false}
+}))
+
 //Tell express to serve the files from the public directory as static files
 app.use('/cdn',express.static(join(__dirname, './single-player/src/public')));
+app.use('/cdn',express.static(join(__dirname, './public')));
 
 //Tell Express to serve files in ./multiplayer/client/public as static files
 app.use('/cdn',express.static(join(__dirname, './multiplayer/client/public')));
 
 //Mount routes
-app.use('/',singlePlayerRouter); //We want to call the landing page instead (but for now will just serve the single player router)
+app.use('/', homePageRoute); //Display the landing page when app is opened
+app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/users', userRouter);
+app.use('/singleplayer', singlePlayerRouter);
 app.use('/', multiplayerRouter);
-app.use('/api/v1', wordValidationRouter);
-app.use('/api/v1/validate', wordValidationRouter);
-app.use('/api/v1/verify', wordValidationRouter);
-app.use('/api/v1/reset', wordValidationRouter);
+app.use('/api/v1/word', wordRouter);
+app.use('/api/v1/statistics', statisticsRoute);
+app.use('/api/v1/otp', otpRouter);
+
+
+app.use(errorMiddleWare);
 
 //Handle web socket events
 io.on('connection', (socket) => {
   handleSocketEvent(io, socket);
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, async () => {
   console.log(`Server listening on PORT: ${PORT}`);
+
+  await connectToDatabase();
 });
 
 export default app;

@@ -1,0 +1,46 @@
+.turtle-container {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin-left: 60px;
+  margin-right: 60px;
+  background: url('/cdn/images/turtle-sprite.png') 0 0 no-repeat;
+}
+
+.turtle-container:hover {
+  animation: turtle-blink 0.18s steps(6) 1;
+}
+
+@keyframes turtle-blink {
+  from {background-position: 0 0;}
+  to {background-position: -1200px 0;}
+}
+
+.menu-btn {
+  display: block;
+  width: 100%;
+  margin: 1rem 0;
+  padding: 1rem;
+  font-family: 'Fredoka One', cursive;
+  font-weight: bold;
+  font-size: 22px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 30px;
+}
+.menu-btn:hover {
+  transform: translateY(-3px);
+  transform: rotateZ(100);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.multiplayer {
+  background: #4CAF50;
+  color: white;
+}
+
+.singleplayer {
+  background: #FFEB3B;
+  color: #333;
+}
