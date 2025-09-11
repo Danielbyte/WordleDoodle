@@ -80,4 +80,9 @@ export const resendOTP = async (req, res) => {
   }
 }
 
+export const serveOtpForm = async(req, res) => {
+  req.session.token = req.headers.authorization;
+  res.json({redirectUrl: '/register/otp/verify'});
+};
+
 const generateOTP = () => crypto.randomInt(100000, 999999).toString(); //Randomly generate a six digit number === OTP

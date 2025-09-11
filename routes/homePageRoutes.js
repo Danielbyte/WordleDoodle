@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
+import authorizePage from "../middlewares/formMiddleware.js";
 
 const homePageRoute = Router();
 
@@ -16,7 +17,7 @@ homePageRoute.get('/register', (req, res) => {
   res.sendFile(join(__dirname, '../public/views', 'user-registration.html'));
 });
 
-homePageRoute.get('/register/otp/verify', (req, res) => {
+homePageRoute.get('/register/otp/verify', authorizePage, (req, res) => {
   res.sendFile(join(__dirname, '../public/views', 'otp-verification.html'));
 });
 

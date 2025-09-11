@@ -43,8 +43,16 @@ document.getElementById('registration-form').addEventListener('submit', async (e
       return;
     }
 
-    //Redirect user to otp page
-    window.location.href = '/register/otp/verify'
+    const data = await response.json();
+    const token = data.data.token;
+    fetch('/api/v1/otp/form/serve', {
+      method: 'POST',
+      headers: {'Authorization': `Bearer ${token}`}
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.redirectUrl) window.location.href = data.redirectUrl;
+    })
   } catch (err) {
     console.error(err);
   }
