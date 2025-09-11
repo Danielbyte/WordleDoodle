@@ -1,0 +1,43 @@
+.turtle-container {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-self: center;
+}
+
+.turtle-container img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.menu-btn {
+  display: block;
+  width: 100%;
+  margin: 1rem 0;
+  padding: 1rem;
+  font-family: 'Fredoka One', cursive;
+  font-weight: bold;
+  font-size: 22px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 30px;
+}
+.menu-btn:hover {
+  transform: translateY(-3px);
+  transform: rotateZ(100);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.multiplayer {
+  background: #4CAF50;
+  color: white;
+}
+
+.singleplayer {
+  background: #FFEB3B;
+  color: #333;
+}
