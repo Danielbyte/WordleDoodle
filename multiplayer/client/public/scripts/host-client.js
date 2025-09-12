@@ -97,10 +97,18 @@ function initialiseBoard() {
     return;
  
   //Add the main menu page
+  addTurtleContainer();
   addUserNameTextField();
   addCreateRoomButton();
 
   isInitialised = true;
+}
+
+function addTurtleContainer() {
+  let mainMenu = document.getElementById('main-menu');
+  let turtleContainer = document.createElement('div');
+  turtleContainer.classList.add('turtle-container');
+  mainMenu.appendChild(turtleContainer);
 }
 
 function addUserNameTextField() {
@@ -113,10 +121,7 @@ function addUserNameTextField() {
   usernameField.name = 'username';
   usernameField.id = 'user-name';
   usernameField.placeholder = 'Enter your username';
-  mainMenu.appendChild(usernameField);
-
-  mainMenu.appendChild(document.createElement('br'));
-  mainMenu.appendChild(document.createElement('br'));  
+  mainMenu.appendChild(usernameField); 
 }
 
 function addCreateRoomButton() {
