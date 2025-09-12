@@ -1,6 +1,5 @@
 //This client file will be served by Express server (app.js)
 const socket = io();
-let isInitialised = false;
 let username = '';
 let maxOpponents = 4;
 const maxWordLength = 5; //Max word is 5 (Player guesses a five letter word)
@@ -93,53 +92,7 @@ function getTileColumn(row, tileIndex) {
 }
 
 function initialiseBoard() {
-  if (isInitialised)
-    return;
- 
-  //Add the main menu page
-  addTurtleContainer();
-  addUserNameTextField();
-  addCreateRoomButton();
-
-  isInitialised = true;
-}
-
-function addTurtleContainer() {
-  let mainMenu = document.getElementById('main-menu');
-  let turtleContainer = document.createElement('div');
-  turtleContainer.classList.add('turtle-container');
-  mainMenu.appendChild(turtleContainer);
-}
-
-function addUserNameTextField() {
-  let mainMenu = document.getElementById('main-menu');
-
-    //Create username field and create room button
-  let usernameField = document.createElement('input');
-  usernameField.type = 'text';
-  usernameField.classList.add('username');
-  usernameField.name = 'username';
-  usernameField.id = 'user-name';
-  usernameField.placeholder = 'Enter your username';
-  mainMenu.appendChild(usernameField); 
-}
-
-function addCreateRoomButton() {
-  //Get the main-menu tag
-  let mainMenu = document.getElementById('main-menu');
-  let createRoomBtn = document.createElement('button');
-  createRoomBtn.id = 'btn-create-room';
-  createRoomBtn.innerText = 'Create Room';
-
-  //Add a click event listener to to the button
-  createRoomBtn.addEventListener('click', () => {
-    createRoom(); //create room before displaying the multiplayer game-play page
-    document.getElementById('main-menu').remove(); //Remove the main menu div => main menu page
-    loadGameBoardContainer(); //Load multiplayer game loayout with all the boards
-    displayHostBoard();
-  })
-
-  mainMenu.appendChild(createRoomBtn);
+  loadGameBoardContainer();
 }
 
 function loadGameBoardContainer() {
