@@ -1,6 +1,7 @@
 import {dirname, join} from 'path'
 import { fileURLToPath } from 'url';
 import { Router } from 'express';
+import authorizePage from '../../../middlewares/formMiddleware.js';
 const singlePlayerMainRouter = Router();
 
 //Get file path from the URL of the current module
@@ -12,7 +13,7 @@ singlePlayerMainRouter.get('/', (req, res) => {
   res.send('Single player routes');
 });
 
-singlePlayerMainRouter.get('/board', (req, res) => {
+singlePlayerMainRouter.get('/board', authorizePage, (req, res) => {
   res.sendFile(join(__dirname, '../public/views', 'singlePlayerGameBoard.html')); //Display the game board
 });
 
