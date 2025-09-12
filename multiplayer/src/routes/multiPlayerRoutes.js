@@ -19,6 +19,6 @@ multiplayerRouter.get('/guest/board', (req, res) => {
 
 multiplayerRouter.get('/host/board', (req, res) => {
   res.sendFile(join(__dirname, '../../client/public/views', 'host-board.html'))
-})
+});
 
 export default multiplayerRouter;
