@@ -26,39 +26,39 @@ socket.on('message', (payload) => {
    * That is, n = 1 => map board to board1...
    */
   let guestPositionInRoom;
-  switch(data.type) {
+  switch (data.type) {
     case 'join':
       //guestPositionInRoom = Number(data.position) - 1;//Subtract 1 to exclude the host
-    break;
+      break;
 
     case 'board_broadcast':
       guestPositionInRoom = data.position - 1;
       updateGuestBoardStates(guestPositionInRoom, data.placements, data.row);
-    break;
+      break;
   }
 });
 
 function updateGuestBoardStates(position, states, row) {
-  switch(position) {
+  switch (position) {
     case 1:
       updateGuestBoard('tile1', states, row);
-    break;
+      break;
 
     case 2:
       updateGuestBoard('tile2', states, row);
-    break;
+      break;
 
     case 3:
       updateGuestBoard('tile3', states, row);
-    break;
+      break;
 
     case 4:
       updateGuestBoard('tile4', states, row)
-    break;
+      break;
 
     default:
-    break;
-    }
+      break;
+  }
 }
 
 function updateGuestBoard(tileClass, states, row) {
@@ -69,11 +69,11 @@ function updateGuestBoard(tileClass, states, row) {
   activeTiles.forEach(tile => {
     const tileIndex = Number(tile.dataset.index);
     const tileColumn = getTileColumn(row, tileIndex);
-    tile.setAttribute('data-state', states[tileColumn -1]) 
+    tile.setAttribute('data-state', states[tileColumn - 1])
   })
 }
 
-  function getMinTileIndex(row) { //Get the index of the first tile of row in question
+function getMinTileIndex(row) { //Get the index of the first tile of row in question
   return maxWordLength * row - 4;
 }
 
@@ -88,21 +88,30 @@ function getActiveTiles(startIndex, stopIndex, tileClass) {
 
 //Get the tile column
 function getTileColumn(row, tileIndex) {
-  return tileIndex - maxWordLength * (row -1);
+  return tileIndex - maxWordLength * (row - 1);
 }
 
 function initialiseBoard() {
   loadGameBoardContainer();
+  try {
+    fetch('/multiplayer/username', {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.username) {
+          createRoom(data.username);
+          displayHostBoard();
+        }
+      })
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 function loadGameBoardContainer() {
-  let gameBoardContainer = document.createElement('div');
-  gameBoardContainer.classList.add('game-board-container');
-  
-  //Add Player boards
-  let mainBoard = document.createElement('div');
-  mainBoard.classList.add('main-board');
-  gameBoardContainer.appendChild(mainBoard); //Should probably assign the username as the board id...
+  let gameBoardContainer = document.querySelector('.game-board-container');
 
   //The rest of the boards
   let board1 = document.createElement('div');
@@ -165,8 +174,7 @@ function configureBoard(boardId, tileClass) {
 }
 
 // Function that allows the host to create a room
-function createRoom() {
-  username = document.getElementById('user-name').value;
+function createRoom(username) {
   socket.emit('data', JSON.stringify({
     type: 'create',
     username: username,
@@ -184,7 +192,7 @@ function createWordOfTheDayTextField() {
   let hostBoardContainer = document.createElement('div');
   hostBoardContainer.classList.add('host-board-container');
 
-  
+
   let wordOfTheDayTextField = document.createElement('input');
   wordOfTheDayTextField.id = 'word-of-the-day';
   wordOfTheDayTextField.name = 'word-of-the-day';
@@ -199,7 +207,7 @@ function createWordOfTheDayTextField() {
 function createStartGameButton() {
   let hostBoardContainer = document.querySelector('.host-board-container');
   let hostBoard = document.querySelector('.main-board');
-  
+
   let startGameButton = document.createElement('button');
   startGameButton.id = 'btn-start-game';
   startGameButton.innerText = 'Start Game';

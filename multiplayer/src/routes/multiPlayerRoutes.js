@@ -27,7 +27,7 @@ multiplayerRouter.get('/menu/create-room', (req, res) => {
 
 multiplayerRouter.post('/username/create', (req, res) => {
   try {
-    const username = req.body;
+    const { username } = req.body;
 
     if (!username) return res.status(400).json({message: 'Username not found'});
 
@@ -35,10 +35,27 @@ multiplayerRouter.post('/username/create', (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: 'Username created successfully'
+      message: 'Username created successfully',
+      redirectUrl: '/multiplayer/host/board'
     });
-    
+
   } catch (error) {res.status(500).json({message: 'Error creating username', error});}
+});
+
+multiplayerRouter.get('/username', (req, res) => {
+  try {
+    const username = req.session.username;
+    if (!username) return res.status(400).json({message: 'Username not found'});
+
+    req.session.username = username;
+
+    res.status(201).json({
+      success: true,
+      username: username,
+      message: 'Username created successfully',
+    });
+
+  } catch (error) {res.status(500).json({message: 'Error getting username', error});}
 });
 
 export default multiplayerRouter;

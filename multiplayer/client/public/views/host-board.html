@@ -4,13 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
-  <script src="/socket.io/socket.io.js"></script> <!--socket.io API-->
+  <script src="/socket.io/socket.io.js" defer></script> <!--socket.io API-->
   <link rel="stylesheet" href="/cdn/styles/board.css">
-  <link rel="stylesheet" href="/cdn/styles/menu.css">
   <script src="/cdn/scripts/host-client.js" defer></script>
   <title>WordleDoodle</title>
 </head>
 <body>
-  <div class="main-menu-container" id="main-menu"></div>
+  <div class="game-board-container">
+    <div class="main-board" id="main-board"></div>
+  </div>
 </body>
 </html>
