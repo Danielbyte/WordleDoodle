@@ -61,7 +61,7 @@ app.use('/', homePageRoute); //Display the landing page when app is opened
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/singleplayer', singlePlayerRouter);
-app.use('/', multiplayerRouter);
+app.use('/multiplayer', multiplayerRouter);
 app.use('/api/v1/word', wordRouter);
 app.use('/api/v1/statistics', statisticsRoute);
 app.use('/api/v1/otp', otpRouter);
