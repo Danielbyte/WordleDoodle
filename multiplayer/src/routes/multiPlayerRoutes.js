@@ -21,4 +21,8 @@ multiplayerRouter.get('/host/board', (req, res) => {
   res.sendFile(join(__dirname, '../../client/public/views', 'host-board.html'))
 });
 
+multiplayerRouter.get('/menu/create-room', (req, res) => {
+  res.sendFile(join(__dirname, '../../client/public/views', 'create-room-menu.html'));
+})
+
 export default multiplayerRouter;
