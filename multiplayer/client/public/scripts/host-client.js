@@ -93,6 +93,7 @@ function getTileColumn(row, tileIndex) {
 
 function initialiseBoard() {
   loadGameBoardContainer();
+  
   try {
     fetch('/multiplayer/username', {
       method: 'GET',

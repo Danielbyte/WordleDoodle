@@ -52,7 +52,7 @@ multiplayerRouter.get('/username', (req, res) => {
     res.status(201).json({
       success: true,
       username: username,
-      message: 'Username created successfully',
+      message: 'Username retrieved successfully',
     });
 
   } catch (error) {res.status(500).json({message: 'Error getting username', error});}

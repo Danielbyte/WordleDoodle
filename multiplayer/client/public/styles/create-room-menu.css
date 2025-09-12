@@ -80,3 +80,54 @@ body {
   border-color: #FFEB3B;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
+
+.W-background-letter {
+  top: 10%;
+  left: 15%;
+  animation-duration: 30s;
+}
+
+.O-background-letter {
+  top: 70%;
+  left: 25%;
+  animation-duration: 40s;
+}
+
+.R-background-letter {
+  top: 30%;
+  left: 80%;
+  animation-duration: 25s;
+}
+
+.D-background-letter {
+  top: 60%;
+  left: 65%;
+  animation-duration: 35s;
+}
+
+.L-background-letter {
+  top: 20%;
+  left: 70%;
+  animation-duration: 50s;
+}
+
+.E-background-letter {
+  top: 80%;
+  left: 10%;
+  animation-duration: 45s;
+}
+
+.background-rotating-letters {
+  position: absolute;
+  font-size: 4rem;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.05);
+  animation: spin 20s linear infinite;
+  user-select: none;
+  pointer-events: none;
+}
+
+@keyframes spin {
+  from {transform: rotate(0deg);}
+  to {transform: rotate(360deg);}
+}
