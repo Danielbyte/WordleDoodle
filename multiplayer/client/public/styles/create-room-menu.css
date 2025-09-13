@@ -41,7 +41,8 @@ body {
   to {background-position: -1200px 0;}
 }
 
-.btn-create-room {
+.btn-create-room,
+.btn-join-room {
   display: block;
   width: 100%;
   padding: 0.9rem;
@@ -56,13 +57,15 @@ body {
   color: #212121;
 }
 
-.btn-create-room:hover {
+.btn-create-room:hover,
+.btn-join-room:hover {
   background: #FDD835;
   transform: scale(1.02);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.username {
+.username,
+.room-code {
   margin-bottom: 1rem;
   width: 100%;
   display: block;
@@ -76,7 +79,8 @@ body {
   text-align: center;
 }
 
-.username:focus {
+.username:focus,
+.room-code:focus {
   border-color: #FFEB3B;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
