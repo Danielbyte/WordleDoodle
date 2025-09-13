@@ -93,6 +93,18 @@ body {
   animation-duration: 40s;
 }
 
+.O1-background-letter {
+  top: 5%;
+  left: 50%;
+  animation-duration: 40s;
+}
+
+.O2-background-letter {
+  top: 90%;
+  left: 50%;
+  animation-duration: 40s;
+}
+
 .R-background-letter {
   top: 30%;
   left: 80%;
@@ -105,15 +117,39 @@ body {
   animation-duration: 35s;
 }
 
+.D1-background-letter {
+  top: 50%;
+  left: 10%;
+  animation-duration: 35s;
+}
+
+.D2-background-letter {
+  top: 50%;
+  left: 90%;
+  animation-duration: 35s;
+}
+
 .L-background-letter {
   top: 20%;
   left: 70%;
   animation-duration: 50s;
 }
 
+.L1-background-letter {
+  top: 50%;
+  left: 25%;
+  animation-duration: 50s;
+}
+
 .E-background-letter {
   top: 80%;
   left: 10%;
+  animation-duration: 45s;
+}
+
+.E1-background-letter {
+  top: 90%;
+  left: 90%;
   animation-duration: 45s;
 }
 
