@@ -11,7 +11,8 @@ body {
   position: relative;
 }
 
-.menu {
+.menu,
+.guest-main-menu-container {
   background: #f3f5f6;
   padding: 2rem;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);

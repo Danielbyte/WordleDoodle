@@ -26,11 +26,10 @@ function addRoomCodeTextField() {
   roomCodeTextField.type = 'text';
   roomCodeTextField.name = 'room-code';
   roomCodeTextField.id = 'room-code';
+  roomCodeTextField.classList.add('room-code');
+  roomCodeTextField.classList.add()
   roomCodeTextField.placeholder = 'Enter Room Code';
   menuContainer.appendChild(roomCodeTextField);
-
-  menuContainer.appendChild(document.createElement('br'));
-  menuContainer.appendChild(document.createElement('br'));
 }
 
 function addUserNameTextField() {
@@ -39,18 +38,15 @@ function addUserNameTextField() {
   userNameTextField.type = 'text';
   userNameTextField.name = 'username';
   userNameTextField.id = 'username';
+  userNameTextField.classList.add('username');
   userNameTextField.placeholder = 'Enter your Username';
-  userNameTextField.appendChild(document.createElement('br'));
-  userNameTextField.appendChild(document.createElement('br'));
   menuContainer.appendChild(userNameTextField);
-
-  menuContainer.appendChild(document.createElement('br'));
-  menuContainer.appendChild(document.createElement('br'));
 }
 
 function addJoinRoomButton() {
   let joinRoomButton = document.createElement('button');
   joinRoomButton.id = 'join-room';
+  joinRoomButton.classList.add('btn-join-room');
   joinRoomButton.innerText = 'Join Room';
 
   //Add event listener to the join room button
