@@ -50,11 +50,30 @@ app.use(session({
 }))
 
 //Tell express to serve the files from the public directory as static files
-app.use('/cdn',express.static(join(__dirname, './single-player/src/public')));
-app.use('/cdn',express.static(join(__dirname, './public')));
+app.use('/cdn',express.static(join(__dirname, './single-player/src/public'), {
+  maxAge: '1y',
+  immutable: true,
+  setHeaders: (res) => {
+    res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+  }
+}));
+
+app.use('/cdn',express.static(join(__dirname, './public'), {
+  maxAge: '1y',
+  immutable: true,
+  setHeaders: (res) => {
+    res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+  }
+}));
 
 //Tell Express to serve files in ./multiplayer/client/public as static files
-app.use('/cdn',express.static(join(__dirname, './multiplayer/client/public')));
+app.use('/cdn',express.static(join(__dirname, './multiplayer/client/public'), {
+  maxAge: '1y',
+  immutable: true,
+  setHeaders: (res) => {
+    res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+  }
+}));
 
 //Mount routes
 app.use('/', homePageRoute); //Display the landing page when app is opened
