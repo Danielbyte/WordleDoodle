@@ -102,7 +102,8 @@ function initialiseBoard() {
       .then(response => response.json())
       .then(data => {
         if (data.username) {
-          createRoom(data.username);
+          username = data.username;
+          createRoom(username);
           displayHostBoard();
         }
       })

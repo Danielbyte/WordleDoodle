@@ -25,10 +25,6 @@ multiplayerRouter.get('/menu/create-room', (req, res) => {
   res.sendFile(join(__dirname, '../../client/public/views', 'create-room-menu.html'));
 });
 
-multiplayerRouter.get('/menu/join-room', (req, res) => {
-  res.sendFile(join(__dirname, '../../client/public/views', 'join-room-menu.html'));
-});
-
 multiplayerRouter.post('/username/create', (req, res) => {
   try {
     const { username } = req.body;
