@@ -64,7 +64,7 @@ function addJoinRoomButton() {
       username: username,
       isHost: false
     }), (response) => {
-      if (!response.success) {
+      if (!response.success) { //Check if this response was successful
         console.log(response.message);
       } else {
         menu.remove();
