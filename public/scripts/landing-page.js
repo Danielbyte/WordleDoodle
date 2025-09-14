@@ -1,7 +1,6 @@
 let animationPeriod = 0.03;
 
 wrapTitleWithSpanTag();
-
 //Function wraps each of the title element (wordledoodle) into a span tag so that it can hav the jiggle animation when user hovers above
 function wrapTitleWithSpanTag () {
   //grab title element

@@ -63,11 +63,15 @@ function addJoinRoomButton() {
       roomcode: roomId,
       username: username,
       isHost: false
-    }));
-    
-    menu.remove();
-    document.body.style.all = "unset";
-    displayGameBoard();
+    }), (response) => {
+      if (!response.success) {
+        console.log(response.message);
+      } else {
+        menu.remove();
+        document.body.style.all = "unset";
+        displayGameBoard();
+      }
+    });
   })
 
   //Append button to main menu container
@@ -78,7 +82,7 @@ function addJoinRoomButton() {
 function displayGameBoard() {
   let gameBoardContainer = document.createElement('div');
   gameBoardContainer.classList.add('game-board-container');
-  
+
   //Add Player boards
   let mainBoard = document.createElement('div');
   mainBoard.classList.add('main-board');
@@ -183,10 +187,10 @@ function addKeyBoard() {
           <button data-key="del" class="wide-button">&#x232B;</button>
         </div>`;
 
-    keyBoardContainer.innerHTML = keyBoard;
+  keyBoardContainer.innerHTML = keyBoard;
 
-    let game = document.getElementById('game');
-    game.appendChild(keyBoardContainer);
+  let game = document.getElementById('game');
+  game.appendChild(keyBoardContainer);
 }
 
 //Websocket server event listeners
@@ -198,48 +202,48 @@ socket.on('message', (payload) => {
   let userName;
   let verifiedPlacements;
 
-  switch(data.type) {
+  switch (data.type) {
     case 'join':
       userName = data.username;
       if (userName === username) {
         clientRoomPosition = Number(data.position);
       }
-    break;
+      break;
 
     case 'start_game':
       //Sync guest boards at the start of game
       startInteraction();
-    break;
+      break;
 
     case 'placement_verification':
       verifiedPlacements = data.placement;
       updateStatesAndFlipTiles(verifiedPlacements);
       broadcastBoardState(verifiedPlacements);
-          
+
       if (!isWin || !isGameOver)
         currentRow += 1;
 
       guessedword = '';
-    break;
+      break;
 
     case 'board_broadcast':
       guestPositionInRoom = getGuestPositionInRoom(data.position);
       updateGuestBoardStates(guestPositionInRoom, data.placements, data.row);
-    break;
+      break;
   }
 });
 
 function getGuestPositionInRoom(guestPositionInRoom) {
   if (guestPositionInRoom > clientRoomPosition) {
-      guestPositionInRoom -= 2;
-    } else {
-        guestPositionInRoom -= 1;
-    }
-    return guestPositionInRoom;
+    guestPositionInRoom -= 2;
+  } else {
+    guestPositionInRoom -= 1;
+  }
+  return guestPositionInRoom;
 }
 
 function updateGuestBoardStates(position, states, row) {
-  switch(position) {
+  switch (position) {
     case 1:
       updateOpponentBoard('tile1', states, row);
       break;
@@ -254,7 +258,7 @@ function updateGuestBoardStates(position, states, row) {
 
     default:
       break;
-    }
+  }
 }
 
 function broadcastBoardState(verifiedPlacements) {
@@ -275,7 +279,7 @@ function updateOpponentBoard(tileClass, states, row) {
   activeTiles.forEach(tile => {
     const tileIndex = Number(tile.dataset.index);
     const tileColumn = getTileColumn(row, tileIndex);
-    tile.setAttribute('data-state', states[tileColumn -1]) 
+    tile.setAttribute('data-state', states[tileColumn - 1])
   })
 }
 
@@ -290,26 +294,26 @@ function updateStatesAndFlipTiles(states) {
     const tileColumn = getTileColumn(currentRow, tileIndex);
     const letter = tile.textContent.toLowerCase();
     let key = keyboard.querySelector(`[data-key="${letter}"i]`);
-      
-    setTimeout(() => {
-        tile.classList.add('flip');
-      }, (tileColumn * FLIP_ANIMATION_DURATION)/2);
 
-      tile.addEventListener('transitionend', () => {
-        tile.classList.remove('flip');
-        tile.setAttribute('data-state', states[tileColumn-1]); //Set tile states
-        key.setAttribute('data-state', states[tileColumn-1]); //Set keboard states
-          
-        if (tileIndex === maxTileIndex) {
-          tile.addEventListener('transitionend', () => {
+    setTimeout(() => {
+      tile.classList.add('flip');
+    }, (tileColumn * FLIP_ANIMATION_DURATION) / 2);
+
+    tile.addEventListener('transitionend', () => {
+      tile.classList.remove('flip');
+      tile.setAttribute('data-state', states[tileColumn - 1]); //Set tile states
+      key.setAttribute('data-state', states[tileColumn - 1]); //Set keboard states
+
+      if (tileIndex === maxTileIndex) {
+        tile.addEventListener('transitionend', () => {
           startInteraction();
-          }, {once: true})
-        }
-    }, {once: true});
+        }, { once: true })
+      }
+    }, { once: true });
   })
 }
 
-  function getMinTileIndex(row) { //Get the index of the first tile of row in question
+function getMinTileIndex(row) { //Get the index of the first tile of row in question
   return maxWordLength * row - 4;
 }
 
@@ -324,7 +328,7 @@ function getActiveTiles(startIndex, stopIndex, tileClass) {
 
 //Get the tile column
 function getTileColumn(row, tileIndex) {
-  return tileIndex - maxWordLength * (row -1);
+  return tileIndex - maxWordLength * (row - 1);
 }
 
 function startInteraction() {
@@ -332,9 +336,9 @@ function startInteraction() {
   document.addEventListener('click', keyClickEventHandler);
 }
 
-function handleKeyPress(e){
+function handleKeyPress(e) {
   if (isGameOver || isWin) return;
-  switch(e.key) {
+  switch (e.key) {
     case 'Enter':
       submitGuess();
       break;
@@ -350,12 +354,11 @@ function handleKeyPress(e){
   }
 }
 
-  function updateGuessedWord(letter) {
+function updateGuessedWord(letter) {
   //Iterate through each square block of the game board and assign letter to corresponding board square
   guessedword = '';
   let squares = document.querySelectorAll('.tile');
-  for(let i = 0; i < squares.length; i++)
-  {
+  for (let i = 0; i < squares.length; i++) {
     const currentNumberOfTries = computeRow(squares[i].dataset.index);
 
     if (squares[i].textContent.trim() === '' && currentNumberOfTries === currentRow) //Only update word for the current row
@@ -367,20 +370,20 @@ function handleKeyPress(e){
       return;
     }
 
-    if(currentNumberOfTries === currentRow && squares[i].textContent !== '') //Update word only for the current row
+    if (currentNumberOfTries === currentRow && squares[i].textContent !== '') //Update word only for the current row
       guessedword += squares[i].textContent.trim();
   }
 }
 
 //Deduce the row
 function computeRow(index) {
-  let row = index/maxWordLength; //Calculate the current row undex/number of tries
+  let row = index / maxWordLength; //Calculate the current row undex/number of tries
   return Number.isInteger(row) ? row : Math.ceil(row); //Return row number/number of tries as an integer (whole number)
 }
 
 function handleDeleteButtonPress() {
-    document.querySelectorAll('.tile')
-    .forEach((square)=> {
+  document.querySelectorAll('.tile')
+    .forEach((square) => {
       const numberOfTries = computeRow(Number(square.dataset.index)) //Reverse engineer the number of tries
 
       if (square.dataset.index === currentSquareIndex.toString() && numberOfTries === currentRow) //Restrict deletion to current row
@@ -392,18 +395,18 @@ function handleDeleteButtonPress() {
 }
 
 async function submitGuess() {
-    if (isWin || isGameOver) return;
+  if (isWin || isGameOver) return;
 
-    guessedword.trim();
-    if (guessedword.length < maxWordLength) {
-      //showAlert('Not enough letters');
-      const tiles = document.querySelectorAll('.tile');
-      shakeTiles(tiles);
-      return;
-    }
+  guessedword.trim();
+  if (guessedword.length < maxWordLength) {
+    //showAlert('Not enough letters');
+    const tiles = document.querySelectorAll('.tile');
+    shakeTiles(tiles);
+    return;
+  }
 
-    //Add condition that checks whether word is valid
-    let response = await fetch('../../../api/v1/word/verify', {
+  //Add condition that checks whether word is valid
+  let response = await fetch('../../../api/v1/word/verify', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -415,10 +418,10 @@ async function submitGuess() {
 
   let data = await response.json();
   let isValidWord = data.isValidWord;
-  if(!isValidWord) {
-      const tiles = document.querySelectorAll('.tile');
-      shakeTiles(tiles);
-      return;
+  if (!isValidWord) {
+    const tiles = document.querySelectorAll('.tile');
+    shakeTiles(tiles);
+    return;
   }
 
   //Send word to websocket server
@@ -429,14 +432,14 @@ async function submitGuess() {
   }));
 }
 
-function shakeTiles(tiles){
+function shakeTiles(tiles) {
   tiles.forEach(tile => {
     let row = computeRow(tile.dataset.index);
     if (tile.textContent != '' && row === currentRow) {
-       tile.classList.add('shake'); //Add shake animation
-       tile.addEventListener('animationend', () => {
-       tile.classList.remove('shake'); //Remove class once animation is done
-    }, {once: true}); //run shake animation only once
+      tile.classList.add('shake'); //Add shake animation
+      tile.addEventListener('animationend', () => {
+        tile.classList.remove('shake'); //Remove class once animation is done
+      }, { once: true }); //run shake animation only once
     }
   })
 }
@@ -448,20 +451,19 @@ function shakeTiles(tiles){
 function keyClickEventHandler() {
   const keys = document.querySelectorAll('.keyboard-row button');
   for (let i = 0; i < keys.length; i++) {
-    keys[i].onclick = ({target}) => {
+    keys[i].onclick = ({ target }) => {
       const key = target.getAttribute('data-key');
-      switch(key) {
+      switch (key) {
         case 'enter':
           submitGuess();
           break;
         case 'del':
-           handleDeleteButtonPress();
+          handleDeleteButtonPress();
           break;
         default:
           updateGuessedWord(key);
           break;
-        }
-      }  
+      }
     }
+  }
 }
-  
