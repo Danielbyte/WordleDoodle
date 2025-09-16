@@ -112,7 +112,6 @@ function validateEmail() {
 
 function validatePassword() {
   const password = document.getElementById('password');
-  const passwordError = password.nextElementSibling;
   const errMesgContainer = document.getElementById('js-password-error');
   const messageParagraph = document.getElementById('js-password-message');
 
@@ -122,9 +121,7 @@ function validatePassword() {
     return;
   }
 
-  passwordError.style.display = 'none';
-  errMesgContainer.style.display = 'none';
-  password.style.borderColor = '#4CAF50';
+  resetError(password, errMesgContainer);
 }
 
 const setError = (fieldElement, messageContainer, messageParagraph, message) => {
@@ -134,4 +131,11 @@ const setError = (fieldElement, messageContainer, messageParagraph, message) => 
   messageContainer.style.display = 'flex';
   messageParagraph.innerText = message;
   formFieldsValid = false;
+}
+
+const resetError = (fieldElement, messageContainer) => {
+  const fieldElementError = fieldElement.nextElementSibling;
+  fieldElementError.style.display = 'none';
+  messageContainer.style.display = 'none';
+  fieldElement.style.borderColor = '#4CAF50';
 }
