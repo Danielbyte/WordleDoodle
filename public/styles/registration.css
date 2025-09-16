@@ -1,0 +1,24 @@
+.error-message {
+  display: none;
+  margin-top: 5px;
+  background: #f4f4f3;
+  color: #FF0000;
+  padding: 6px 12px;
+  border-radius: 15px;
+  align-items: center;
+  gap: 8px;
+  animation: bounceIn 0.4s ease;
+}
+
+.error-message img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid hsl(115, 29%, 43%);;
+}
+
+@keyframes bounceIn {
+  0% {transform: scale(0.8); opacity: 0;}
+  60% {transform: scale(1.1); opacity: 1;}
+  100% {transform: scale(1);}
+}

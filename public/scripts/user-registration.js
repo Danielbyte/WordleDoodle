@@ -1,4 +1,5 @@
 let animationPeriod = 0.03;
+let formFieldsValid;
 
 wrapTitleWithSpanTag();
 
@@ -20,7 +21,13 @@ function wrapTitleWithSpanTag () {
 }
 
 document.getElementById('registration-form').addEventListener('submit', async (e) => {
-  e.preventDefault(); //prevent normal form submission
+  e.preventDefault(); //prevent normal form 
+  formFieldsValid = true;
+
+  validateUsername();
+
+  if(!formFieldsValid) return;
+
   const username = document.getElementById('username').value;
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
@@ -57,3 +64,21 @@ document.getElementById('registration-form').addEventListener('submit', async (e
     console.error(err);
   }
 });
+
+function validateUsername() {
+  const username = document.getElementById('username');
+  const userNameError = username.nextElementSibling;
+  const errorMessage = document.getElementById('js-username-error');
+
+  if (!username.value.trim()) {
+    username.classList.add('input-error');
+    userNameError.style.display = 'flex';
+    errorMessage.style.display = 'flex';
+    formFieldsValid = false;
+  } else {
+    username.classList.remove('input-error');
+    userNameError.style.display = 'none';
+    errorMessage.style.display = 'none';
+    formFieldsValid = true;
+  }
+}
