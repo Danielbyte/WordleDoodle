@@ -70,23 +70,21 @@ document.getElementById('registration-form').addEventListener('submit', async (e
 function validateUsername() {
   const username = document.getElementById('username');
   const userNameError = username.nextElementSibling;
-  const errorMessage = document.getElementById('js-username-error');
-  const message = document.getElementById('js-username-message');
+  const errMsgContainer = document.getElementById('js-username-error');
+  const messageParagraph = document.getElementById('js-username-message');
 
   // Add checks that the username does not contain special chars but _,-
   // Can only contain letters, numbers and the two special characters above
   // Should only begin with letters
   if (!username.value.trim()) {
-    username.style.borderColor = '#FF0000';
-    userNameError.style.display = 'flex';
-    errorMessage.style.display = 'flex';
-    message.innerText = 'Oops! Fill in username';
-    formFieldsValid = false;
-  } else {
-    userNameError.style.display = 'none';
-    errorMessage.style.display = 'none';
-    username.style.borderColor = '#4CAF50';
+    const message = 'Oops! Fill in username';
+    setError(username, errMsgContainer, messageParagraph, message);
+    return;
   }
+
+  userNameError.style.display = 'none';
+  errMsgContainer.style.display = 'none';
+  username.style.borderColor = '#4CAF50';
 }
 
 function validateEmail() {
