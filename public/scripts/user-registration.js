@@ -46,9 +46,16 @@ document.getElementById('registration-form').addEventListener('submit', async (e
         password: password
       })
     });
-
+     
+    //Display the error from the server to the user
     if (!response.ok) {
-      //Need to display a page that something went wrong
+      if (response.status === 409) {
+        const message = 'An account with this email already exists';
+        const email = document.getElementById('email');
+        const errMsgContainer = document.getElementById('js-email-error');
+        const messageParagraph = document.getElementById('js-email-message');
+        setError(email, errMsgContainer, messageParagraph, message);  
+      }
       return;
     }
 
