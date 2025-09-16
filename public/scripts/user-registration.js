@@ -72,11 +72,24 @@ function validateUsername() {
   const errMsgContainer = document.getElementById('js-username-error');
   const messageParagraph = document.getElementById('js-username-message');
 
-  // Add checks that the username does not contain special chars but _,-
   // Can only contain letters, numbers and the two special characters above
-  // Should only begin with letters
   if (!username.value.trim()) {
     const message = 'Oops! Fill in username';
+    setError(username, errMsgContainer, messageParagraph, message);
+    return;
+  }
+
+  //Regex to check if username only contains letters, numbers and _, - characters
+  const usernameRegex = /^[A-Za-z0-9_-]+$/;
+  if (!usernameRegex.test(username.value.trim())) {
+    const message = 'Woah! no special characters';
+    setError(username, errMsgContainer, messageParagraph, message);
+    return;
+  }
+
+  //Username cannot start with special characters
+  if ((username.value.trim()).startsWith('-') || (username.value.trim()).startsWith('_')) {
+    const message = 'Username cannot start with _ or -';
     setError(username, errMsgContainer, messageParagraph, message);
     return;
   }
