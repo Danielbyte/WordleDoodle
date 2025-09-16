@@ -128,6 +128,26 @@ function validatePassword() {
     return;
   }
 
+  if ((password.value.trim()).length < 8) {
+    const message = 'Oops, password too short';
+    setError(password, errMesgContainer, messageParagraph, message);
+    return;
+  }
+
+  const hasUpperAndLowerCase = /[a-z]/.test(password.value.trim()) && /[A-Z]/.test(password.value.trim());
+  if (!hasUpperAndLowerCase) {
+    const message = 'Include upper and lowercase letters in password';
+    setError(password, errMesgContainer, messageParagraph, message);
+    return;
+  }
+
+  const hasDigit = /\d/.test(password.value.trim());
+  if (!hasDigit) {
+    const message = 'Heads Up! include a digit in your password';
+    setError(password, errMesgContainer, messageParagraph, message);
+    return;
+  }
+
   resetError(password, errMesgContainer);
 }
 
