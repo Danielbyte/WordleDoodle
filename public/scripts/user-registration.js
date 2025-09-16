@@ -71,14 +71,14 @@ function validateUsername() {
   const errorMessage = document.getElementById('js-username-error');
 
   if (!username.value.trim()) {
-    username.classList.add('input-error');
+    username.style.borderColor = '#FF0000';
     userNameError.style.display = 'flex';
     errorMessage.style.display = 'flex';
     formFieldsValid = false;
   } else {
-    username.classList.remove('input-error');
     userNameError.style.display = 'none';
     errorMessage.style.display = 'none';
     formFieldsValid = true;
+    username.style.borderColor = '#4CAF50';
   }
 }
