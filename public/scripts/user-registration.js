@@ -93,22 +93,17 @@ function validateEmail() {
   const email = document.getElementById('email');
   const emailError = email.nextElementSibling;
   const errMesgContainer = document.getElementById('js-email-error');
-  const message = document.getElementById('js-email-message');
+  const messageParagraph = document.getElementById('js-email-message');
 
   if (!email.value) {
-    email.style.borderColor = '#FF0000';
-    emailError.style.display = 'flex';
-    errMesgContainer.style.display = 'flex';
-    formFieldsValid = false;
+    const message = 'Hmm! Email is required';
+    setError(email, errMesgContainer, messageParagraph, message);
     return;
   }
 
   if (!/^[^@]+@[^@]+\.[^@]+$/.test(email.value)) {
-    email.style.borderColor = '#FF0000';
-    emailError.style.display = 'flex';
-    errMesgContainer.style.display = 'flex';
-    message.innerText = 'That doesn\'t look like an email';
-    formFieldsValid = false;
+    let message = 'That doesn\'t look like an email';
+    setError(email, errMesgContainer, messageParagraph, message);
     return;
   }
 
@@ -128,7 +123,7 @@ function validatePassword() {
     setError(password, errMesgContainer, messageParagraph, message);
     return;
   }
-  
+
   passwordError.style.display = 'none';
   errMesgContainer.style.display = 'none';
   password.style.borderColor = '#4CAF50';
