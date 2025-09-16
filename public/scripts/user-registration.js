@@ -69,7 +69,6 @@ document.getElementById('registration-form').addEventListener('submit', async (e
 
 function validateUsername() {
   const username = document.getElementById('username');
-  const userNameError = username.nextElementSibling;
   const errMsgContainer = document.getElementById('js-username-error');
   const messageParagraph = document.getElementById('js-username-message');
 
@@ -82,14 +81,11 @@ function validateUsername() {
     return;
   }
 
-  userNameError.style.display = 'none';
-  errMsgContainer.style.display = 'none';
-  username.style.borderColor = '#4CAF50';
+  resetError(username, errMsgContainer);
 }
 
 function validateEmail() {
   const email = document.getElementById('email');
-  const emailError = email.nextElementSibling;
   const errMesgContainer = document.getElementById('js-email-error');
   const messageParagraph = document.getElementById('js-email-message');
 
@@ -105,9 +101,7 @@ function validateEmail() {
     return;
   }
 
-  emailError.style.display = 'none';
-  errMesgContainer.style.display = 'none';
-  email.style.borderColor = '#4CAF50';
+  resetError(email, errMesgContainer);
 }
 
 function validatePassword() {
