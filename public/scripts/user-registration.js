@@ -4,7 +4,7 @@ let formFieldsValid;
 wrapTitleWithSpanTag();
 
 //Function wraps each of the title element (wordledoodle) into a span tag so that it can hav the jiggle animation when user hovers above
-function wrapTitleWithSpanTag () {
+function wrapTitleWithSpanTag() {
   //grab title element
   const titleElement = document.getElementById('title');
   const text = titleElement.textContent;
@@ -28,7 +28,7 @@ document.getElementById('registration-form').addEventListener('submit', async (e
   validateEmail();
   validatePassword();
 
-  if(!formFieldsValid) return;
+  if (!formFieldsValid) return;
 
   const username = document.getElementById('username').value;
   const email = document.getElementById('email').value;
@@ -56,12 +56,12 @@ document.getElementById('registration-form').addEventListener('submit', async (e
     const token = data.data.token;
     fetch('/api/v1/otp/form/serve', {
       method: 'POST',
-      headers: {'Authorization': `Bearer ${token}`}
+      headers: { 'Authorization': `Bearer ${token}` }
     })
-    .then(res => res.json())
-    .then(data => {
-      if (data.redirectUrl) window.location.href = data.redirectUrl;
-    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.redirectUrl) window.location.href = data.redirectUrl;
+      })
   } catch (err) {
     console.error(err);
   }
@@ -71,6 +71,7 @@ function validateUsername() {
   const username = document.getElementById('username');
   const userNameError = username.nextElementSibling;
   const errorMessage = document.getElementById('js-username-error');
+  const message = document.getElementById('js-username-message');
 
   // Add checks that the username does not contain special chars but _,-
   // Can only contain letters, numbers and the two special characters above
@@ -79,6 +80,7 @@ function validateUsername() {
     username.style.borderColor = '#FF0000';
     userNameError.style.display = 'flex';
     errorMessage.style.display = 'flex';
+    message.innerText = 'Oops! Fill in username';
     formFieldsValid = false;
   } else {
     userNameError.style.display = 'none';
@@ -91,7 +93,7 @@ function validateEmail() {
   const email = document.getElementById('email');
   const emailError = email.nextElementSibling;
   const errMesgContainer = document.getElementById('js-email-error');
-  const message = document.getElementById('js-message');
+  const message = document.getElementById('js-email-message');
 
   if (!email.value) {
     email.style.borderColor = '#FF0000';
@@ -105,11 +107,11 @@ function validateEmail() {
     email.style.borderColor = '#FF0000';
     emailError.style.display = 'flex';
     errMesgContainer.style.display = 'flex';
-    message.innerText = 'That doesn\'t look like an email'; 
+    message.innerText = 'That doesn\'t look like an email';
     formFieldsValid = false;
     return;
   }
-  
+
   emailError.style.display = 'none';
   errMesgContainer.style.display = 'none';
   email.style.borderColor = '#4CAF50';
@@ -119,17 +121,24 @@ function validatePassword() {
   const password = document.getElementById('password');
   const passwordError = password.nextElementSibling;
   const errMesgContainer = document.getElementById('js-password-error');
-  const message = document.getElementById('js-password-message');
+  const messageParagraph = document.getElementById('js-password-message');
 
   if (!password.value.trim()) {
-    password.style.borderColor = '#FF0000';
-    passwordError.style.display = 'flex';
-    errMesgContainer.style.display = 'flex';
-    message.innerText = 'Oops! Fill in password'
-    formFieldsValid = false;
+    const message = 'Oops! Fill in password';
+    setError(password, errMesgContainer, messageParagraph, message);
     return;
   }
+  
   passwordError.style.display = 'none';
   errMesgContainer.style.display = 'none';
   password.style.borderColor = '#4CAF50';
+}
+
+const setError = (fieldElement, messageContainer, messageParagraph, message) => {
+  const fieldElementError = fieldElement.nextElementSibling;
+  fieldElement.style.borderColor = '#FF0000';
+  fieldElementError.style.display = 'flex';
+  messageContainer.style.display = 'flex';
+  messageParagraph.innerText = message;
+  formFieldsValid = false;
 }
