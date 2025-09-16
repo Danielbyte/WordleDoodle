@@ -26,6 +26,7 @@ document.getElementById('registration-form').addEventListener('submit', async (e
 
   validateUsername();
   validateEmail();
+  validatePassword();
 
   if(!formFieldsValid) return;
 
@@ -89,13 +90,13 @@ function validateUsername() {
 function validateEmail() {
   const email = document.getElementById('email');
   const emailError = email.nextElementSibling;
-  const errorMessage = document.getElementById('js-email-error');
+  const errMesgContainer = document.getElementById('js-email-error');
   const message = document.getElementById('js-message');
 
   if (!email.value) {
     email.style.borderColor = '#FF0000';
     emailError.style.display = 'flex';
-    errorMessage.style.display = 'flex';
+    errMesgContainer.style.display = 'flex';
     formFieldsValid = false;
     return;
   }
@@ -103,14 +104,32 @@ function validateEmail() {
   if (!/^[^@]+@[^@]+\.[^@]+$/.test(email.value)) {
     email.style.borderColor = '#FF0000';
     emailError.style.display = 'flex';
-    errorMessage.style.display = 'flex';
+    errMesgContainer.style.display = 'flex';
     message.innerText = 'That doesn\'t look like an email'; 
     formFieldsValid = false;
     return;
   }
   
   emailError.style.display = 'none';
-  errorMessage.style.display = 'none';
+  errMesgContainer.style.display = 'none';
   email.style.borderColor = '#4CAF50';
-  
+}
+
+function validatePassword() {
+  const password = document.getElementById('password');
+  const passwordError = password.nextElementSibling;
+  const errMesgContainer = document.getElementById('js-password-error');
+  const message = document.getElementById('js-password-message');
+
+  if (!password.value.trim()) {
+    password.style.borderColor = '#FF0000';
+    passwordError.style.display = 'flex';
+    errMesgContainer.style.display = 'flex';
+    message.innerText = 'Oops! Fill in password'
+    formFieldsValid = false;
+    return;
+  }
+  passwordError.style.display = 'none';
+  errMesgContainer.style.display = 'none';
+  password.style.borderColor = '#4CAF50';
 }
