@@ -25,6 +25,7 @@ document.getElementById('registration-form').addEventListener('submit', async (e
   formFieldsValid = true;
 
   validateUsername();
+  validateEmail();
 
   if(!formFieldsValid) return;
 
@@ -70,6 +71,9 @@ function validateUsername() {
   const userNameError = username.nextElementSibling;
   const errorMessage = document.getElementById('js-username-error');
 
+  // Add checks that the username does not contain special chars but _,-
+  // Can only contain letters, numbers and the two special characters above
+  // Should only begin with letters
   if (!username.value.trim()) {
     username.style.borderColor = '#FF0000';
     userNameError.style.display = 'flex';
@@ -78,7 +82,35 @@ function validateUsername() {
   } else {
     userNameError.style.display = 'none';
     errorMessage.style.display = 'none';
-    formFieldsValid = true;
     username.style.borderColor = '#4CAF50';
   }
+}
+
+function validateEmail() {
+  const email = document.getElementById('email');
+  const emailError = email.nextElementSibling;
+  const errorMessage = document.getElementById('js-email-error');
+  const message = document.getElementById('js-message');
+
+  if (!email.value) {
+    email.style.borderColor = '#FF0000';
+    emailError.style.display = 'flex';
+    errorMessage.style.display = 'flex';
+    formFieldsValid = false;
+    return;
+  }
+
+  if (!/^[^@]+@[^@]+\.[^@]+$/.test(email.value)) {
+    email.style.borderColor = '#FF0000';
+    emailError.style.display = 'flex';
+    errorMessage.style.display = 'flex';
+    message.innerText = 'That doesn\'t look like an email'; 
+    formFieldsValid = false;
+    return;
+  }
+  
+  emailError.style.display = 'none';
+  errorMessage.style.display = 'none';
+  email.style.borderColor = '#4CAF50';
+  
 }
