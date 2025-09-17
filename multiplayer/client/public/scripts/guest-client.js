@@ -121,6 +121,18 @@ function validateRoomCode() {
     return;
   }
 
+  if ((roomcode.value.trim()).length < 10) { //the roomcode is 10 chars
+    const message = 'I\'ve got your back! Room code too short';
+    setError(roomcode, errMsgContainer, messageParagraph, message);
+    return;
+  }
+
+  if ((roomcode.value.trim()).length > 10) { //the roomcode is 10 chars
+    const message = 'I\'ve got your back! Room code too long';
+    setError(roomcode, errMsgContainer, messageParagraph, message);
+    return;
+  }
+
   resetError(roomcode, errMsgContainer);
 }
 
