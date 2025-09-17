@@ -44,6 +44,7 @@ document.getElementById('js-login-button').addEventListener('click', async () =>
     })
   });
 
+  // Handle and display responses from the server
   if (!response.ok) {
     if (response.status === 404) {
       const email = document.getElementById('js-email');
@@ -55,6 +56,11 @@ document.getElementById('js-login-button').addEventListener('click', async () =>
 
     if (response.status === 401) {
       //Report error on incorrect password
+      const password = document.getElementById('js-password');
+      const errMesgContainer = document.getElementById('js-password-error-card');
+      const messageParagraph = document.getElementById('js-password-error-message');
+      const message = 'Sorry! Password is incorrect';
+      setError(password, errMesgContainer, messageParagraph, message);
     }
     return;
   }
@@ -120,7 +126,7 @@ function validatePassword() {
     setError(password, errMesgContainer, messageParagraph, message);
     return;
   }
-  
+
   resetError(password, errMesgContainer);
 }
 

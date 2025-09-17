@@ -130,7 +130,7 @@ function validatePassword() {
   const messageParagraph = document.getElementById('js-password-message');
 
   if (!password.value.trim()) {
-    const message = 'Oops! Fill in password';
+    const message = 'Oops! Create password';
     setError(password, errMesgContainer, messageParagraph, message);
     return;
   }
