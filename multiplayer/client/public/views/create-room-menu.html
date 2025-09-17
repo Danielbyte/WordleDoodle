@@ -26,7 +26,13 @@
 
   <div class="menu">
     <div class="turtle-container"></div>
-    <input type="text" class="username" id="user-name" placeholder="Enter your username">
+    <div class="input-field">
+      <input type="text" class="username" id="user-name" placeholder="Enter your username">
+      <div class="error-message" id="js-username-error-card">
+        <img src="/cdn/images/tortoise.png" alt="">
+        <p id="js-username-error-message"></p>
+      </div>
+    </div>
     <button class="btn-create-room" id="js-btn-create-room">Create Room</button>
   </div>
 </body>
