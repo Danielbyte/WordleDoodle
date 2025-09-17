@@ -17,9 +17,9 @@ const aj = arcjet({
     // Create a token bucket rate limit. Other algorithms are supported.
     tokenBucket({
       mode: "LIVE",
-      refillRate: 5, // Refill 5 tokens per interval
-      interval: 10, // Refill every 10 seconds
-      capacity: 10, // Bucket capacity of 10 tokens
+      refillRate: 10, // Refill 10 tokens per interval
+      interval: 15, // Refill every 15 seconds
+      capacity: 15, // Bucket capacity of 15 tokens
     }),
   ],
 });

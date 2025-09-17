@@ -23,12 +23,24 @@
     <form id="registration-form">
       <div class="input-field">
         <input type="text" id="username" placeholder="Username">
+        <div class="error-message" id="js-username-error">
+          <img src="/cdn/images/tortoise.png" loading="lazy" alt="">
+          <p id="js-username-message"></p>
+        </div>
       </div>
       <div class="input-field">
-        <input type="email" id="email" placeholder="email">
+        <input type="text" id="email" placeholder="email">
+        <div class="error-message" id="js-email-error">
+          <img src="/cdn/images/tortoise.png" loading="lazy" alt="">
+          <p id="js-email-message"></p>
+        </div>
       </div>
       <div class="input-field">
         <input type="password" id="password" placeholder="password">
+        <div class="error-message" id="js-password-error">
+          <img src="/cdn/images/tortoise.png" loading="lazy" alt="">
+          <p id="js-password-message"></p>
+        </div>
       </div>
       <button type="submit" class="btn register-button" id="js-register-button">Register</button>
     </form>

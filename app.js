@@ -51,17 +51,17 @@ app.use(session({
 
 //Tell express to serve the files from the public directory as static files
 app.use('/cdn',express.static(join(__dirname, './single-player/src/public')));
+
 app.use('/cdn',express.static(join(__dirname, './public')));
 
 //Tell Express to serve files in ./multiplayer/client/public as static files
 app.use('/cdn',express.static(join(__dirname, './multiplayer/client/public')));
-
 //Mount routes
 app.use('/', homePageRoute); //Display the landing page when app is opened
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/singleplayer', singlePlayerRouter);
-app.use('/', multiplayerRouter);
+app.use('/multiplayer', multiplayerRouter);
 app.use('/api/v1/word', wordRouter);
 app.use('/api/v1/statistics', statisticsRoute);
 app.use('/api/v1/otp', otpRouter);

@@ -1,9 +1,9 @@
 body {
+  font-family: 'Fredoka One', cursive;
+  display: flex;
   margin: 0;
   padding: 0;
-  font-family: 'Fredoka One', cursive;
   background: linear-gradient(135deg, #d9fdd3, #fff9c4);
-  display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
@@ -11,10 +11,9 @@ body {
   position: relative;
 }
 
-.login-card,
-.registration-card,
-.menu-card {
-  background: #ffffff;
+.menu,
+.guest-main-menu-container {
+  background: #f3f5f6;
   padding: 2rem;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   width: 320px;
@@ -24,59 +23,27 @@ body {
   border-radius: 2rem;
 }
 
-.login-card h1,
-.registration-card h1 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-  color: #4CAF50;
-  cursor: default;
-  perspective: 800px;
-}
-
-.login-card h1 span,
-.registration-card h1 span {
-  display: inline-block;
-  will-change: transform;
-  transition: transform 0.15s;
-  transform-style: preserve-3d;
-}
-
-.login-card h1:hover span,
-.registration-card h1:hover span{
-  animation: jiggle 0.6s ease both;
-}
-
-@keyframes jiggle {
-  0% {transform: rotateY(0deg) translateY(0);}
-  20% {transform: rotateY(-15deg) translateY(-2px);}
-  40% {transform: rotateY(15deg) translateY(1px);}
-  60% {transform: rotateY(-10deg) translateY(-1px);}
-  80% {transform: rotateY(8deg) translateY(1px);}
-  100%{transform: rotateY(0deg) translateY(0);}
-}
-
-.input-field {
+.turtle-container {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin-left: 60px;
+  margin-right: 60px;
+  background: url('/cdn/images/turtle-sprite2.png') 0 0 no-repeat;
   margin-bottom: 1rem;
 }
 
-.input-field input {
-  width: 100%;
-  padding: 0.8rem 1rem;
-  border: 2px solid #4CAF50;
-  box-sizing: border-box;
-  display: block;
-  outline: none;
-  border-radius: 50px;
-  font-size: 1rem;
-  font-family: 'Fredoka One', cursive;
+.turtle-container:hover {
+  animation: turtle-blink 0.18s  steps(6) 1;
 }
 
-.input-field input:focus {
-  border-color: #FFEB3B;
-  box-shadow: 0 0 10px rgba(255, 235, 59, 0.15);
+@keyframes turtle-blink {
+  from {background-position: 0 0;}
+  to {background-position: -1200px 0;}
 }
 
-.btn {
+.btn-create-room,
+.btn-join-room {
   display: block;
   width: 100%;
   padding: 0.9rem;
@@ -87,21 +54,39 @@ body {
   font-size: 1rem;
   font-family: 'Fredoka One', cursive;
   transition: all 0.2s ease-in-out;
-}
-
-.register-button {
   background: #FFEB3B;
   color: #212121;
 }
 
-.register-button:hover {
+.btn-create-room:hover,
+.btn-join-room:hover {
   background: #FDD835;
   transform: scale(1.02);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.W-background-letter,
-.D1-background-letter {
+.username,
+.room-code {
+  margin-bottom: 1rem;
+  width: 100%;
+  display: block;
+  padding: 0.8rem 1rem;
+  border: 2px solid #4CAF50;
+  outline: none;
+  box-sizing: border-box;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-family: 'Fredoka One', cursive;
+  text-align: center;
+}
+
+.username:focus,
+.room-code:focus {
+  border-color: #FFEB3B;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
+
+.W-background-letter {
   top: 10%;
   left: 15%;
   animation-duration: 30s;
@@ -113,8 +98,19 @@ body {
   animation-duration: 40s;
 }
 
-.R-background-letter,
 .O1-background-letter {
+  top: 5%;
+  left: 50%;
+  animation-duration: 40s;
+}
+
+.O2-background-letter {
+  top: 90%;
+  left: 50%;
+  animation-duration: 40s;
+}
+
+.R-background-letter {
   top: 30%;
   left: 80%;
   animation-duration: 25s;
@@ -126,15 +122,39 @@ body {
   animation-duration: 35s;
 }
 
+.D1-background-letter {
+  top: 50%;
+  left: 10%;
+  animation-duration: 35s;
+}
+
+.D2-background-letter {
+  top: 50%;
+  left: 90%;
+  animation-duration: 35s;
+}
+
 .L-background-letter {
   top: 20%;
   left: 70%;
   animation-duration: 50s;
 }
 
+.L1-background-letter {
+  top: 50%;
+  left: 25%;
+  animation-duration: 50s;
+}
+
 .E-background-letter {
   top: 80%;
   left: 10%;
+  animation-duration: 45s;
+}
+
+.E1-background-letter {
+  top: 90%;
+  left: 90%;
   animation-duration: 45s;
 }
 
