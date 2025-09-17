@@ -3,7 +3,7 @@ let formFieldsValid;
 
 wrapTitleWithSpanTag();
 //Function wraps each of the title element (wordledoodle) into a span tag so that it can hav the jiggle animation when user hovers above
-function wrapTitleWithSpanTag () {
+function wrapTitleWithSpanTag() {
   //grab title element
   const titleElement = document.getElementById('title');
   const text = titleElement.textContent;
@@ -23,7 +23,7 @@ document.getElementById('js-register-button').addEventListener('click', () => {
   window.location.href = '/register';
 });
 
-document.getElementById('js-login-button').addEventListener('click', async() => {
+document.getElementById('js-login-button').addEventListener('click', async () => {
   formFieldsValid = true;
   const email = document.getElementById('js-email').value.trim();
   const password = document.getElementById('js-password').value.trim();
@@ -38,13 +38,23 @@ document.getElementById('js-login-button').addEventListener('click', async() => 
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-        email: email,
-        password:password
-      })
+      email: email,
+      password: password
+    })
   });
 
   if (!response.ok) {
-    //Do something
+    if (response.status === 404) {
+      const email = document.getElementById('js-email');
+      const errMesgContainer = document.getElementById('js-email-error-card');
+      const messageParagraph = document.getElementById('js-email-error-message');
+      const message = 'Oops! Email is not registered';
+      setError(email, errMesgContainer, messageParagraph, message);
+    }
+
+    if (response.status === 401) {
+      //Report error on incorrect password
+    }
     return;
   }
 
@@ -53,13 +63,13 @@ document.getElementById('js-login-button').addEventListener('click', async() => 
     //User login, request the server foe permission to serve the menu form
     const token = data.data.token;
     fetch('/api/v1/auth/menu', {
-    method: 'POST',
-    headers: {'Authorization': `Bearer ${token}`}
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.redirectUrl) window.location.href = data.redirectUrl;
-  })
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.redirectUrl) window.location.href = data.redirectUrl;
+      })
   } catch (err) {
     console.error(err);
   }
@@ -70,9 +80,15 @@ const validateEmail = () => {
   const email = document.getElementById('js-email');
   const errorMessageCard = document.getElementById('js-email-error-card');
   const messageParagraph = document.getElementById('js-email-error-message');
-  
+
   if (!email.value.trim()) {
     const message = 'Hmm! Email is required';
+    setError(email, errorMessageCard, messageParagraph, message);
+    return;
+  }
+
+  if (!/^[^@]+@[^@]+\.[^@]+$/.test(email.value)) {
+    let message = 'That doesn\'t look like an email';
     setError(email, errorMessageCard, messageParagraph, message);
     return;
   }
