@@ -31,7 +31,7 @@ import authRouter from './routes/authRoutes.js';
 import homePageRoute from './routes/homePageRoutes.js';
 import connectToDatabase from './database/mongodb.js';
 import errorMiddleWare from './middlewares/errorMiddleWare.js';
-import arcjetMiddleware from './middlewares/arcjetMiddleware.js';
+//import arcjetMiddleware from './middlewares/arcjetMiddleware.js';
 import statisticsRoute from './routes/userStatsRoutes.js';
 import otpRouter from './routes/otpRoutes.js';
 
@@ -39,7 +39,7 @@ import otpRouter from './routes/otpRoutes.js';
 //MIDDLEWARE
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(arcjetMiddleware);
+//app.use(arcjetMiddleware);
 
 //Session middleware
 app.use(session({

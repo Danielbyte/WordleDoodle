@@ -95,6 +95,7 @@ function addJoinRoomButton() {
       username: username,
       isHost: false
     }), (response) => {
+      
       if (!response.success) { //Check if this response was successful
         const roomcode = document.getElementById('room-code'); //Reference to the entered roomcode
         const errMsgContainer = document.getElementById('js-roomcode-error-card');
@@ -102,6 +103,7 @@ function addJoinRoomButton() {
         const message = response.message;
         setError(roomcode, errMsgContainer, messageParagraph, message);
       } else {
+        console.log('Removed main menu');
         menu.remove();
         document.body.style.all = "unset";
         displayGameBoard();

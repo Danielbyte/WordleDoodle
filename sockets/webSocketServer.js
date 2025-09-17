@@ -19,27 +19,24 @@ export default function handleSocketEvent(io, socket) {
       console.error(`Failed to parse payload: ${e}`);
       return;
     }
-
+    
+    let message;
     switch (data.type) {
       case 'join':
         //User is joining a room
         if (roomCodeValidAndRoomInvalid(data.roomcode)) {
-          let message = 'Room not found! please try again';
+          message = 'Room not found! please try again';
           callback({success: false, message})
           return;
         }
         if (isRoomFull(data.roomcode)) {
-          socket.emit('response', JSON.stringify({
-            code: 403,
-            payload: 'Room is already full'
-          }));
+          message = 'Sorry! Room is already full';
+          callback({success: false, message});
           return;
         }
         if (userNameExists(data.username, data.roomcode)) {
-          socket.emit('response', JSON.stringify({
-            code: 403,
-            payload: 'Username is not unique, please use another one.'
-          }));
+          message = 'Username is not unique, please use another one';
+          callback({success: false, message});
           return;
         }
 
@@ -58,7 +55,9 @@ export default function handleSocketEvent(io, socket) {
           position: `${getSocketPosition(data.username)}`,
           username: data.username
         }));
-        //broadCastEvent(data.roomcode, data.type, `@${data.username} has joined`, io);
+        
+        message = 'Joined in successfully';
+        callback({success: true, message});
         break;
 
       //User is creating a room
