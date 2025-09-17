@@ -29,6 +29,7 @@ document.getElementById('js-login-button').addEventListener('click', async () =>
   const password = document.getElementById('js-password').value.trim();
 
   validateEmail();
+  validatePassword();
 
   if (!formFieldsValid) return;
 
@@ -94,6 +95,33 @@ const validateEmail = () => {
   }
 
   resetError(email, errorMessageCard);
+}
+
+function validatePassword() {
+  const password = document.getElementById('js-password');
+  const errMesgContainer = document.getElementById('js-password-error-card');
+  const messageParagraph = document.getElementById('js-password-error-message');
+
+  if (!password.value.trim()) {
+    const message = 'Oops! Fill in password';
+    setError(password, errMesgContainer, messageParagraph, message);
+    return;
+  }
+
+  if ((password.value.trim()).length < 8) {
+    const message = 'Oops, password too short';
+    setError(password, errMesgContainer, messageParagraph, message);
+    return;
+  }
+
+  const hasUpperAndLowerCase = /[a-z]/.test(password.value.trim()) && /[A-Z]/.test(password.value.trim());
+  if (!hasUpperAndLowerCase) {
+    const message = 'Include upper and lowercase letters in password';
+    setError(password, errMesgContainer, messageParagraph, message);
+    return;
+  }
+  
+  resetError(password, errMesgContainer);
 }
 
 const setError = (fieldElement, messageContainer, messageParagraph, message) => {
