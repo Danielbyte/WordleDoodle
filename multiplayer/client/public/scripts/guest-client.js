@@ -96,7 +96,11 @@ function addJoinRoomButton() {
       isHost: false
     }), (response) => {
       if (!response.success) { //Check if this response was successful
-        console.log(response.message);
+        const roomcode = document.getElementById('room-code'); //Reference to the entered roomcode
+        const errMsgContainer = document.getElementById('js-roomcode-error-card');
+        const messageParagraph = document.getElementById('js-room-code-error-message');
+        const message = response.message;
+        setError(roomcode, errMsgContainer, messageParagraph, message);
       } else {
         menu.remove();
         document.body.style.all = "unset";

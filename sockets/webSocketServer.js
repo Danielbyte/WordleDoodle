@@ -24,7 +24,7 @@ export default function handleSocketEvent(io, socket) {
       case 'join':
         //User is joining a room
         if (roomCodeValidAndRoomInvalid(data.roomcode)) {
-          let message = 'Room not found, please try again';
+          let message = 'Room not found! please try again';
           callback({success: false, message})
           return;
         }
