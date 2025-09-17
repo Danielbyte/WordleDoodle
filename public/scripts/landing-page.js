@@ -1,4 +1,5 @@
 let animationPeriod = 0.03;
+let formFieldsValid;
 
 wrapTitleWithSpanTag();
 //Function wraps each of the title element (wordledoodle) into a span tag so that it can hav the jiggle animation when user hovers above
@@ -23,8 +24,14 @@ document.getElementById('js-register-button').addEventListener('click', () => {
 });
 
 document.getElementById('js-login-button').addEventListener('click', async() => {
-  const email = document.getElementById('js-email').value;
-  const password = document.getElementById('js-password').value;
+  formFieldsValid = true;
+  const email = document.getElementById('js-email').value.trim();
+  const password = document.getElementById('js-password').value.trim();
+
+  validateEmail();
+
+  if (!formFieldsValid) return;
+
   const response = await fetch('/api/v1/auth/login', {
     method: 'POST',
     headers: {
@@ -57,3 +64,34 @@ document.getElementById('js-login-button').addEventListener('click', async() => 
     console.error(err);
   }
 });
+
+const validateEmail = () => {
+  //Error message variables
+  const email = document.getElementById('js-email');
+  const errorMessageCard = document.getElementById('js-email-error-card');
+  const messageParagraph = document.getElementById('js-email-error-message');
+  
+  if (!email.value.trim()) {
+    const message = 'Hmm! Email is required';
+    setError(email, errorMessageCard, messageParagraph, message);
+    return;
+  }
+
+  resetError(email, errorMessageCard);
+}
+
+const setError = (fieldElement, messageContainer, messageParagraph, message) => {
+  const fieldElementError = fieldElement.nextElementSibling;
+  fieldElement.style.borderColor = '#FF0000';
+  fieldElementError.style.display = 'flex';
+  messageContainer.style.display = 'flex';
+  messageParagraph.innerText = message;
+  formFieldsValid = false;
+}
+
+const resetError = (fieldElement, messageContainer) => {
+  const fieldElementError = fieldElement.nextElementSibling;
+  fieldElementError.style.display = 'none';
+  messageContainer.style.display = 'none';
+  fieldElement.style.borderColor = '#4CAF50';
+}
