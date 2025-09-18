@@ -107,6 +107,7 @@ function addJoinRoomButton() {
     formFieldsValid = true;
 
     validateRoomCode();
+    validateUsername();
 
     if (!formFieldsValid) return;
 
@@ -134,6 +135,36 @@ function addJoinRoomButton() {
 
   //Append button to main menu container
   document.querySelector('.guest-main-menu-container').appendChild(joinRoomButton);
+}
+
+const validateUsername = () => {
+  const username = document.getElementById('username');
+  const errMsgContainer = document.getElementById('js-username-error-card');
+  const messageParagraph = document.getElementById('js-username-error-message');
+
+  // Can only contain letters, numbers and the two special characters above
+  if (!username.value.trim()) {
+    const message = 'Oops! Fill in username';
+    setError(username, errMsgContainer, messageParagraph, message);
+    return;
+  }
+
+  //Regex to check if username only contains letters, numbers and _, - characters
+  const usernameRegex = /^[A-Za-z0-9_-]+$/;
+  if (!usernameRegex.test(username.value.trim())) {
+    const message = 'Woah! no special characters';
+    setError(username, errMsgContainer, messageParagraph, message);
+    return;
+  }
+
+  //Username cannot start with special characters
+  if ((username.value.trim()).startsWith('-') || (username.value.trim()).startsWith('_')) {
+    const message = 'Username cannot start with _ or -';
+    setError(username, errMsgContainer, messageParagraph, message);
+    return;
+  }
+
+  resetError(username, errMsgContainer);
 }
 
 function validateRoomCode() {
