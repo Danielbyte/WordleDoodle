@@ -11,6 +11,7 @@ let isGameOver = false;
 //const alertContainer = document.querySelector('[data-alert-container]');
 const FLIP_ANIMATION_DURATION = 500;
 let maxOpponents = 3;
+let formFieldsValid;
 
 displayGuestMainMenu();
 
@@ -21,6 +22,10 @@ function displayGuestMainMenu() {
 }
 
 function addRoomCodeTextField() {
+  //Create input field container
+  let inputField = document.createElement('div');
+  inputField.classList.add('input-field');
+
   let menuContainer = document.querySelector('.guest-main-menu-container');
   let roomCodeTextField = document.createElement('input');
   roomCodeTextField.type = 'text';
@@ -29,10 +34,34 @@ function addRoomCodeTextField() {
   roomCodeTextField.classList.add('room-code');
   roomCodeTextField.classList.add()
   roomCodeTextField.placeholder = 'Enter Room Code';
-  menuContainer.appendChild(roomCodeTextField);
+
+  inputField.appendChild(roomCodeTextField);
+
+  //Error message container
+  let errorContainer = document.createElement('div');
+  errorContainer.classList.add('error-message');
+  errorContainer.id = 'js-roomcode-error-card';
+  //Append the turtle image
+  let turtleImg = document.createElement('img');
+  turtleImg.src = '/cdn/images/tortoise.png';
+  turtleImg.loading = 'lazy';
+  errorContainer.appendChild(turtleImg);
+  //Append the error message paragraph to hold the actual message
+  let errorMsgParagraph = document.createElement('p');
+  errorMsgParagraph.id = 'js-room-code-error-message';
+  errorContainer.appendChild(errorMsgParagraph);
+
+  //Append the error message container to input field
+  inputField.appendChild(errorContainer);
+
+  menuContainer.appendChild(inputField);
 }
 
 function addUserNameTextField() {
+  //Create input field container
+  let inputField = document.createElement('div');
+  inputField.classList.add('input-field');
+
   let menuContainer = document.querySelector('.guest-main-menu-container');
   let userNameTextField = document.createElement('input');
   userNameTextField.type = 'text';
@@ -40,7 +69,26 @@ function addUserNameTextField() {
   userNameTextField.id = 'username';
   userNameTextField.classList.add('username');
   userNameTextField.placeholder = 'Enter your Username';
-  menuContainer.appendChild(userNameTextField);
+  inputField.appendChild(userNameTextField);
+
+  //Error message container
+  let errorContainer = document.createElement('div');
+  errorContainer.classList.add('error-message');
+  errorContainer.id = 'js-username-error-card';
+  //Append turtle image
+  let turtleImg = document.createElement('img');
+  turtleImg.src = '/cdn/images/tortoise.png';
+  turtleImg.loading = 'lazy';
+  errorContainer.appendChild(turtleImg);
+  //Append error message paragraph
+  const errorMsgParagraph = document.createElement('p');
+  errorMsgParagraph.id = 'js-username-error-message';
+  errorContainer.appendChild(errorMsgParagraph);
+
+  //Append the error message container to the input filed
+  inputField.appendChild(errorContainer);
+
+  menuContainer.appendChild(inputField);
 }
 
 function addJoinRoomButton() {
@@ -56,6 +104,13 @@ function addJoinRoomButton() {
     //Get guest username
     username = document.getElementById('username').value;
 
+    formFieldsValid = true;
+
+    validateRoomCode();
+    validateUsername();
+
+    if (!formFieldsValid) return;
+
     //guest joins room
     roomId = document.getElementById('room-code').value; //Reference to room code
     socket.emit('data', JSON.stringify({
@@ -65,7 +120,19 @@ function addJoinRoomButton() {
       isHost: false
     }), (response) => {
       if (!response.success) { //Check if this response was successful
-        console.log(response.message);
+        const message = response.message;
+
+        if (message.toLowerCase().startsWith('username')) { //Checks if error response pertains the username
+          const roomcode = document.getElementById('username'); //Reference to the entered roomcode
+          const errMsgContainer = document.getElementById('js-username-error-card');
+          const messageParagraph = document.getElementById('js-username-error-message');
+          setError(roomcode, errMsgContainer, messageParagraph, message);
+          return;
+        }
+        const roomcode = document.getElementById('room-code'); //Reference to the entered roomcode
+        const errMsgContainer = document.getElementById('js-roomcode-error-card');
+        const messageParagraph = document.getElementById('js-room-code-error-message');
+        setError(roomcode, errMsgContainer, messageParagraph, message);
       } else {
         menu.remove();
         document.body.style.all = "unset";
@@ -76,6 +143,79 @@ function addJoinRoomButton() {
 
   //Append button to main menu container
   document.querySelector('.guest-main-menu-container').appendChild(joinRoomButton);
+}
+
+const validateUsername = () => {
+  const username = document.getElementById('username');
+  const errMsgContainer = document.getElementById('js-username-error-card');
+  const messageParagraph = document.getElementById('js-username-error-message');
+
+  // Can only contain letters, numbers and the two special characters above
+  if (!username.value.trim()) {
+    const message = 'Oops! Fill in username';
+    setError(username, errMsgContainer, messageParagraph, message);
+    return;
+  }
+
+  //Regex to check if username only contains letters, numbers and _, - characters
+  const usernameRegex = /^[A-Za-z0-9_-]+$/;
+  if (!usernameRegex.test(username.value.trim())) {
+    const message = 'Woah! no special characters';
+    setError(username, errMsgContainer, messageParagraph, message);
+    return;
+  }
+
+  //Username cannot start with special characters
+  if ((username.value.trim()).startsWith('-') || (username.value.trim()).startsWith('_')) {
+    const message = 'Username cannot start with _ or -';
+    setError(username, errMsgContainer, messageParagraph, message);
+    return;
+  }
+
+  resetError(username, errMsgContainer);
+}
+
+function validateRoomCode() {
+  const roomcode = document.getElementById('room-code'); //Reference to the entered roomcode
+  const errMsgContainer = document.getElementById('js-roomcode-error-card');
+  const messageParagraph = document.getElementById('js-room-code-error-message');
+
+  //Field cannot be empty
+  if (!roomcode.value.trim()) {
+    const message = 'Oops! Please provide room code';
+    setError(roomcode, errMsgContainer, messageParagraph, message);
+    return;
+  }
+
+  if ((roomcode.value.trim()).length < 10) { //the roomcode is 10 chars
+    const message = 'I\'ve got your back! Room code too short';
+    setError(roomcode, errMsgContainer, messageParagraph, message);
+    return;
+  }
+
+  if ((roomcode.value.trim()).length > 10) { //the roomcode is 10 chars
+    const message = 'I\'ve got your back! Room code too long';
+    setError(roomcode, errMsgContainer, messageParagraph, message);
+    return;
+  }
+
+  resetError(roomcode, errMsgContainer);
+}
+
+const setError = (fieldElement, messageContainer, messageParagraph, message) => {
+  const fieldElementError = fieldElement.nextElementSibling;
+  fieldElement.style.borderColor = '#FF0000';
+  fieldElementError.style.display = 'flex';
+  messageContainer.style.display = 'flex';
+  messageParagraph.innerText = message;
+  formFieldsValid = false;
+}
+
+const resetError = (fieldElement, messageContainer) => {
+  const fieldElementError = fieldElement.nextElementSibling;
+  fieldElementError.style.display = 'none';
+  messageContainer.style.display = 'none';
+  fieldElement.style.borderColor = '#4CAF50';
 }
 
 //Game board
