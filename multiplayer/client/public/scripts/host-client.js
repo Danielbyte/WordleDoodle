@@ -92,6 +92,8 @@ function getTileColumn(row, tileIndex) {
 }
 
 function initialiseBoard() {
+  let hostBoard = document.querySelector('.main-board');
+  hostBoard.style.gridRow = '1'; //The host board should have one row (for the host to set word and start game)
   loadGameBoardContainer();
   
   try {
