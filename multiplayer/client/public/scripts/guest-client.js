@@ -22,7 +22,7 @@ function displayGuestMainMenu() {
 }
 
 function addRoomCodeTextField() {
-  //Create input filed container
+  //Create input field container
   let inputField = document.createElement('div');
   inputField.classList.add('input-field');
 
@@ -58,6 +58,10 @@ function addRoomCodeTextField() {
 }
 
 function addUserNameTextField() {
+  //Create input field container
+  let inputField = document.createElement('div');
+  inputField.classList.add('input-field');
+
   let menuContainer = document.querySelector('.guest-main-menu-container');
   let userNameTextField = document.createElement('input');
   userNameTextField.type = 'text';
@@ -65,7 +69,26 @@ function addUserNameTextField() {
   userNameTextField.id = 'username';
   userNameTextField.classList.add('username');
   userNameTextField.placeholder = 'Enter your Username';
-  menuContainer.appendChild(userNameTextField);
+  inputField.appendChild(userNameTextField);
+
+  //Error message container
+  let errorContainer = document.createElement('div');
+  errorContainer.classList.add('error-message');
+  errorContainer.id = 'js-username-error-card';
+  //Append turtle image
+  let turtleImg = document.createElement('img');
+  turtleImg.src = '/cdn/images/tortoise.png';
+  turtleImg.loading = 'lazy';
+  errorContainer.appendChild(turtleImg);
+  //Append error message paragraph
+  const errorMsgParagraph = document.createElement('p');
+  errorMsgParagraph.id = 'js-username-error-message';
+  errorContainer.appendChild(errorMsgParagraph);
+
+  //Append the error message container to the input filed
+  inputField.appendChild(errorContainer);
+
+  menuContainer.appendChild(inputField);
 }
 
 function addJoinRoomButton() {
@@ -95,7 +118,6 @@ function addJoinRoomButton() {
       username: username,
       isHost: false
     }), (response) => {
-      
       if (!response.success) { //Check if this response was successful
         const roomcode = document.getElementById('room-code'); //Reference to the entered roomcode
         const errMsgContainer = document.getElementById('js-roomcode-error-card');
@@ -103,7 +125,6 @@ function addJoinRoomButton() {
         const message = response.message;
         setError(roomcode, errMsgContainer, messageParagraph, message);
       } else {
-        console.log('Removed main menu');
         menu.remove();
         document.body.style.all = "unset";
         displayGameBoard();
