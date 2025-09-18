@@ -35,7 +35,7 @@ export default function handleSocketEvent(io, socket) {
           return;
         }
         if (userNameExists(data.username, data.roomcode)) {
-          message = 'Username is not unique, please use another one';
+          message = 'Username already taken';
           callback({success: false, message});
           return;
         }

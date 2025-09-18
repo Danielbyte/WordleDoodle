@@ -120,10 +120,18 @@ function addJoinRoomButton() {
       isHost: false
     }), (response) => {
       if (!response.success) { //Check if this response was successful
+        const message = response.message;
+
+        if (message.toLowerCase().startsWith('username')) { //Checks if error response pertains the username
+          const roomcode = document.getElementById('username'); //Reference to the entered roomcode
+          const errMsgContainer = document.getElementById('js-username-error-card');
+          const messageParagraph = document.getElementById('js-username-error-message');
+          setError(roomcode, errMsgContainer, messageParagraph, message);
+          return;
+        }
         const roomcode = document.getElementById('room-code'); //Reference to the entered roomcode
         const errMsgContainer = document.getElementById('js-roomcode-error-card');
         const messageParagraph = document.getElementById('js-room-code-error-message');
-        const message = response.message;
         setError(roomcode, errMsgContainer, messageParagraph, message);
       } else {
         menu.remove();
