@@ -7,7 +7,7 @@
 
 .main-board {
   background-color: #0e0f11;
-  grid-row: 1 / span 2; /*The main board should span the entire two rows*/
+  grid-row: 1; /*/ span 2; /*The main board should span the entire two rows*/
   border: 1px solid black;
   display: flex;
   align-items: center;
@@ -38,7 +38,7 @@
 }
 
 .board1 , .board2,
-.board3, .board4 {
+.board3, .board4, .chat {
   border: 1px solid black;
   display: flex;
   align-items: center;

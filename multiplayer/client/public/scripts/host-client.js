@@ -124,6 +124,10 @@ function loadGameBoardContainer() {
   board2.classList.add('board2');
   gameBoardContainer.appendChild(board2);
 
+  let chat = document.createElement('div');
+  chat.classList.add('chat');
+  gameBoardContainer.appendChild(chat);
+
   let board3 = document.createElement('div');
   board3.classList.add('board3');
   gameBoardContainer.appendChild(board3);
