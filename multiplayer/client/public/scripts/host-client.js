@@ -127,7 +127,7 @@ function loadGameBoardContainer() {
   gameBoardContainer.appendChild(board2);
 
   let chat = document.createElement('div');
-  chat.classList.add('chat');
+  chat.classList.add('chat-section');
   gameBoardContainer.appendChild(chat);
 
   let board3 = document.createElement('div');

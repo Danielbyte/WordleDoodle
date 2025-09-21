@@ -59,3 +59,10 @@
   box-shadow: 0 3px 2px rgba(76, 175, 80, 0.2);
   color: #dfc89a;
 }
+
+.chat-background-image {
+}
+
+.chat-section {
+  background: url('/cdn/images/chat-background.png')
+}

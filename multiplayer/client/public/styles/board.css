@@ -113,7 +113,7 @@ header{
 }
 
 #keyboard-container{
-  height: 200px;
+  /*height: 200px;*/
 }
 .keyboard-row{
   display: flex;
