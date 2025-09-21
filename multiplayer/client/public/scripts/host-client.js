@@ -204,11 +204,10 @@ function createWordOfTheDayTextField() {
   let wordOfTheDayTextField = document.createElement('input');
   wordOfTheDayTextField.id = 'word-of-the-day';
   wordOfTheDayTextField.name = 'word-of-the-day';
+  wordOfTheDayTextField.classList.add('word-of-the-day-input');
   wordOfTheDayTextField.placeholder = 'Set word';
   hostBoardContainer.appendChild(wordOfTheDayTextField);
 
-  hostBoardContainer.appendChild(document.createElement('br'));
-  hostBoardContainer.appendChild(document.createElement('br'));
   hostBoard.appendChild(hostBoardContainer);
 }
 
