@@ -1,15 +1,33 @@
+.word-input-section {
+  display: flex; /*By default, divs are block*/
+  flex-direction: row;
+  flex: 1;
+  align-items: center;
+  max-width: 700px;
+}
+
 .word-of-the-day-input {
   margin-bottom: 1rem;
   font-family: 'Fredoka One', cursive;
   font-size: 30px;
   text-align: center;
-  color: rgb(237, 237, 237);
+  color: hsl(49, 51%, 47%);
   border-width: 1px;
   text-align: center;
   border-radius: 50px;
   border-color: #4f4e4e;
   background-color: transparent;
-  flex: 1;
   border-style: solid;
   cursor: text;
+  flex: 1;
+  height: 40px;
+}
+
+.word-section-turtle {
+  width: 41px;
+  height: 41px;
+  border-radius: 50px;
+  position: relative;
+  margin-left: -42px;
+  margin-top: -16px;
 }

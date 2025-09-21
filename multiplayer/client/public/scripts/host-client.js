@@ -200,13 +200,24 @@ function createWordOfTheDayTextField() {
   let hostBoardContainer = document.createElement('div');
   hostBoardContainer.classList.add('host-board-container');
 
+ //Create input section div
+ const wordSection = document.createElement('div');
+ wordSection.classList.add('word-input-section');
 
   let wordOfTheDayTextField = document.createElement('input');
   wordOfTheDayTextField.id = 'word-of-the-day';
   wordOfTheDayTextField.name = 'word-of-the-day';
   wordOfTheDayTextField.classList.add('word-of-the-day-input');
   wordOfTheDayTextField.placeholder = 'Set word';
-  hostBoardContainer.appendChild(wordOfTheDayTextField);
+  wordSection.appendChild(wordOfTheDayTextField);
+
+  //Add turtle image
+  let turtleImage = document.createElement('img');
+  turtleImage.src = '/cdn/images/tortoise.png';
+  turtleImage.classList.add('word-section-turtle');
+  wordSection.appendChild(turtleImage);
+
+  hostBoardContainer.appendChild(wordSection);
 
   hostBoard.appendChild(hostBoardContainer);
 }
