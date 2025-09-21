@@ -29,17 +29,6 @@ body {
     grid-row: 1 /span 1;
   }
 }
-/*
-@media (min-width: 1001px) and (max-width: 1500px) {
-  .game-board-container {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: repeat(5, 500px);
-  }
-
-  .main-board {
-    grid-row: 1 / span 1;
-  }
-}*/
 
 .board1 , .board2,
 .board3, .board4, .chat {
