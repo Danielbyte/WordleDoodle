@@ -5,7 +5,7 @@ body {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  height: 98vh; /*Board should occupy 98% the full page*/
+  height: 100vh; /*Board should occupy 98% the full page*/
 }
 
 .main-board {
@@ -18,7 +18,7 @@ body {
 }
 
 /**/
-@media (min-width: 0px) and (max-width: 1000px) {
+@media (min-width: 0px) and (max-width: 999px) {
   .game-board-container {
     grid-template-columns: 1fr;
     grid-template-rows: repeat(5, 700px);
@@ -28,7 +28,7 @@ body {
     grid-row: 1 /span 1;
   }
 }
-
+/*
 @media (min-width: 1001px) and (max-width: 1500px) {
   .game-board-container {
     grid-template-columns: 1fr 1fr;
@@ -38,7 +38,7 @@ body {
   .main-board {
     grid-row: 1 / span 1;
   }
-}
+}*/
 
 .board1 , .board2,
 .board3, .board4, .chat {
@@ -98,7 +98,7 @@ header{
   display: grid;
   grid-template-columns: repeat(5, 1fr); /*Create 5 equal width columns*/
   grid-gap: 5px;
-  padding: 10px;
+  padding: 10px 10px 10px 10px;
   box-sizing: border-box;
 }
 
@@ -107,8 +107,8 @@ header{
 .tile2, .tile3,
 .tile4{
   border: .05em solid rgb(58, 58, 60);
-  min-width: 60px;
-  min-height: 60px;
+  min-width: 50px;
+  min-height: 50px;
   font-size: 35px;
   font-weight: bold;
   color: gainsboro;
