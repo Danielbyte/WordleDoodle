@@ -135,7 +135,8 @@ function addJoinRoomButton() {
         setError(roomcode, errMsgContainer, messageParagraph, message);
       } else {
         menu.remove();
-        document.body.style.all = "unset";
+        document.body.style.all = 'unset';
+        document.body.style.backgroundColor = '#0e0f11';
         displayGameBoard();
       }
     });

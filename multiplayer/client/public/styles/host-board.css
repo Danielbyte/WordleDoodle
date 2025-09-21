@@ -1,0 +1,61 @@
+.word-input-section {
+  display: flex; /*By default, divs are block*/
+  flex-direction: row;
+  flex: 1;
+  align-items: center;
+  max-width: 700px;
+}
+
+.word-of-the-day-input {
+  margin-bottom: 1rem;
+  font-family: 'Fredoka One', cursive;
+  font-size: 30px;
+  text-align: center;
+  color: hsl(49, 51%, 47%);
+  border-width: 2px;
+  text-align: center;
+  border-radius: 50px;
+  border-color: #4f4e4e;
+  background-color: transparent;
+  border-style: solid;
+  cursor: text;
+  flex: 1;
+  height: 40px;
+  text-transform: uppercase;
+}
+
+.word-of-the-day-input:focus {
+  border-color: hsl(115, 29%, 43%);
+  box-shadow: 0 3px 2px rgba(76, 175, 80, 0.2);
+  outline: none;
+}
+
+.word-section-turtle {
+  width: 41px;
+  height: 41px;
+  border-radius: 50px;
+  position: relative;
+  margin-left: -43px;
+  margin-top: -16px;
+}
+
+.start-game-button {
+  display: block;
+  padding: 0.9rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 15px;
+  font-family: 'Fredoka One', cursive;
+  transition: all 0.2s ease-in-out;
+  background: #4CAF50;
+  color: #FDD835;
+}
+
+.start-game-button:hover {
+  background:#4CAF48;
+  transform: scale(1.02);
+  box-shadow: 0 3px 2px rgba(76, 175, 80, 0.2);
+  color: #dfc89a;
+}

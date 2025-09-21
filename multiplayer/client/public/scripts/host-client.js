@@ -92,6 +92,8 @@ function getTileColumn(row, tileIndex) {
 }
 
 function initialiseBoard() {
+  let hostBoard = document.querySelector('.main-board');
+  hostBoard.style.gridRow = '1'; //The host board should have one row (for the host to set word and start game)
   loadGameBoardContainer();
   
   try {
@@ -123,6 +125,10 @@ function loadGameBoardContainer() {
   let board2 = document.createElement('div');
   board2.classList.add('board2');
   gameBoardContainer.appendChild(board2);
+
+  let chat = document.createElement('div');
+  chat.classList.add('chat');
+  gameBoardContainer.appendChild(chat);
 
   let board3 = document.createElement('div');
   board3.classList.add('board3');
@@ -194,15 +200,25 @@ function createWordOfTheDayTextField() {
   let hostBoardContainer = document.createElement('div');
   hostBoardContainer.classList.add('host-board-container');
 
+ //Create input section div
+ const wordSection = document.createElement('div');
+ wordSection.classList.add('word-input-section');
 
   let wordOfTheDayTextField = document.createElement('input');
   wordOfTheDayTextField.id = 'word-of-the-day';
   wordOfTheDayTextField.name = 'word-of-the-day';
+  wordOfTheDayTextField.classList.add('word-of-the-day-input');
   wordOfTheDayTextField.placeholder = 'Set word';
-  hostBoardContainer.appendChild(wordOfTheDayTextField);
+  wordSection.appendChild(wordOfTheDayTextField);
 
-  hostBoardContainer.appendChild(document.createElement('br'));
-  hostBoardContainer.appendChild(document.createElement('br'));
+  //Add turtle image
+  let turtleImage = document.createElement('img');
+  turtleImage.src = '/cdn/images/tortoise.png';
+  turtleImage.classList.add('word-section-turtle');
+  wordSection.appendChild(turtleImage);
+
+  hostBoardContainer.appendChild(wordSection);
+
   hostBoard.appendChild(hostBoardContainer);
 }
 
@@ -212,6 +228,7 @@ function createStartGameButton() {
 
   let startGameButton = document.createElement('button');
   startGameButton.id = 'btn-start-game';
+  startGameButton.classList.add('start-game-button');
   startGameButton.innerText = 'Start Game';
 
   startGameButton.addEventListener('click', () => {
