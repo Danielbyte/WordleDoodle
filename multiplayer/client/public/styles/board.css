@@ -116,6 +116,7 @@ header{
   text-transform: uppercase;
 
   display: flex;
+  flex: 1;
   justify-content: center;
   align-items: center;
   user-select: none;
