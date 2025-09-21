@@ -38,3 +38,24 @@
   margin-left: -43px;
   margin-top: -16px;
 }
+
+.start-game-button {
+  display: block;
+  padding: 0.9rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 15px;
+  font-family: 'Fredoka One', cursive;
+  transition: all 0.2s ease-in-out;
+  background: #4CAF50;
+  color: #FDD835;
+}
+
+.start-game-button:hover {
+  background:#4CAF48;
+  transform: scale(1.02);
+  box-shadow: 0 3px 2px rgba(76, 175, 80, 0.2);
+  color: white;
+}

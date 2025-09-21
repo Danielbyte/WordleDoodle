@@ -228,6 +228,7 @@ function createStartGameButton() {
 
   let startGameButton = document.createElement('button');
   startGameButton.id = 'btn-start-game';
+  startGameButton.classList.add('start-game-button');
   startGameButton.innerText = 'Start Game';
 
   startGameButton.addEventListener('click', () => {
