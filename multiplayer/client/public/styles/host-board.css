@@ -1,4 +1,15 @@
 .word-of-the-day-input {
   margin-bottom: 1rem;
-  width: 100%;
+  font-family: 'Fredoka One', cursive;
+  font-size: 30px;
+  text-align: center;
+  color: rgb(237, 237, 237);
+  border-width: 1px;
+  text-align: center;
+  border-radius: 50px;
+  border-color: #4f4e4e;
+  background-color: transparent;
+  flex: 1;
+  border-style: solid;
+  cursor: text;
 }
