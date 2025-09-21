@@ -45,6 +45,10 @@ body {
   flex-direction: column;
 }
 
+.chat {
+  background: url('/cdn/images/chat-background.png');
+}
+
 #container{
   display: flex;
   background-color: black;

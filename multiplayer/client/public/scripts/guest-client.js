@@ -241,11 +241,15 @@ function displayGameBoard() {
 
 function addOpponentBoardClasses(gameBoardContainer) {
   let board;
-  for (let i = 1; i <= (maxOpponents + 1); i++) { //Add one to include chats field
+  for (let i = 1; i <= maxOpponents; i++) { //Add one to include chats field
     board = document.createElement('div');
     board.classList.add(`board${i}`);
     gameBoardContainer.appendChild(board);
   }
+
+  let chatSection = document.createElement('div');
+  chatSection.classList.add('chat');
+  gameBoardContainer.appendChild(chatSection);
 }
 
 function configureOpponentBoards() {
