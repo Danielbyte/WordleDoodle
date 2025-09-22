@@ -357,6 +357,7 @@ socket.on('message', (payload) => {
 
     case 'start_game':
       //Sync guest boards at the start of game
+      console.log('Game started');
       startInteraction();
       break;
 

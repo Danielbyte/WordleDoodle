@@ -95,7 +95,7 @@ function initialiseBoard() {
   let hostBoard = document.querySelector('.main-board');
   hostBoard.style.gridRow = '1'; //The host board should have one row (for the host to set word and start game)
   loadGameBoardContainer();
-  
+
   try {
     fetch('/multiplayer/username', {
       method: 'GET',
@@ -141,6 +141,46 @@ function loadGameBoardContainer() {
   document.body.appendChild(gameBoardContainer);
   createGuestBoards();
   configureGuestBoards();
+  configureChat();
+}
+
+function configureChat() {
+  addChatHeading();
+  addChatBubbles();
+}
+
+function addChatBubbles() {
+  const chat = document.querySelector('.chat-section');
+  
+  const messageField = document.createElement('div');
+  messageField.classList.add('message-field');
+
+  //Unordered list to hold chats
+  const messageContainer = document.createElement('ul');
+  messageContainer.classList.add('message-container');
+  messageContainer.id = 'message-id';
+  messageField.appendChild(messageContainer);
+
+  chat.appendChild(messageField);
+}
+
+function addChatHeading() {
+  const chat = document.querySelector('.chat-section');
+
+  const heading = document.createElement('div');
+  heading.classList.add('heading');
+
+  const turtleImage = document.createElement('img');
+  turtleImage.src = '/cdn/images/tortoise.png';
+  turtleImage.classList.add('chat-turtle');
+  heading.appendChild(turtleImage);
+
+  const title = document.createElement('p');
+  title.classList.add('chat-title');
+  title.innerText = 'Chat';
+  heading.appendChild(title);
+
+  chat.appendChild(heading);
 }
 
 function createGuestBoards() {
@@ -200,9 +240,9 @@ function createWordOfTheDayTextField() {
   let hostBoardContainer = document.createElement('div');
   hostBoardContainer.classList.add('host-board-container');
 
- //Create input section div
- const wordSection = document.createElement('div');
- wordSection.classList.add('word-input-section');
+  //Create input section div
+  const wordSection = document.createElement('div');
+  wordSection.classList.add('word-input-section');
 
   let wordOfTheDayTextField = document.createElement('input');
   wordOfTheDayTextField.id = 'word-of-the-day';

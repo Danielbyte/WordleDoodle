@@ -31,7 +31,8 @@ body {
 }
 
 .board1 , .board2,
-.board3, .board4, .chat {
+.board3, .board4, 
+.chat, .chat-section {
   border: 1px solid #4f4e4e;
   display: flex;
   align-items: center;
