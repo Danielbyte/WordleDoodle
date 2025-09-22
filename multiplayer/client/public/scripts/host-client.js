@@ -158,7 +158,21 @@ function addChatBubbles() {
   //Unordered list to hold chats
   const messageContainer = document.createElement('ul');
   messageContainer.classList.add('message-container');
-  messageContainer.id = 'message-id';
+  messageContainer.id = 'message-container';
+
+  //Test buble to style chat bubbles
+  const leftMsgBubble = document.createElement('li');
+  leftMsgBubble.classList.add('left-bubble');
+  const messageParagraph = document.createElement('p');
+  messageParagraph.classList.add('message-paragraph');
+  messageParagraph.innerText = 'Test message from host';
+
+  const messageInfo = document.createElement('span');
+  messageInfo.classList.add('message-info');
+  messageInfo.innerText = '@Dan | 40 secs ago';
+  messageParagraph.appendChild(messageInfo);
+
+  messageContainer.appendChild(messageParagraph);
   messageField.appendChild(messageContainer);
 
   chat.appendChild(messageField);
