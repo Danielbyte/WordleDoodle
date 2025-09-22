@@ -236,7 +236,47 @@ function displayGameBoard() {
   createGuestBoards();
   configureBoard('board', 'tile');
   configureOpponentBoards();
+  configureChat();
   addKeyBoard();
+}
+
+function configureChat() {
+  addChatHeading();
+  addChatBubbles();
+}
+
+function addChatBubbles() {
+  const chat = document.querySelector('.chat-section');
+  
+  const messageField = document.createElement('div');
+  messageField.classList.add('message-field');
+
+  //Unordered list to hold chats
+  const messageContainer = document.createElement('ul');
+  messageContainer.classList.add('message-container');
+  messageContainer.id = 'message-id';
+  messageField.appendChild(messageContainer);
+
+  chat.appendChild(messageField);
+}
+
+function addChatHeading() {
+  const chat = document.querySelector('.chat-section');
+
+  const heading = document.createElement('div');
+  heading.classList.add('heading');
+
+  const turtleImage = document.createElement('img');
+  turtleImage.src = '/cdn/images/tortoise.png';
+  turtleImage.classList.add('chat-turtle');
+  heading.appendChild(turtleImage);
+
+  const title = document.createElement('p');
+  title.classList.add('chat-title');
+  title.innerText = 'Chat';
+  heading.appendChild(title);
+
+  chat.appendChild(heading);
 }
 
 function addOpponentBoardClasses(gameBoardContainer) {
@@ -248,7 +288,7 @@ function addOpponentBoardClasses(gameBoardContainer) {
   }
 
   let chatSection = document.createElement('div');
-  chatSection.classList.add('chat');
+  chatSection.classList.add('chat-section');
   gameBoardContainer.appendChild(chatSection);
 }
 
