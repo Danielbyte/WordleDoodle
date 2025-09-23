@@ -163,18 +163,32 @@ function addChatBubbles() {
   //Test buble to style chat bubbles
   const leftMsgBubble = document.createElement('li');
   leftMsgBubble.classList.add('left-bubble');
-  const messageParagraph = document.createElement('p');
+  let messageParagraph = document.createElement('p');
   messageParagraph.classList.add('message-paragraph');
   messageParagraph.innerText = 'Test message from host';
 
-  const messageInfo = document.createElement('span');
+  let messageInfo = document.createElement('span');
+  messageInfo.classList.add('message-info');
+  messageInfo.innerText = '@Danny | 40 secs ago';
+  messageParagraph.appendChild(messageInfo);
+  leftMsgBubble.appendChild(messageParagraph);
+  messageContainer.appendChild(leftMsgBubble);
+  messageContainer.appendChild(leftMsgBubble);
+
+  const rightMsgBubble = document.createElement('li');
+  rightMsgBubble.classList.add('right-bubble');
+  messageParagraph = document.createElement('p');
+  messageParagraph.classList.add('message-paragraph');
+  messageParagraph.innerText = 'Test message from guest';
+
+  messageInfo = document.createElement('span');
   messageInfo.classList.add('message-info');
   messageInfo.innerText = '@Dan | 40 secs ago';
   messageParagraph.appendChild(messageInfo);
+  rightMsgBubble.appendChild(messageParagraph);
+  messageContainer.appendChild(rightMsgBubble);
 
-  messageContainer.appendChild(messageParagraph);
   messageField.appendChild(messageContainer);
-
   chat.appendChild(messageField);
 }
 

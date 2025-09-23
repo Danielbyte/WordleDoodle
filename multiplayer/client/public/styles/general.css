@@ -43,7 +43,35 @@
   height: 30px;
 }
 
+.message-field {
+  display: flex;
+  width: 100%;
+  height: 80%;
+}
+
 .message-container {
   display: flex;
-  
+  flex-direction: column;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+}
+
+.left-bubble {
+  list-style: none;
+  word-wrap: break-word;
+  background: green;
+  padding: 8px 12px;
+  align-self: flex-start;
+  margin-top: 10px;
+}
+
+.right-bubble {
+  list-style: none;
+  word-wrap: break-word;
+  background: grey;
+  align-self: flex-end;
+  margin-top: 10px;
 }
