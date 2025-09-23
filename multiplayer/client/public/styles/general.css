@@ -59,19 +59,29 @@
   padding: 10px;
 }
 
-.left-bubble {
-  list-style: none;
-  word-wrap: break-word;
-  background: green;
-  padding: 8px 12px;
-  align-self: flex-start;
-  margin-top: 10px;
-}
-
+.left-bubble, 
 .right-bubble {
   list-style: none;
   word-wrap: break-word;
+  padding-left: 10px;
+  margin-top: 10px;
+  border-radius: 15px;
+  max-width: 70%;
+}
+
+.message-paragraph {
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 0.75em;
+  font-family: 'Fredoka One', cursive;
+}
+
+.left-bubble {
+  background: green;
+  align-self: flex-start;
+}
+
+.right-bubble {
   background: grey;
   align-self: flex-end;
-  margin-top: 10px;
 }
