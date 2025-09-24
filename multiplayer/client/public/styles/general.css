@@ -67,6 +67,7 @@
   margin-top: 10px;
   border-radius: 15px;
   max-width: 70%;
+  opacity: 0.8;
 }
 
 .message-paragraph {
@@ -77,11 +78,11 @@
 }
 
 .left-bubble {
-  background: green;
+  background: hsl(115, 29%, 43%);
   align-self: flex-start;
 }
 
 .right-bubble {
-  background: grey;
+  background: hsl(49, 51%, 47%);
   align-self: flex-end;
 }
