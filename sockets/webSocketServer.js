@@ -19,24 +19,24 @@ export default function handleSocketEvent(io, socket) {
       console.error(`Failed to parse payload: ${e}`);
       return;
     }
-    
+
     let message;
     switch (data.type) {
       case 'join':
         //User is joining a room
         if (roomCodeValidAndRoomInvalid(data.roomcode)) {
           message = 'Room not found! please try again';
-          callback({success: false, message})
+          callback({ success: false, message })
           return;
         }
         if (isRoomFull(data.roomcode)) {
           message = 'Sorry! Room is already full';
-          callback({success: false, message});
+          callback({ success: false, message });
           return;
         }
         if (userNameExists(data.username, data.roomcode)) {
           message = 'Username already taken';
-          callback({success: false, message});
+          callback({ success: false, message });
           return;
         }
 
@@ -55,9 +55,9 @@ export default function handleSocketEvent(io, socket) {
           position: `${getSocketPosition(data.username)}`,
           username: data.username
         }));
-        
+
         message = 'Joined in successfully';
-        callback({success: true, message});
+        callback({ success: true, message });
         break;
 
       //User is creating a room
