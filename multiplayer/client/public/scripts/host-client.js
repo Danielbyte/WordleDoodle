@@ -146,10 +146,37 @@ function loadGameBoardContainer() {
 
 function configureChat() {
   addChatHeading();
-  addChatBubbles();
+  addChatField();
+  addInputField();
 }
 
-function addChatBubbles() {
+function addInputField() {
+  const chat = document.querySelector('.chat-section');
+
+  const messageInputSection = document.createElement('div');
+  messageInputSection.classList.add('message-input-section');
+  messageInputSection.id = 'message-input-section';
+
+  const inputField = document.createElement('input');
+  inputField.type = 'text';
+  inputField.id = 'message-input';
+  inputField.classList.add('chat-message-input');
+  messageInputSection.appendChild(inputField);
+
+  const divider = document.createElement('div');
+  divider.classList.add('vertical-divider');
+  messageInputSection.appendChild(divider);
+
+  const sendButton = document.createElement('button');
+  sendButton.id = 'send-message-btn';
+  sendButton.classList.add('send-message-btn');
+  sendButton.innerText = 'send';
+  messageInputSection.appendChild(sendButton);
+
+  chat.appendChild(messageInputSection);
+}
+
+function addChatField() {
   const chat = document.querySelector('.chat-section');
   
   const messageField = document.createElement('div');
@@ -160,14 +187,15 @@ function addChatBubbles() {
   messageContainer.classList.add('message-container');
   messageContainer.id = 'message-container';
 
-  //Test buble to style chat bubbles
+  //Test bubble to style chat bubbles
+  //host message model
   const leftMsgBubble = document.createElement('li');
   leftMsgBubble.classList.add('left-bubble');
   let messageParagraph = document.createElement('p');
   messageParagraph.classList.add('message-paragraph');
-  messageParagraph.innerText = 'Test message from host';
+  messageParagraph.innerText = 'Test message from host. The bahavior of this should be tested with some random input text. That is what we are doing here. It will be removed for the final product.';
 
- const dot = '\u00B7';
+  const dot = '\u00B7';
   let messageInfo = document.createElement('span');
   messageInfo.classList.add('message-info');
   messageInfo.innerText = `@Danny ${dot} 40 secs ago`;
@@ -175,6 +203,7 @@ function addChatBubbles() {
   leftMsgBubble.appendChild(messageParagraph);
   messageContainer.appendChild(leftMsgBubble);
   messageContainer.appendChild(leftMsgBubble);
+  //host message model ends
 
   const rightMsgBubble = document.createElement('li');
   rightMsgBubble.classList.add('right-bubble');
@@ -188,6 +217,7 @@ function addChatBubbles() {
   messageParagraph.appendChild(messageInfo);
   rightMsgBubble.appendChild(messageParagraph);
   messageContainer.appendChild(rightMsgBubble);
+  //End of test messages
 
   messageField.appendChild(messageContainer);
   chat.appendChild(messageField);
