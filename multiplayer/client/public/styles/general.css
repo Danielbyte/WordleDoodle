@@ -88,6 +88,7 @@
   background: linear-gradient(135deg,hsl(49, 51%, 47%) 0%, hsl(49, 51%, 47%) 50%, transparent 50%, transparent);
 }
 
+/*The bubble effect*/
 .left-bubble .message-paragraph::before {
   content: '';
   position: absolute;
@@ -108,6 +109,7 @@
   align-self: flex-end;
 }
 
+/*Info about sender of chat message and timestamp*/
 .message-info {
   display: block;
   margin-top: 5px;
@@ -116,6 +118,8 @@
   text-align: right;
 }
 
+/*Div for absolute placement of the field where user can enter message.
+Absolute to place this input field right at the bottom*/
 .message-input-section {
   display: flex;
   position: absolute;
@@ -126,6 +130,7 @@
   flex: 1;
 }
 
+/*Paragraph tag that holds the actual chat message*/
 .chat-message-input {
   font-family: 'Fredoka One', cursive;
   font-size: 0.9em;
@@ -140,6 +145,7 @@
   opacity: 0.8;
 }
 
+/*Animate the message field when user clicks on it*/
 .chat-message-input:focus {
   outline: none;
   animation: expand-in-and-out 0.5s ease-in-out;
@@ -150,6 +156,8 @@
   50% {transform: scaleX(1.01);}
 }
 
+/*This container holds the section where user can enter their message to send.
+The difference is that it is has relative to allow the filed to have an absolute placement*/
 .rel-message-input-section {
   display: flex;
   flex: 1;
@@ -158,6 +166,7 @@
   align-items: center;
 }
 
+/*Send message button*/
 .send-message-btn {
   position: absolute;
   height: 33px;
@@ -172,12 +181,13 @@
   transition: all 0.2s ease-in-out;
 }
 
+/*The green icon with white arrow*/
 .send-msg-icon {
   height: 33px;
   width: 33px;
-  
 }
 
+/*Animate the send message button on hover*/
 .send-message-btn:hover,
 .send-msg-icon:hover {
  transition: all 0.2s ease-in-out;
