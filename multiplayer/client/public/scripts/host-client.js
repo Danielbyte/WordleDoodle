@@ -42,7 +42,7 @@ socket.on('message', (payload) => {
       break;
 
     case 'chat_message':
-      addMessageToChatUI('right-bubble', data.chat); //Should be right bubble (yellow)
+      addMessageToChatUI('right-bubble', data.chat, data.username); //Should be right bubble (yellow)
       break;
   }
 });
@@ -201,19 +201,19 @@ function addSendMessageButtonEventListener() {
     if(!message) return; //If there is no message enetered, return (No need to send message)
 
     const bubbleClass = 'left-bubble';
-    addMessageToChatUI(bubbleClass, message);
+    addMessageToChatUI(bubbleClass, message, username);
     messageInputField.value = ''; //Clear the message field
     broadcastMessageToRoom(message);
   });
 }
 
-function addMessageToChatUI(bubbleClass, message) {
+function addMessageToChatUI(bubbleClass, message, userName) {
   const messageContainer = document.getElementById('message-container');
 
   const messageBubble = `<li class = "${bubbleClass}">
                           <p class = "message-paragraph">
                             ${message}
-                            <span class = "message-info">@${username}</span>
+                            <span class = "message-info">@${userName}</span>
                           </p>
                         </li>`;
 

@@ -72,7 +72,8 @@ export default function handleSocketEvent(io, socket) {
         socket.emit('message', JSON.stringify({
           type: 'roomcode',
           code: 202,
-          roomId: roomcode
+          roomId: roomcode,
+          username: data.username
         }));
 
         //Add created room in rooms and add host to the room
