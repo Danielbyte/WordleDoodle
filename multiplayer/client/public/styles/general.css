@@ -46,15 +46,15 @@
 .message-field {
   display: flex;
   width: 100%;
-  height: 60%;
+  height: 300px;
 }
 
 .message-container {
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
-  height: calc(100% - 15px);
+  height: 85%;
   width: 100%;
   padding: 10px;
 }
