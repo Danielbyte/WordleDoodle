@@ -1,6 +1,7 @@
 //This client file will be served by Express server (app.js)
 const socket = io();
 let username = '';
+let roomcode = '';
 let maxOpponents = 4;
 const maxWordLength = 5; //Max word is 5 (Player guesses a five letter word)
 
@@ -34,6 +35,14 @@ socket.on('message', (payload) => {
     case 'board_broadcast':
       guestPositionInRoom = data.position - 1;
       updateGuestBoardStates(guestPositionInRoom, data.placements, data.row);
+      break;
+
+    case 'roomcode':
+      roomcode = data.roomId;
+      break;
+
+    case 'chat_message':
+      addMessageToChatUI('right-bubble', data.chat); //Should be right bubble (yellow)
       break;
   }
 });
@@ -192,12 +201,13 @@ function addSendMessageButtonEventListener() {
     if(!message) return; //If there is no message enetered, return (No need to send message)
 
     const bubbleClass = 'left-bubble';
-    sendMessage(bubbleClass, message);
+    addMessageToChatUI(bubbleClass, message);
     messageInputField.value = ''; //Clear the message field
+    broadcastMessageToRoom(message);
   });
 }
 
-function sendMessage(bubbleClass, message) {
+function addMessageToChatUI(bubbleClass, message) {
   const messageContainer = document.getElementById('message-container');
 
   const messageBubble = `<li class = "${bubbleClass}">
@@ -208,6 +218,16 @@ function sendMessage(bubbleClass, message) {
                         </li>`;
 
   messageContainer.innerHTML += messageBubble;
+}
+
+function broadcastMessageToRoom(message) {
+  console.log(`This is the roomcode: ${roomcode}`)
+  socket.emit('data', JSON.stringify({
+    type: 'chat_message',
+    username: username,
+    chatMessage: message,
+    roomcode: roomcode
+  }));
 }
 
 function addChatField() {

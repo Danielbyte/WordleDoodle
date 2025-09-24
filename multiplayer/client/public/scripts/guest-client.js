@@ -288,12 +288,12 @@ function addSendMessageButtonEventListener() {
     if(!message) return; //If there is no message enetered, return (No need to send message)
 
     const bubbleClass = 'left-bubble';
-    sendMessage(bubbleClass, message);
+    addMessageToChatUI(bubbleClass, message);
     messageInputField.value = ''; //Clear the message field
   });
 }
 
-function sendMessage(bubbleClass, message) {
+function addMessageToChatUI(bubbleClass, message) {
   const messageContainer = document.getElementById('message-container');
 
   const messageBubble = `<li class = "${bubbleClass}">
@@ -476,6 +476,10 @@ socket.on('message', (payload) => {
     case 'board_broadcast':
       guestPositionInRoom = getGuestPositionInRoom(data.position);
       updateGuestBoardStates(guestPositionInRoom, data.placements, data.row);
+      break;
+
+      case 'chat_message':
+      addMessageToChatUI('right-bubble', data.chat); //Should be right bubble (yellow)
       break;
   }
 });

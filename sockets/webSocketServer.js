@@ -148,6 +148,14 @@ export default function handleSocketEvent(io, socket) {
         }))
         break;
 
+      case 'chat_message':
+        socket.to(data.roomcode).emit('message', JSON.stringify({
+          type: 'chat_message',
+          username: data.username,
+          chat: data.chatMessage
+        }))
+        break;
+
       //unknown case / not implemented
       default:
         socket.emit('response', JSON.stringify({
