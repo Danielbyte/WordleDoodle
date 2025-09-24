@@ -157,22 +157,28 @@ function addInputField() {
   messageInputSection.classList.add('message-input-section');
   messageInputSection.id = 'message-input-section';
 
+  const relMessageSection = document.createElement('div');
+  relMessageSection.classList.add('rel-message-input-section');
+  relMessageSection.id = 'rel-message-input-section';
+
   const inputField = document.createElement('input');
   inputField.type = 'text';
   inputField.id = 'message-input';
   inputField.placeholder = 'Send message';
   inputField.classList.add('chat-message-input');
-  messageInputSection.appendChild(inputField);
-
-  const divider = document.createElement('div');
-  divider.classList.add('vertical-divider');
-  messageInputSection.appendChild(divider);
+  relMessageSection.appendChild(inputField);
+  messageInputSection.appendChild(relMessageSection);
 
   const sendButton = document.createElement('button');
   sendButton.id = 'send-message-btn';
   sendButton.classList.add('send-message-btn');
-  sendButton.innerText = 'send';
-  messageInputSection.appendChild(sendButton);
+  
+  const sendMsgIcon = document.createElement('img');
+  sendMsgIcon.src = '/cdn/images/send-msg.png'
+  sendMsgIcon.classList.add('send-msg-icon');
+  sendButton.appendChild(sendMsgIcon);
+  relMessageSection.appendChild(sendButton);
+  messageInputSection.appendChild(relMessageSection);
 
   chat.appendChild(messageInputSection);
 }
