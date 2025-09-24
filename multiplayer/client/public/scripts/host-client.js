@@ -160,6 +160,7 @@ function addInputField() {
   const inputField = document.createElement('input');
   inputField.type = 'text';
   inputField.id = 'message-input';
+  inputField.placeholder = 'Send message';
   inputField.classList.add('chat-message-input');
   messageInputSection.appendChild(inputField);
 

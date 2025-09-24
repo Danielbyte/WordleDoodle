@@ -115,3 +115,22 @@
   font-size: 0.72em;
   text-align: right;
 }
+
+.message-input-section {
+  display: flex;
+  position: absolute;
+  bottom: 10px;
+  left: 5px;
+  flex: 1;
+  width: calc(100% - 25px)
+}
+
+.chat-message-input {
+  width: calc(100% - 60px);
+  font-family: 'Fredoka One', cursive;
+  font-size: 0.9em;
+  padding-left: 10px;
+  height: 25px;
+  border: none;
+  border-radius: 12.5px;
+}
