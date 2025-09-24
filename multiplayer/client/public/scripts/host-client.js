@@ -181,6 +181,33 @@ function addInputField() {
   messageInputSection.appendChild(relMessageSection);
 
   chat.appendChild(messageInputSection);
+  addSendMessageButtonEventListener();
+}
+
+function addSendMessageButtonEventListener() {
+  document.getElementById('send-message-btn').addEventListener('click', () => {
+    let messageInputField = document.getElementById('message-input'); 
+    const message = messageInputField.value;
+
+    if(!message) return; //If there is no message enetered, return (No need to send message)
+
+    const bubbleClass = 'left-bubble';
+    sendMessage(bubbleClass, message);
+    messageInputField.value = ''; //Clear the message field
+  });
+}
+
+function sendMessage(bubbleClass, message) {
+  const messageContainer = document.getElementById('message-container');
+
+  const messageBubble = `<li class = "${bubbleClass}">
+                          <p class = "message-paragraph">
+                            ${message}
+                            <span class = "message-info">@${username}</span>
+                          </p>
+                        </li>`;
+
+  messageContainer.innerHTML += messageBubble;
 }
 
 function addChatField() {
