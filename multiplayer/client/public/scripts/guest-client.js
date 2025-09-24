@@ -242,10 +242,71 @@ function displayGameBoard() {
 
 function configureChat() {
   addChatHeading();
-  addChatBubbles();
+  addChatField();
+  addInputField();
 }
 
-function addChatBubbles() {
+function addInputField() {
+  const chat = document.querySelector('.chat-section');
+
+  const messageInputSection = document.createElement('div');
+  messageInputSection.classList.add('message-input-section');
+  messageInputSection.id = 'message-input-section';
+
+  const relMessageSection = document.createElement('div');
+  relMessageSection.classList.add('rel-message-input-section');
+  relMessageSection.id = 'rel-message-input-section';
+
+  const inputField = document.createElement('input');
+  inputField.type = 'text';
+  inputField.id = 'message-input';
+  inputField.placeholder = 'Send message';
+  inputField.classList.add('chat-message-input');
+  relMessageSection.appendChild(inputField);
+  messageInputSection.appendChild(relMessageSection);
+
+  const sendButton = document.createElement('button');
+  sendButton.id = 'send-message-btn';
+  sendButton.classList.add('send-message-btn');
+  
+  const sendMsgIcon = document.createElement('img');
+  sendMsgIcon.src = '/cdn/images/send-msg.png'
+  sendMsgIcon.classList.add('send-msg-icon');
+  sendButton.appendChild(sendMsgIcon);
+  relMessageSection.appendChild(sendButton);
+  messageInputSection.appendChild(relMessageSection);
+
+  chat.appendChild(messageInputSection);
+  addSendMessageButtonEventListener();
+}
+
+function addSendMessageButtonEventListener() {
+  document.getElementById('send-message-btn').addEventListener('click', () => {
+    let messageInputField = document.getElementById('message-input'); 
+    const message = messageInputField.value;
+
+    if(!message) return; //If there is no message enetered, return (No need to send message)
+
+    const bubbleClass = 'left-bubble';
+    sendMessage(bubbleClass, message);
+    messageInputField.value = ''; //Clear the message field
+  });
+}
+
+function sendMessage(bubbleClass, message) {
+  const messageContainer = document.getElementById('message-container');
+
+  const messageBubble = `<li class = "${bubbleClass}">
+                          <p class = "message-paragraph">
+                            ${message}
+                            <span class = "message-info">@${username}</span>
+                          </p>
+                        </li>`;
+
+  messageContainer.innerHTML += messageBubble;
+}
+
+function addChatField() {
   const chat = document.querySelector('.chat-section');
   
   const messageField = document.createElement('div');
@@ -254,9 +315,9 @@ function addChatBubbles() {
   //Unordered list to hold chats
   const messageContainer = document.createElement('ul');
   messageContainer.classList.add('message-container');
-  messageContainer.id = 'message-id';
-  messageField.appendChild(messageContainer);
+  messageContainer.id = 'message-container';
 
+  messageField.appendChild(messageContainer);
   chat.appendChild(messageField);
 }
 
