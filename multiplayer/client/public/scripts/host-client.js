@@ -167,9 +167,10 @@ function addChatBubbles() {
   messageParagraph.classList.add('message-paragraph');
   messageParagraph.innerText = 'Test message from host';
 
+ const dot = '\u00B7';
   let messageInfo = document.createElement('span');
   messageInfo.classList.add('message-info');
-  messageInfo.innerText = '@Danny | 40 secs ago';
+  messageInfo.innerText = `@Danny ${dot} 40 secs ago`;
   messageParagraph.appendChild(messageInfo);
   leftMsgBubble.appendChild(messageParagraph);
   messageContainer.appendChild(leftMsgBubble);
@@ -183,7 +184,7 @@ function addChatBubbles() {
 
   messageInfo = document.createElement('span');
   messageInfo.classList.add('message-info');
-  messageInfo.innerText = '@Dan | 40 secs ago';
+  messageInfo.innerText = `@Dan ${dot} 40 secs ago`;
   messageParagraph.appendChild(messageInfo);
   rightMsgBubble.appendChild(messageParagraph);
   messageContainer.appendChild(rightMsgBubble);
