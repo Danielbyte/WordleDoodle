@@ -8,6 +8,8 @@ let currentSquareIndex = 0;
 const maxWordLength = 5; //Max word is 5 (Player guesses a five letter word)
 let isWin = false;
 let isGameOver = false;
+let gameStarted = false;
+let isTyping = false;
 //const alertContainer = document.querySelector('[data-alert-container]');
 const FLIP_ANIMATION_DURATION = 500;
 let maxOpponents = 3;
@@ -278,6 +280,19 @@ function addInputField() {
 
   chat.appendChild(messageInputSection);
   addSendMessageButtonEventListener();
+  addMessageFieldEventListener();
+}
+
+function addMessageFieldEventListener() {
+  document.getElementById('message-input').addEventListener('input', () => {
+    isTyping = true;
+    stopInteraction();
+  });
+
+    document.getElementById('message-input').addEventListener('click', () => {
+    isTyping = true;
+    stopInteraction();
+  });
 }
 
 function addSendMessageButtonEventListener() {
@@ -375,6 +390,13 @@ function createGuestBoards() {
   for (let i = 1; i <= maxOpponents; i++) {
     createBoard(`board${i}`, `board-${i}`);
   }
+
+  document.querySelector('.main-board').addEventListener('click', () => {
+    if (gameStarted) {
+      startInteraction();
+      isTyping = false;
+    }
+  })
 }
 
 function createBoard(configBoard, configBoardId) {
@@ -468,7 +490,7 @@ socket.on('message', (payload) => {
 
     case 'start_game':
       //Sync guest boards at the start of game
-      console.log('Game started');
+      gameStarted = true;
       startInteraction();
       break;
 
@@ -597,8 +619,14 @@ function startInteraction() {
   document.addEventListener('click', keyClickEventHandler);
 }
 
+function stopInteraction() {
+  document.removeEventListener('keydown', handleKeyPress);
+  document.removeEventListener('click', keyClickEventHandler);
+}
+
 function handleKeyPress(e) {
-  if (isGameOver || isWin) return;
+  if (isGameOver || isWin || !gameStarted) return;
+
   switch (e.key) {
     case 'Enter':
       submitGuess();
@@ -617,6 +645,7 @@ function handleKeyPress(e) {
 
 function updateGuessedWord(letter) {
   //Iterate through each square block of the game board and assign letter to corresponding board square
+  if (isTyping) return;
   guessedword = '';
   let squares = document.querySelectorAll('.tile');
   for (let i = 0; i < squares.length; i++) {
