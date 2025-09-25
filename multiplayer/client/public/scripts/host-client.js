@@ -358,7 +358,8 @@ function createStartGameButton() {
       type: 'start_game',
       username: username,
       isHost: true,
-      word: _word
+      word: _word,
+      roomcode: roomcode
     }));
   });
 

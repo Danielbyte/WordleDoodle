@@ -85,7 +85,7 @@ export default function handleSocketEvent(io, socket) {
 
       //Host starts the game, sync game boards for all users in this room
       case 'start_game':
-        roomcode = getRooomCode(data.username);
+        roomcode = data.roomcode;
         //Check for conditions if game can be started
         //Probably need to check if word is 5 letters, valid, etc..
         if (canStartGame(roomcode, data.isHost)) {
