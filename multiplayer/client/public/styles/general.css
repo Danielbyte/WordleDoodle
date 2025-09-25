@@ -1,0 +1,200 @@
+.chat-section {
+  background: url('/cdn/images/chat-background.png');
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.chat-title {
+  font-family: 'Fredoka One', cursive;
+  color: black;
+  font-size: 15px;
+  padding-left: 80px;
+}
+
+.heading {
+  background: #dcdedf;
+  opacity: 0.65;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  position: absolute;
+  top: 5px;
+  width: 250px;
+  height: 30px;
+  border-radius: 25px;
+  cursor: none;
+}
+
+.heading:hover {
+  animation: grow-and-shrink 0.5s ease-in-out;
+}
+
+@keyframes grow-and-shrink {
+  0%, 100% {transform: scaleX(1);}
+  50% {transform: scaleX(1.04);}
+}
+
+.chat-turtle {
+  border-radius: 25px 0 0 25px;
+  width: 30px;
+  height: 30px;
+}
+
+.message-field {
+  display: flex;
+  width: 100%;
+  height: 300px;
+}
+
+.message-container {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 85%;
+  width: 100%;
+  padding: 10px;
+}
+
+.left-bubble, 
+.right-bubble {
+  list-style: none;
+  word-wrap: break-word;
+  padding-left: 10px;
+  margin-top: 10px;
+  border-radius: 15px;
+  max-width: 70%;
+  opacity: 0.8;
+}
+
+.message-paragraph {
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 0.75em;
+  font-family: 'Fredoka One', cursive;
+  position: relative;
+}
+
+.right-bubble .message-paragraph::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  right: -4px;
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(135deg,hsl(49, 51%, 47%) 0%, hsl(49, 51%, 47%) 50%, transparent 50%, transparent);
+}
+
+/*The bubble effect*/
+.left-bubble .message-paragraph::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  right: -4px;
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(135deg,hsl(115, 29%, 43%) 0%, hsl(115, 29%, 43%) 50%, transparent 50%, transparent);
+}
+
+.left-bubble {
+  background: hsl(115, 29%, 43%);
+  align-self: flex-start;
+}
+
+.right-bubble {
+  background: hsl(49, 51%, 47%);
+  align-self: flex-end;
+}
+
+/*Info about sender of chat message and timestamp*/
+.message-info {
+  display: block;
+  margin-top: 5px;
+  opacity: 0.5;
+  font-size: 0.72em;
+  text-align: right;
+}
+
+/*Div for absolute placement of the field where user can enter message.
+Absolute to place this input field right at the bottom*/
+.message-input-section {
+  display: flex;
+  position: absolute;
+  bottom: 10px;
+  left: 5px;
+  flex: 1;
+  width: calc(100% - 10px);
+  flex: 1;
+}
+
+/*Paragraph tag that holds the actual chat message*/
+.chat-message-input {
+  font-family: 'Fredoka One', cursive;
+  font-size: 0.9em;
+  padding-left: 10px;
+  padding-right: 43px;
+  height: 35px;
+  border: none;
+  border-radius: 50px;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  opacity: 0.8;
+}
+
+/*Animate the message field when user clicks on it*/
+.chat-message-input:focus {
+  outline: none;
+  animation: expand-in-and-out 0.5s ease-in-out;
+}
+
+@keyframes expand-in-and-out {
+  0%, 100% {transform: scaleX(1);}
+  50% {transform: scaleX(1.01);}
+}
+
+/*This container holds the section where user can enter their message to send.
+The difference is that it is has relative to allow the filed to have an absolute placement*/
+.rel-message-input-section {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  position: relative;
+  align-items: center;
+}
+
+/*Send message button*/
+.send-message-btn {
+  position: absolute;
+  height: 33px;
+  width: 33px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  right: 2px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+/*The green icon with white arrow*/
+.send-msg-icon {
+  height: 33px;
+  width: 33px;
+}
+
+/*Animate the send message button on hover*/
+.send-message-btn:hover,
+.send-msg-icon:hover {
+ transition: all 0.2s ease-in-out;
+ animation: scale-send-message-button 0.5s ease-in-out;
+}
+
+@keyframes scale-send-message-button {
+  0%, 100% {transform: scale(1);}
+  50% {transform: scale(1.04);}
+}

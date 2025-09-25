@@ -8,6 +8,8 @@ let currentSquareIndex = 0;
 const maxWordLength = 5; //Max word is 5 (Player guesses a five letter word)
 let isWin = false;
 let isGameOver = false;
+let gameStarted = false;
+let isTyping = false;
 //const alertContainer = document.querySelector('[data-alert-container]');
 const FLIP_ANIMATION_DURATION = 500;
 let maxOpponents = 3;
@@ -236,16 +238,150 @@ function displayGameBoard() {
   createGuestBoards();
   configureBoard('board', 'tile');
   configureOpponentBoards();
+  configureChat();
   addKeyBoard();
+}
+
+function configureChat() {
+  addChatHeading();
+  addChatField();
+  addInputField();
+}
+
+function addInputField() {
+  const chat = document.querySelector('.chat-section');
+
+  const messageInputSection = document.createElement('div');
+  messageInputSection.classList.add('message-input-section');
+  messageInputSection.id = 'message-input-section';
+
+  const relMessageSection = document.createElement('div');
+  relMessageSection.classList.add('rel-message-input-section');
+  relMessageSection.id = 'rel-message-input-section';
+
+  const inputField = document.createElement('input');
+  inputField.type = 'text';
+  inputField.id = 'message-input';
+  inputField.placeholder = 'Send message';
+  inputField.classList.add('chat-message-input');
+  relMessageSection.appendChild(inputField);
+  messageInputSection.appendChild(relMessageSection);
+
+  const sendButton = document.createElement('button');
+  sendButton.id = 'send-message-btn';
+  sendButton.classList.add('send-message-btn');
+
+  const sendMsgIcon = document.createElement('img');
+  sendMsgIcon.src = '/cdn/images/send-msg.png'
+  sendMsgIcon.classList.add('send-msg-icon');
+  sendButton.appendChild(sendMsgIcon);
+  relMessageSection.appendChild(sendButton);
+  messageInputSection.appendChild(relMessageSection);
+
+  chat.appendChild(messageInputSection);
+  addSendMessageButtonEventListener();
+  addMessageFieldEventListener();
+}
+
+function addMessageFieldEventListener() {
+  document.getElementById('message-input').addEventListener('input', () => {
+    isTyping = true;
+    stopInteraction();
+  });
+
+  document.getElementById('message-input').addEventListener('click', () => {
+    isTyping = true;
+    stopInteraction();
+  });
+}
+
+function addSendMessageButtonEventListener() {
+  document.getElementById('send-message-btn').addEventListener('click', () => {
+    let messageInputField = document.getElementById('message-input');
+    const message = messageInputField.value;
+
+    if (!message) return; //If there is no message enetered, return (No need to send message)
+
+    const bubbleClass = 'left-bubble';
+    addMessageToChatUI(bubbleClass, message, username);
+    messageInputField.value = ''; //Clear the message field
+    broadcastMessageToRoom(message);
+  });
+}
+
+function broadcastMessageToRoom(message) {
+  socket.emit('data', JSON.stringify({
+    type: 'chat_message',
+    username: username,
+    chatMessage: message,
+    roomcode: roomId
+  }));
+}
+
+function addMessageToChatUI(bubbleClass, message, userName) {
+  const messageContainer = document.getElementById('message-container');
+
+  const messageBubble = `<li class = "${bubbleClass}">
+                          <p class = "message-paragraph">
+                            ${message}
+                            <span class = "message-info">@${userName}</span>
+                          </p>
+                        </li>`;
+
+  messageContainer.innerHTML += messageBubble;
+  scrollToBottom();
+}
+
+function scrollToBottom() {
+  let msgField = document.getElementById('message-container');
+  msgField.scrollTo(0, msgField.scrollHeight);
+}
+
+function addChatField() {
+  const chat = document.querySelector('.chat-section');
+
+  const messageField = document.createElement('div');
+  messageField.classList.add('message-field');
+
+  //Unordered list to hold chats
+  const messageContainer = document.createElement('ul');
+  messageContainer.classList.add('message-container');
+  messageContainer.id = 'message-container';
+
+  messageField.appendChild(messageContainer);
+  chat.appendChild(messageField);
+}
+
+function addChatHeading() {
+  const chat = document.querySelector('.chat-section');
+
+  const heading = document.createElement('div');
+  heading.classList.add('heading');
+
+  const turtleImage = document.createElement('img');
+  turtleImage.src = '/cdn/images/tortoise.png';
+  turtleImage.classList.add('chat-turtle');
+  heading.appendChild(turtleImage);
+
+  const title = document.createElement('p');
+  title.classList.add('chat-title');
+  title.innerText = 'Chat';
+  heading.appendChild(title);
+
+  chat.appendChild(heading);
 }
 
 function addOpponentBoardClasses(gameBoardContainer) {
   let board;
-  for (let i = 1; i <= (maxOpponents + 1); i++) { //Add one to include chats field
+  for (let i = 1; i <= maxOpponents; i++) { //Add one to include chats field
     board = document.createElement('div');
     board.classList.add(`board${i}`);
     gameBoardContainer.appendChild(board);
   }
+
+  let chatSection = document.createElement('div');
+  chatSection.classList.add('chat-section');
+  gameBoardContainer.appendChild(chatSection);
 }
 
 function configureOpponentBoards() {
@@ -260,6 +396,13 @@ function createGuestBoards() {
   for (let i = 1; i <= maxOpponents; i++) {
     createBoard(`board${i}`, `board-${i}`);
   }
+
+  document.querySelector('.main-board').addEventListener('click', () => {
+    if (gameStarted) {
+      startInteraction();
+      isTyping = false;
+    }
+  })
 }
 
 function createBoard(configBoard, configBoardId) {
@@ -337,7 +480,6 @@ function addKeyBoard() {
 //Websocket server event listeners
 socket.on('message', (payload) => {
   let data = JSON.parse(payload);
-  console.log(data);
 
   let guestPositionInRoom;
   let userName;
@@ -353,6 +495,7 @@ socket.on('message', (payload) => {
 
     case 'start_game':
       //Sync guest boards at the start of game
+      gameStarted = true;
       startInteraction();
       break;
 
@@ -370,6 +513,10 @@ socket.on('message', (payload) => {
     case 'board_broadcast':
       guestPositionInRoom = getGuestPositionInRoom(data.position);
       updateGuestBoardStates(guestPositionInRoom, data.placements, data.row);
+      break;
+
+    case 'chat_message':
+      addMessageToChatUI('right-bubble', data.chat, data.username); //Should be right bubble (yellow)
       break;
   }
 });
@@ -477,8 +624,14 @@ function startInteraction() {
   document.addEventListener('click', keyClickEventHandler);
 }
 
+function stopInteraction() {
+  document.removeEventListener('keydown', handleKeyPress);
+  document.removeEventListener('click', keyClickEventHandler);
+}
+
 function handleKeyPress(e) {
-  if (isGameOver || isWin) return;
+  if (isGameOver || isWin || !gameStarted) return;
+
   switch (e.key) {
     case 'Enter':
       submitGuess();
@@ -497,6 +650,7 @@ function handleKeyPress(e) {
 
 function updateGuessedWord(letter) {
   //Iterate through each square block of the game board and assign letter to corresponding board square
+  if (isTyping) return;
   guessedword = '';
   let squares = document.querySelectorAll('.tile');
   for (let i = 0; i < squares.length; i++) {

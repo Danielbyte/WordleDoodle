@@ -31,7 +31,8 @@ body {
 }
 
 .board1 , .board2,
-.board3, .board4, .chat {
+.board3, .board4, 
+.chat, .chat-section {
   border: 1px solid #4f4e4e;
   display: flex;
   align-items: center;
@@ -43,6 +44,10 @@ body {
   display: flex;
   align-items: center;
   flex-direction: column;
+}
+
+.chat {
+  background: url('/cdn/images/chat-background.png');
 }
 
 #container{
@@ -113,7 +118,7 @@ header{
 }
 
 #keyboard-container{
-  height: 200px;
+  /*height: 200px;*/
 }
 .keyboard-row{
   display: flex;

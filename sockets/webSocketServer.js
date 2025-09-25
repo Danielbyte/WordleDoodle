@@ -19,24 +19,24 @@ export default function handleSocketEvent(io, socket) {
       console.error(`Failed to parse payload: ${e}`);
       return;
     }
-    
+
     let message;
     switch (data.type) {
       case 'join':
         //User is joining a room
         if (roomCodeValidAndRoomInvalid(data.roomcode)) {
           message = 'Room not found! please try again';
-          callback({success: false, message})
+          callback({ success: false, message })
           return;
         }
         if (isRoomFull(data.roomcode)) {
           message = 'Sorry! Room is already full';
-          callback({success: false, message});
+          callback({ success: false, message });
           return;
         }
         if (userNameExists(data.username, data.roomcode)) {
           message = 'Username already taken';
-          callback({success: false, message});
+          callback({ success: false, message });
           return;
         }
 
@@ -55,9 +55,9 @@ export default function handleSocketEvent(io, socket) {
           position: `${getSocketPosition(data.username)}`,
           username: data.username
         }));
-        
+
         message = 'Joined in successfully';
-        callback({success: true, message});
+        callback({ success: true, message });
         break;
 
       //User is creating a room
@@ -72,7 +72,8 @@ export default function handleSocketEvent(io, socket) {
         socket.emit('message', JSON.stringify({
           type: 'roomcode',
           code: 202,
-          roomId: roomcode
+          roomId: roomcode,
+          username: data.username
         }));
 
         //Add created room in rooms and add host to the room
@@ -84,7 +85,7 @@ export default function handleSocketEvent(io, socket) {
 
       //Host starts the game, sync game boards for all users in this room
       case 'start_game':
-        roomcode = getRooomCode(data.username);
+        roomcode = data.roomcode;
         //Check for conditions if game can be started
         //Probably need to check if word is 5 letters, valid, etc..
         if (canStartGame(roomcode, data.isHost)) {
@@ -145,6 +146,14 @@ export default function handleSocketEvent(io, socket) {
           placements: boardState,
           position: data.position,
           row: data.row
+        }))
+        break;
+
+      case 'chat_message':
+        socket.to(data.roomcode).emit('message', JSON.stringify({
+          type: 'chat_message',
+          username: data.username,
+          chat: data.chatMessage
         }))
         break;
 

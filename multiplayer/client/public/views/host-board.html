@@ -7,12 +7,190 @@
   <script src="/socket.io/socket.io.js" defer></script> <!--socket.io API-->
   <link rel="stylesheet" href="/cdn/styles/board.css">
   <link rel="stylesheet" href="/cdn/styles/host-board.css">
+  <link rel="stylesheet" href="/cdn/styles/general.css">
   <script src="/cdn/scripts/host-client.js" defer></script>
   <title>WordleDoodle</title>
 </head>
 <body>
   <div class="game-board-container">
-    <div class="main-board" id="main-board"></div>
+    <div class="main-board" id="main-board">
+      <div class="host-board-container">
+        <div class="word-input-section">
+          <input type="text" id="word-of-the-day" name="word-of-the-day" class="word-of-the-day-input" placeholder="Set word">
+          <img src="/cdn/images/tortoise.png" class="word-section-turtle">
+        </div>
+        <button id="btn-start-game" class="start-game-button">Start Game</button>
+      </div>
+    </div>
+    <div class="board1">
+      <div id="game">
+        <div id="board-container">
+          <div id="board-1">
+            <div class="tile1" data-index="1"></div>
+            <div class="tile1" data-index="2"></div>
+            <div class="tile1" data-index="3"></div>
+            <div class="tile1" data-index="4"></div>
+            <div class="tile1" data-index="5"></div>
+            <div class="tile1" data-index="6"></div>
+            <div class="tile1" data-index="7"></div>
+            <div class="tile1" data-index="8"></div>
+            <div class="tile1" data-index="9"></div>
+            <div class="tile1" data-index="10"></div>
+            <div class="tile1" data-index="11"></div>
+            <div class="tile1" data-index="12"></div>
+            <div class="tile1" data-index="13"></div>
+            <div class="tile1" data-index="14"></div>
+            <div class="tile1" data-index="15"></div>
+            <div class="tile1" data-index="16"></div>
+            <div class="tile1" data-index="17"></div>
+            <div class="tile1" data-index="18"></div>
+            <div class="tile1" data-index="19"></div>
+            <div class="tile1" data-index="20"></div>
+            <div class="tile1" data-index="21"></div>
+            <div class="tile1" data-index="22"></div>
+            <div class="tile1" data-index="23"></div>
+            <div class="tile1" data-index="24"></div>
+            <div class="tile1" data-index="25"></div>
+            <div class="tile1" data-index="26"></div>
+            <div class="tile1" data-index="27"></div>
+            <div class="tile1" data-index="28"></div>
+            <div class="tile1" data-index="29"></div>
+            <div class="tile1" data-index="30"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="board2">
+      <div id="game">
+        <div id="board-container">
+          <div id="board-2">
+            <div class="tile2" data-index="1"></div>
+            <div class="tile2" data-index="2"></div>
+            <div class="tile2" data-index="3"></div>
+            <div class="tile2" data-index="4"></div>
+            <div class="tile2" data-index="5"></div>
+            <div class="tile2" data-index="6"></div>
+            <div class="tile2" data-index="7"></div>
+            <div class="tile2" data-index="8"></div>
+            <div class="tile2" data-index="9"></div>
+            <div class="tile2" data-index="10"></div>
+            <div class="tile2" data-index="11"></div>
+            <div class="tile2" data-index="12"></div>
+            <div class="tile2" data-index="13"></div>
+            <div class="tile2" data-index="14"></div>
+            <div class="tile2" data-index="15"></div>
+            <div class="tile2" data-index="16"></div>
+            <div class="tile2" data-index="17"></div>
+            <div class="tile2" data-index="18"></div>
+            <div class="tile2" data-index="19"></div>
+            <div class="tile2" data-index="20"></div>
+            <div class="tile2" data-index="21"></div>
+            <div class="tile2" data-index="22"></div>
+            <div class="tile2" data-index="23"></div>
+            <div class="tile2" data-index="24"></div>
+            <div class="tile2" data-index="25"></div>
+            <div class="tile2" data-index="26"></div>
+            <div class="tile2" data-index="27"></div>
+            <div class="tile2" data-index="28"></div>
+            <div class="tile2" data-index="29"></div>
+            <div class="tile2" data-index="30"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="chat-section">
+      <div class="heading">
+        <img src="/cdn/images/tortoise.png" class="chat-turtle">
+        <p class="chat-title">Chat</p>
+      </div>
+      <div class="message-field">
+        <ul class="message-container" id="message-container"></ul>
+      </div>
+      <div class="message-input-section" id="message-input-section">
+        <div class="rel-message-input-section" id="rel-message-input-section">
+          <input type="text" id="message-input" placeholder="Send message" class="chat-message-input">
+          <button id="send-message-btn" class="send-message-btn">
+            <img src="/cdn/images/send-msg.png" alt="" class="send-msg-icon">
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="board3">
+      <div id="game">
+        <div id="board-container">
+          <div id="board-3">
+            <div class="tile3" data-index="1"></div>
+            <div class="tile3" data-index="2"></div>
+            <div class="tile3" data-index="3"></div>
+            <div class="tile3" data-index="4"></div>
+            <div class="tile3" data-index="5"></div>
+            <div class="tile3" data-index="6"></div>
+            <div class="tile3" data-index="7"></div>
+            <div class="tile3" data-index="8"></div>
+            <div class="tile3" data-index="9"></div>
+            <div class="tile3" data-index="10"></div>
+            <div class="tile3" data-index="11"></div>
+            <div class="tile3" data-index="12"></div>
+            <div class="tile3" data-index="13"></div>
+            <div class="tile3" data-index="14"></div>
+            <div class="tile3" data-index="15"></div>
+            <div class="tile3" data-index="16"></div>
+            <div class="tile3" data-index="17"></div>
+            <div class="tile3" data-index="18"></div>
+            <div class="tile3" data-index="19"></div>
+            <div class="tile3" data-index="20"></div>
+            <div class="tile3" data-index="21"></div>
+            <div class="tile3" data-index="22"></div>
+            <div class="tile3" data-index="23"></div>
+            <div class="tile3" data-index="24"></div>
+            <div class="tile3" data-index="25"></div>
+            <div class="tile3" data-index="26"></div>
+            <div class="tile3" data-index="27"></div>
+            <div class="tile3" data-index="28"></div>
+            <div class="tile3" data-index="29"></div>
+            <div class="tile3" data-index="30"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="board4">
+      <div id="game">
+        <div id="board-container">
+          <div id="board-4">
+            <div class="tile4" data-index="1"></div>
+            <div class="tile4" data-index="2"></div>
+            <div class="tile4" data-index="3"></div>
+            <div class="tile4" data-index="4"></div>
+            <div class="tile4" data-index="5"></div>
+            <div class="tile4" data-index="6"></div>
+            <div class="tile4" data-index="7"></div>
+            <div class="tile4" data-index="8"></div>
+            <div class="tile4" data-index="9"></div>
+            <div class="tile4" data-index="10"></div>
+            <div class="tile4" data-index="11"></div>
+            <div class="tile4" data-index="12"></div>
+            <div class="tile4" data-index="13"></div>
+            <div class="tile4" data-index="14"></div>
+            <div class="tile4" data-index="15"></div>
+            <div class="tile4" data-index="16"></div>
+            <div class="tile4" data-index="17"></div>
+            <div class="tile4" data-index="18"></div>
+            <div class="tile4" data-index="19"></div>
+            <div class="tile4" data-index="20"></div>
+            <div class="tile4" data-index="21"></div>
+            <div class="tile4" data-index="22"></div>
+            <div class="tile4" data-index="23"></div>
+            <div class="tile4" data-index="24"></div>
+            <div class="tile4" data-index="25"></div>
+            <div class="tile4" data-index="26"></div>
+            <div class="tile4" data-index="27"></div>
+            <div class="tile4" data-index="28"></div>
+            <div class="tile4" data-index="29"></div>
+            <div class="tile4" data-index="30"></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 </html>
