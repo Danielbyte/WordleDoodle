@@ -270,7 +270,7 @@ function addInputField() {
   const sendButton = document.createElement('button');
   sendButton.id = 'send-message-btn';
   sendButton.classList.add('send-message-btn');
-  
+
   const sendMsgIcon = document.createElement('img');
   sendMsgIcon.src = '/cdn/images/send-msg.png'
   sendMsgIcon.classList.add('send-msg-icon');
@@ -289,7 +289,7 @@ function addMessageFieldEventListener() {
     stopInteraction();
   });
 
-    document.getElementById('message-input').addEventListener('click', () => {
+  document.getElementById('message-input').addEventListener('click', () => {
     isTyping = true;
     stopInteraction();
   });
@@ -297,10 +297,10 @@ function addMessageFieldEventListener() {
 
 function addSendMessageButtonEventListener() {
   document.getElementById('send-message-btn').addEventListener('click', () => {
-    let messageInputField = document.getElementById('message-input'); 
+    let messageInputField = document.getElementById('message-input');
     const message = messageInputField.value;
 
-    if(!message) return; //If there is no message enetered, return (No need to send message)
+    if (!message) return; //If there is no message enetered, return (No need to send message)
 
     const bubbleClass = 'left-bubble';
     addMessageToChatUI(bubbleClass, message, username);
@@ -329,11 +329,17 @@ function addMessageToChatUI(bubbleClass, message, userName) {
                         </li>`;
 
   messageContainer.innerHTML += messageBubble;
+  scrollToBottom();
+}
+
+function scrollToBottom() {
+  let msgField = document.getElementById('message-container');
+  msgField.scrollTo(0, msgField.scrollHeight);
 }
 
 function addChatField() {
   const chat = document.querySelector('.chat-section');
-  
+
   const messageField = document.createElement('div');
   messageField.classList.add('message-field');
 
@@ -509,7 +515,7 @@ socket.on('message', (payload) => {
       updateGuestBoardStates(guestPositionInRoom, data.placements, data.row);
       break;
 
-      case 'chat_message':
+    case 'chat_message':
       addMessageToChatUI('right-bubble', data.chat, data.username); //Should be right bubble (yellow)
       break;
   }
