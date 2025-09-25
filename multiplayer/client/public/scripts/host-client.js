@@ -218,6 +218,12 @@ function addMessageToChatUI(bubbleClass, message, userName) {
                         </li>`;
 
   messageContainer.innerHTML += messageBubble;
+  scrollToBottom();
+}
+
+function scrollToBottom() {
+  let msgField = document.getElementById('message-container');
+  msgField.scrollTo(0, msgField.scrollHeight);
 }
 
 function broadcastMessageToRoom(message) {

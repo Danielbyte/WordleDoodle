@@ -474,7 +474,6 @@ function addKeyBoard() {
 //Websocket server event listeners
 socket.on('message', (payload) => {
   let data = JSON.parse(payload);
-  console.log(data);
 
   let guestPositionInRoom;
   let userName;
