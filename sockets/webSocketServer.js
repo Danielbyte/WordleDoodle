@@ -201,7 +201,7 @@ function isRoomFull(roomcode) {
 
 //Checks if username already exists in the room
 function userNameExists(username, roomcode) {
-  return rooms[roomcode].some(user => user.username === username);
+  return rooms[roomcode].some(user => user.username.toLowerCase() === username.toLowerCase());
 }
 
 function broadCastEvent(roomcode, type, payload, io) {

@@ -198,3 +198,21 @@ The difference is that it is has relative to allow the filed to have an absolute
   0%, 100% {transform: scale(1);}
   50% {transform: scale(1.04);}
 }
+
+/*congratulations card*/
+.congratulations-card {
+  position: relative;
+  z-index: 2;
+  background: white;
+  padding: 2rem 3rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  font-size: 1.5rem;
+  animation: pop 0.5s ease;
+}
+
+@keyframes pop {
+  from {transform: scale(0.8); opacity: 0;}
+  to {transform: scale(1); opacity: 1;}
+}
