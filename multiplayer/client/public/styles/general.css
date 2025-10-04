@@ -200,9 +200,12 @@ The difference is that it is has relative to allow the filed to have an absolute
 }
 
 /*congratulations card*/
-.congratulations-card {
-  position: relative;
+.victory-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
   z-index: 2;
+  transform: translate(-50%, -50%);
   background: white;
   padding: 2rem 3rem;
   border-radius: 20px;
@@ -213,6 +216,6 @@ The difference is that it is has relative to allow the filed to have an absolute
 }
 
 @keyframes pop {
-  from {transform: scale(0.8); opacity: 0;}
-  to {transform: scale(1); opacity: 1;}
+  from {transform: translate(-50%, -50%) scale(0.8); opacity: 0;}
+  to {transform: translate(-50%, -50%) scale(1); opacity: 1;}
 }

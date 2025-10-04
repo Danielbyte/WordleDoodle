@@ -1,5 +1,6 @@
 let rooms = {}; //Reference to all the rooms
 let maxRoomCapacity = 5; //maximum allowable people in room
+let wordLength = 5;
 
 export default function handleSocketEvent(io, socket) {
   console.log(`New socket connected: ${socket.id}`);
@@ -12,6 +13,8 @@ export default function handleSocketEvent(io, socket) {
     let placements = [];//Capture user placements
     let guess = '', roomWord = ''; //will hold user guess and set room word
     let boardState = ''; //The color coded board state of user (without the letters)
+    let correctPlacements = 0;
+    let isWin = false;
 
     try {
       data = JSON.parse(payload);
@@ -114,8 +117,10 @@ export default function handleSocketEvent(io, socket) {
         guess = data.guess.toUpperCase();
         roomWord = rooms[roomcode].word.toUpperCase();
         for (let index = 0; index < roomWord.length; index++) {
-          if (guess[index] === roomWord[index])
-            placements[index] = 'correct';
+          if (guess[index] === roomWord[index]) {
+             placements[index] = 'correct';
+             ++correctPlacements;
+          }
 
           else if (roomWord.includes(guess[index]))
             placements[index] = 'wrong-location';
@@ -124,10 +129,13 @@ export default function handleSocketEvent(io, socket) {
             placements[index] = 'wrong';
         }
 
+        if (correctPlacements === wordLength) isWin = true;
+
         //Send placements to client so that they may update their board state
         socket.emit('message', JSON.stringify({
           type: 'placement_verification',
-          placement: placements
+          placement: placements,
+          isWin: isWin
         }));
         break;
 

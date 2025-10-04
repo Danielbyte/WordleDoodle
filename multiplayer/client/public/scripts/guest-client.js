@@ -501,8 +501,13 @@ socket.on('message', (payload) => {
 
     case 'placement_verification':
       verifiedPlacements = data.placement;
+      isWin = data.isWin;
       updateStatesAndFlipTiles(verifiedPlacements);
       broadcastBoardState(verifiedPlacements);
+
+      if(isWin) {
+        displayVictoryCard();
+      }
 
       if (!isWin || !isGameOver)
         currentRow += 1;
@@ -761,4 +766,14 @@ function keyClickEventHandler() {
       }
     }
   }
+}
+
+//Function to create falling letters when user wins
+function createLetter() {
+}
+
+function displayVictoryCard() {
+  const victoryCard = document.createElement('div');
+  victoryCard.classList.add('victory-card');
+  document.body.appendChild(victoryCard);
 }
