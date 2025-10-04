@@ -219,3 +219,22 @@ The difference is that it is has relative to allow the filed to have an absolute
   from {transform: translate(-50%, -50%) scale(0.8); opacity: 0;}
   to {transform: translate(-50%, -50%) scale(1); opacity: 1;}
 }
+
+.turtle-container {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin-left: 60px;
+  margin-right: 60px;
+  background: url('/cdn/images/turtle-sprite2.png') 0 0 no-repeat;
+  margin-bottom: 1rem;
+}
+
+.turtle-container:hover {
+  animation: turtle-blink 0.18s  steps(6) 1;
+}
+
+@keyframes turtle-blink {
+  from {background-position: 0 0;}
+  to {background-position: -1200px 0;}
+}
