@@ -770,6 +770,7 @@ function keyClickEventHandler() {
 
 //Function to create falling letters when user wins
 function createLetter() {
+  
 }
 
 function displayVictoryCard() {
