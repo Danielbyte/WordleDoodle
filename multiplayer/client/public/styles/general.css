@@ -206,13 +206,17 @@ The difference is that it is has relative to allow the filed to have an absolute
   left: 50%;
   z-index: 2;
   transform: translate(-50%, -50%);
-  background: white;
+  background: rgb(230, 230, 230);
   padding: 2rem 3rem;
   border-radius: 20px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
   text-align: center;
   font-size: 1.5rem;
   animation: pop 0.5s ease;
+  opacity: 0.95;
+  font-family: 'Fredoka One', cursive;
+  font-size: 0.9rem;
+  text-align: center;
 }
 
 @keyframes pop {
@@ -238,4 +242,20 @@ The difference is that it is has relative to allow the filed to have an absolute
 @keyframes victory-turtle-blink {
   from {background-position: 0 0;}
   to {background-position: -600px 0;}
+}
+
+.close-victory-card-btn {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  cursor: pointer;
+  border: none;
+  background: rgb(230, 230, 230);
+  height: 20px;
+  width: 20px;
+}
+
+.close-icon {
+  height: 20px;
+  width: 20px;
 }

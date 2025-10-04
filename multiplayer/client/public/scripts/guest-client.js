@@ -780,5 +780,20 @@ function displayVictoryCard() {
   turtleContainer.classList.add('victory-turtle-container');
   victoryCard.appendChild(turtleContainer);
 
+  const closeCardBtn = document.createElement('button');
+  closeCardBtn.classList.add('close-victory-card-btn');
+  closeCardBtn.id = 'close-victory-card-btn';
+
+  const closeIcon = document.createElement('img');
+  closeIcon.classList.add('close-icon');
+  closeIcon.src = '/cdn/images/close-sign.png';
+  closeCardBtn.appendChild(closeIcon);
+  victoryCard.appendChild(closeCardBtn);
+
+  const victoryMessage = document.createElement('p');
+  victoryMessage.classList.add('victory-message');
+  victoryMessage.innerText = '🎉 Congratulations! 🎉';
+  victoryCard.appendChild(victoryMessage);
+
   document.body.appendChild(victoryCard);
 }
