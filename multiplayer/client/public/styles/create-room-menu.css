@@ -24,6 +24,25 @@ body {
   border-radius: 2rem;
 }
 
+.turtle-container {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin-left: 60px;
+  margin-right: 60px;
+  background: url('/cdn/images/turtle-sprite2.png') 0 0 no-repeat;
+  margin-bottom: 1rem;
+}
+
+.turtle-container:hover {
+  animation: turtle-blink 0.18s  steps(6) 1;
+}
+
+@keyframes turtle-blink {
+  from {background-position: 0 0;}
+  to {background-position: -1200px 0;}
+}
+
 .btn-create-room,
 .btn-join-room {
   display: block;

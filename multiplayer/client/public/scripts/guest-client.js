@@ -775,5 +775,10 @@ function createLetter() {
 function displayVictoryCard() {
   const victoryCard = document.createElement('div');
   victoryCard.classList.add('victory-card');
+
+  const turtleContainer = document.createElement('div');
+  turtleContainer.classList.add('turtle-container');
+  victoryCard.appendChild(turtleContainer);
+
   document.body.appendChild(victoryCard);
 }
