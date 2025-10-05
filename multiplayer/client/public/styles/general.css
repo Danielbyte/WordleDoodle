@@ -208,7 +208,7 @@ The difference is that it is has relative to allow the filed to have an absolute
   transform: translate(-50%, -50%);
   background: rgb(230, 230, 230);
   padding: 2rem 3rem;
-  border-radius: 20px;
+  border-radius: 7px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
   text-align: center;
   font-size: 1.5rem;
@@ -246,8 +246,8 @@ The difference is that it is has relative to allow the filed to have an absolute
 
 .close-victory-card-btn {
   position: absolute;
-  top: 6px;
-  right: 10px;
+  top: 0px;
+  right: 5px;
   cursor: pointer;
   border: none;
   background: rgb(230, 230, 230);
