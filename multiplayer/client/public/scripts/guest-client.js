@@ -123,7 +123,7 @@ function addJoinRoomButton() {
     if (!formFieldsValid) return;
 
     //guest joins room
-    roomId = document.getElementById('room-code').value; //Reference to room code
+    roomId = document.getElementById('room-code').value.trim(); //Reference to room code
     socket.emit('data', JSON.stringify({
       type: 'join',
       roomcode: roomId,
@@ -740,7 +740,8 @@ async function submitGuess() {
   socket.emit('data', JSON.stringify({
     type: 'submit_guess',
     guess: guessedword,
-    username: username
+    username: username,
+    roomcode: roomId
   }));
 }
 

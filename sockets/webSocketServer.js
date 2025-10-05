@@ -83,6 +83,7 @@ export default function handleSocketEvent(io, socket) {
         rooms[roomcode] = [{
           username: data.username
         }];
+        rooms[roomcode].inProgress = false;
         broadCastEvent(roomcode, data.type, `@${data.username} has created and joined ${roomcode}`, io);
         break;
 
@@ -91,10 +92,18 @@ export default function handleSocketEvent(io, socket) {
         roomcode = data.roomcode;
         //Check for conditions if game can be started
         //Probably need to check if word is 5 letters, valid, etc..
+        if (rooms[roomcode].inProgress === true) {
+          socket.emit('response', JSON.stringify({
+            type: 'error_starting_game',
+            response: 'Game in progress'
+          }))
+          return;
+        }
         if (canStartGame(roomcode, data.isHost)) {
           // Set the word for particular room
           let room = rooms[roomcode];
           rooms[roomcode].word = data.word;
+          rooms[roomcode].inProgress = true;
           broadCastEvent(roomcode, data.type, room, io);
         } else {
           //broadcast to this socket that the game cannot be started (405 - method not allowed)
@@ -113,7 +122,7 @@ export default function handleSocketEvent(io, socket) {
        * Send board state to player's socket
        */
       case 'submit_guess':
-        roomcode = getRooomCode(data.username);
+        roomcode = data.roomcode;
         guess = data.guess.toUpperCase();
         roomWord = rooms[roomcode].word.toUpperCase();
         for (let index = 0; index < roomWord.length; index++) {
@@ -190,7 +199,6 @@ function getSocketPosition(username) {
     if (rooms[roomcode].find(user => user.username === username)) {
       return rooms[roomcode].length;
     }
-
   }
 }
 
