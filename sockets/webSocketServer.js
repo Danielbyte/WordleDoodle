@@ -148,12 +148,6 @@ export default function handleSocketEvent(io, socket) {
         }));
         break;
 
-      /*
-        * User needs to update their board state to other players in the room
-        * The most convenient way is to let the client send their board state(without the letters of course) to every socket in the same room but themselves
-        * Socket should send username with the payload so that sockets in the room know which board to update
-        * probably need to send encryped IDs instead (or at the least, the encrypted username) -> Future improvement
-      */
       case 'broadcast_board_state_to_room':
         boardState = data.placements;
         roomcode = getRooomCode(data.username);
@@ -173,6 +167,14 @@ export default function handleSocketEvent(io, socket) {
           chat: data.chatMessage
         }))
         break;
+
+        case 'winning_condition':
+          rooms[data.roomcode].inProgress = false;
+          socket.to(data.roomcode).emit('message', JSON.stringify({
+            type: data.type,
+            username: data.username
+          }))
+          break;
 
       //unknown case / not implemented
       default:

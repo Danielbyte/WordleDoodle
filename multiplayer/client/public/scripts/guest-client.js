@@ -16,6 +16,7 @@ let maxOpponents = 3;
 let formFieldsValid;
 let confettiContainer;
 const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; //Falling confetti letters
+const doodleTurtleUsername = 'DoodleTurtle';
 
 //Colors of falling confetti letters
 const colors = [
@@ -113,7 +114,7 @@ function addJoinRoomButton() {
     //Clear the menu page
     let menu = document.querySelector('.guest-main-menu-container');
     //Get guest username
-    username = document.getElementById('username').value;
+    username = document.getElementById('username').value.trim();
 
     formFieldsValid = true;
 
@@ -519,6 +520,11 @@ socket.on('message', (payload) => {
         createConfettiContainer();
         spawnLetters(); //Spawn the background falling letters
         displayVictoryCard();
+        socket.emit('data', JSON.stringify({
+          type: 'winning_condition',
+          username: username,
+          roomcode: roomId
+        }))
       }
 
       if (!isWin || !isGameOver)
@@ -535,6 +541,12 @@ socket.on('message', (payload) => {
     case 'chat_message':
       addMessageToChatUI('right-bubble', data.chat, data.username); //Should be right bubble (yellow)
       break;
+
+      case 'winning_condition':
+        stopInteraction();
+        gameStarted = false;
+        addMessageToChatUI('right-bubble',`${data.username} has won! Game stopped`, doodleTurtleUsername)
+        break;
   }
 });
 
@@ -642,6 +654,7 @@ function startInteraction() {
 }
 
 function stopInteraction() {
+  console.log('Stopped Interaction');
   document.removeEventListener('keydown', handleKeyPress);
   document.removeEventListener('click', keyClickEventHandler);
 }
