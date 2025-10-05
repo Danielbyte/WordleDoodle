@@ -515,6 +515,7 @@ socket.on('message', (payload) => {
       broadcastBoardState(verifiedPlacements);
 
       if(isWin) {
+        stopInteraction();
         createConfettiContainer();
         spawnLetters(); //Spawn the background falling letters
         displayVictoryCard();
@@ -826,6 +827,7 @@ function createLetter() {
 function displayVictoryCard() {
   const victoryCard = document.createElement('div');
   victoryCard.classList.add('victory-card');
+  victoryCard.id = 'victory-card';
 
   const turtleContainer = document.createElement('div');
   turtleContainer.classList.add('victory-turtle-container');
@@ -843,8 +845,18 @@ function displayVictoryCard() {
 
   const victoryMessage = document.createElement('p');
   victoryMessage.classList.add('victory-message');
-  victoryMessage.innerText = '🎉 Congratulations! 🎉';
+  victoryMessage.innerText = 'Congratulations!';
   victoryCard.appendChild(victoryMessage);
 
   document.body.appendChild(victoryCard);
+  AddCloseVictoryCardBtnEventListener();
+}
+
+function AddCloseVictoryCardBtnEventListener() {
+  const closeCardBtn = document.getElementById('close-victory-card-btn');
+  const victoryCard = document.getElementById('victory-card');
+  closeCardBtn.addEventListener('click', () => {
+    victoryCard.remove();
+    confettiContainer.remove();
+  })
 }
