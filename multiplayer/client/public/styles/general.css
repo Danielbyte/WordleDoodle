@@ -198,3 +198,100 @@ The difference is that it is has relative to allow the filed to have an absolute
   0%, 100% {transform: scale(1);}
   50% {transform: scale(1.04);}
 }
+
+/*congratulations card*/
+.victory-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  background: rgb(230, 230, 230);
+  padding: 2rem 3rem;
+  border-radius: 7px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  font-size: 1.5rem;
+  animation: pop 0.5s ease;
+  opacity: 0.95;
+  font-family: 'Fredoka One', cursive;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+@keyframes pop {
+  from {transform: translate(-50%, -50%) scale(0.8); opacity: 0;}
+  to {transform: translate(-50%, -50%) scale(1); opacity: 1;}
+}
+
+.victory-turtle-container {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-left: 60px;
+  margin-right: 60px;
+  background: url('/cdn/images/turtle-sprite2.png') 0 0 no-repeat;
+  background-size: cover;
+  margin-bottom: 1rem;
+}
+
+.victory-turtle-container:hover {
+  animation: victory-turtle-blink 0.18s  steps(6) 1;
+}
+
+@keyframes victory-turtle-blink {
+  from {background-position: 0 0;}
+  to {background-position: -600px 0;}
+}
+
+.close-victory-card-btn {
+  position: absolute;
+  top: 0px;
+  right: 5px;
+  cursor: pointer;
+  border: none;
+  background: rgb(230, 230, 230);
+  height: 20px;
+  width: 20px;
+}
+
+.close-icon {
+  height: 20px;
+  width: 20px;
+}
+
+.confetti-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/*Falling background letters*/
+.victory-letter {
+  position: absolute;
+  font-size: 2.2rem;
+  font-family: 'Fredoka One', cursive;
+  font-weight: bold;
+  animation: fall linear forwards;
+  transform-style: preserve-3d;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes fall {
+  0% {transform: translateY(-5vh) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  opacity: 1;
+}
+  100%{
+    transform: translateY(110vh)
+               rotateX(1080deg)
+               rotateY(1440deg)
+               rotateZ(720deg);
+    
+    opacity: 0;
+  }
+}

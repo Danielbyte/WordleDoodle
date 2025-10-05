@@ -14,6 +14,16 @@ let isTyping = false;
 const FLIP_ANIMATION_DURATION = 500;
 let maxOpponents = 3;
 let formFieldsValid;
+let confettiContainer;
+const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; //Falling confetti letters
+const doodleTurtleUsername = 'DoodleTurtle';
+
+//Colors of falling confetti letters
+const colors = [
+  'hsl(240, 2%, 23%)',
+  'hsl(49, 51%, 47%)',
+  'hsl(115, 29%, 43%)'
+];
 
 displayGuestMainMenu();
 
@@ -104,7 +114,7 @@ function addJoinRoomButton() {
     //Clear the menu page
     let menu = document.querySelector('.guest-main-menu-container');
     //Get guest username
-    username = document.getElementById('username').value;
+    username = document.getElementById('username').value.trim();
 
     formFieldsValid = true;
 
@@ -114,7 +124,7 @@ function addJoinRoomButton() {
     if (!formFieldsValid) return;
 
     //guest joins room
-    roomId = document.getElementById('room-code').value; //Reference to room code
+    roomId = document.getElementById('room-code').value.trim(); //Reference to room code
     socket.emit('data', JSON.stringify({
       type: 'join',
       roomcode: roomId,
@@ -501,8 +511,21 @@ socket.on('message', (payload) => {
 
     case 'placement_verification':
       verifiedPlacements = data.placement;
+      isWin = data.isWin;
       updateStatesAndFlipTiles(verifiedPlacements);
       broadcastBoardState(verifiedPlacements);
+
+      if(isWin) {
+        stopInteraction();
+        createConfettiContainer();
+        spawnLetters(); //Spawn the background falling letters
+        displayVictoryCard();
+        socket.emit('data', JSON.stringify({
+          type: 'winning_condition',
+          username: username,
+          roomcode: roomId
+        }))
+      }
 
       if (!isWin || !isGameOver)
         currentRow += 1;
@@ -518,6 +541,12 @@ socket.on('message', (payload) => {
     case 'chat_message':
       addMessageToChatUI('right-bubble', data.chat, data.username); //Should be right bubble (yellow)
       break;
+
+      case 'winning_condition':
+        stopInteraction();
+        gameStarted = false;
+        addMessageToChatUI('right-bubble',`${data.username} has won! Game stopped`, doodleTurtleUsername)
+        break;
   }
 });
 
@@ -625,6 +654,7 @@ function startInteraction() {
 }
 
 function stopInteraction() {
+  console.log('Stopped Interaction');
   document.removeEventListener('keydown', handleKeyPress);
   document.removeEventListener('click', keyClickEventHandler);
 }
@@ -723,7 +753,8 @@ async function submitGuess() {
   socket.emit('data', JSON.stringify({
     type: 'submit_guess',
     guess: guessedword,
-    username: username
+    username: username,
+    roomcode: roomId
   }));
 }
 
@@ -761,4 +792,85 @@ function keyClickEventHandler() {
       }
     }
   }
+}
+
+function createConfettiContainer() {
+  confettiContainer = document.createElement('div');
+  confettiContainer.classList.add('confetti-container');
+  document.body.appendChild(confettiContainer);
+}
+
+function spawnLetters() {
+  //spawn letters every 200ms
+  const interval = setInterval(createLetter, 200);
+
+  //stop spawning letters after 20 secs
+  setTimeout(() => clearInterval(interval), 20000);
+}
+
+//Function to create falling letters when user wins
+function createLetter() {
+  const letter = document.createElement('div');
+  letter.classList.add('victory-letter');
+  letter.textContent = letters[Math.floor(Math.random() * letters.length)]; //Randomly select the falling letter from array of letters
+  //Randomly select a color for the falling letter
+  letter.style.color = colors[Math.floor(Math.random() * colors.length)];
+
+  //Math.random() -> generates a number between 0 to 1 (1 excluded)
+  letter.style.left = Math.random() * 100 + 'vw';
+
+  //Letter should fall randomly, for a duration between 3 - 6s
+  const duration = 3 + Math.random() * 3;
+  letter.style.animationDuration = duration + 's';
+
+  //Randomly tilt letters at spawn
+  const tiltX = Math.random() * 360;
+  const tiltY = Math.random() * 360;
+  const tiltZ = Math.random() * 360;
+  letter.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg) rotateZ(${tiltZ}deg)`;
+  confettiContainer.appendChild(letter);
+
+  //Optimisation: Remove letter after animation ends
+  setTimeout(() => {
+    if (letter.parentNode) {
+      confettiContainer.removeChild(letter);
+    }
+  }, duration * 1000)
+}
+
+function displayVictoryCard() {
+  const victoryCard = document.createElement('div');
+  victoryCard.classList.add('victory-card');
+  victoryCard.id = 'victory-card';
+
+  const turtleContainer = document.createElement('div');
+  turtleContainer.classList.add('victory-turtle-container');
+  victoryCard.appendChild(turtleContainer);
+
+  const closeCardBtn = document.createElement('button');
+  closeCardBtn.classList.add('close-victory-card-btn');
+  closeCardBtn.id = 'close-victory-card-btn';
+
+  const closeIcon = document.createElement('img');
+  closeIcon.classList.add('close-icon');
+  closeIcon.src = '/cdn/images/close-sign.png';
+  closeCardBtn.appendChild(closeIcon);
+  victoryCard.appendChild(closeCardBtn);
+
+  const victoryMessage = document.createElement('p');
+  victoryMessage.classList.add('victory-message');
+  victoryMessage.innerText = 'Congratulations!';
+  victoryCard.appendChild(victoryMessage);
+
+  document.body.appendChild(victoryCard);
+  AddCloseVictoryCardBtnEventListener();
+}
+
+function AddCloseVictoryCardBtnEventListener() {
+  const closeCardBtn = document.getElementById('close-victory-card-btn');
+  const victoryCard = document.getElementById('victory-card');
+  closeCardBtn.addEventListener('click', () => {
+    victoryCard.remove();
+    confettiContainer.remove();
+  })
 }

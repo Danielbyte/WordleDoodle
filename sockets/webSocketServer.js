@@ -1,5 +1,6 @@
 let rooms = {}; //Reference to all the rooms
 let maxRoomCapacity = 5; //maximum allowable people in room
+let wordLength = 5;
 
 export default function handleSocketEvent(io, socket) {
   console.log(`New socket connected: ${socket.id}`);
@@ -12,6 +13,8 @@ export default function handleSocketEvent(io, socket) {
     let placements = [];//Capture user placements
     let guess = '', roomWord = ''; //will hold user guess and set room word
     let boardState = ''; //The color coded board state of user (without the letters)
+    let correctPlacements = 0;
+    let isWin = false;
 
     try {
       data = JSON.parse(payload);
@@ -80,6 +83,7 @@ export default function handleSocketEvent(io, socket) {
         rooms[roomcode] = [{
           username: data.username
         }];
+        rooms[roomcode].inProgress = false;
         broadCastEvent(roomcode, data.type, `@${data.username} has created and joined ${roomcode}`, io);
         break;
 
@@ -88,10 +92,18 @@ export default function handleSocketEvent(io, socket) {
         roomcode = data.roomcode;
         //Check for conditions if game can be started
         //Probably need to check if word is 5 letters, valid, etc..
+        if (rooms[roomcode].inProgress === true) {
+          socket.emit('response', JSON.stringify({
+            type: 'error_starting_game',
+            response: 'Game in progress'
+          }))
+          return;
+        }
         if (canStartGame(roomcode, data.isHost)) {
           // Set the word for particular room
           let room = rooms[roomcode];
           rooms[roomcode].word = data.word;
+          rooms[roomcode].inProgress = true;
           broadCastEvent(roomcode, data.type, room, io);
         } else {
           //broadcast to this socket that the game cannot be started (405 - method not allowed)
@@ -110,12 +122,14 @@ export default function handleSocketEvent(io, socket) {
        * Send board state to player's socket
        */
       case 'submit_guess':
-        roomcode = getRooomCode(data.username);
+        roomcode = data.roomcode;
         guess = data.guess.toUpperCase();
         roomWord = rooms[roomcode].word.toUpperCase();
         for (let index = 0; index < roomWord.length; index++) {
-          if (guess[index] === roomWord[index])
-            placements[index] = 'correct';
+          if (guess[index] === roomWord[index]) {
+             placements[index] = 'correct';
+             ++correctPlacements;
+          }
 
           else if (roomWord.includes(guess[index]))
             placements[index] = 'wrong-location';
@@ -124,19 +138,16 @@ export default function handleSocketEvent(io, socket) {
             placements[index] = 'wrong';
         }
 
+        if (correctPlacements === wordLength) isWin = true;
+
         //Send placements to client so that they may update their board state
         socket.emit('message', JSON.stringify({
           type: 'placement_verification',
-          placement: placements
+          placement: placements,
+          isWin: isWin
         }));
         break;
 
-      /*
-        * User needs to update their board state to other players in the room
-        * The most convenient way is to let the client send their board state(without the letters of course) to every socket in the same room but themselves
-        * Socket should send username with the payload so that sockets in the room know which board to update
-        * probably need to send encryped IDs instead (or at the least, the encrypted username) -> Future improvement
-      */
       case 'broadcast_board_state_to_room':
         boardState = data.placements;
         roomcode = getRooomCode(data.username);
@@ -156,6 +167,14 @@ export default function handleSocketEvent(io, socket) {
           chat: data.chatMessage
         }))
         break;
+
+        case 'winning_condition':
+          rooms[data.roomcode].inProgress = false;
+          socket.to(data.roomcode).emit('message', JSON.stringify({
+            type: data.type,
+            username: data.username
+          }))
+          break;
 
       //unknown case / not implemented
       default:
@@ -182,7 +201,6 @@ function getSocketPosition(username) {
     if (rooms[roomcode].find(user => user.username === username)) {
       return rooms[roomcode].length;
     }
-
   }
 }
 
@@ -201,7 +219,7 @@ function isRoomFull(roomcode) {
 
 //Checks if username already exists in the room
 function userNameExists(username, roomcode) {
-  return rooms[roomcode].some(user => user.username === username);
+  return rooms[roomcode].some(user => user.username.toLowerCase() === username.toLowerCase());
 }
 
 function broadCastEvent(roomcode, type, payload, io) {
