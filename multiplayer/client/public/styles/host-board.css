@@ -8,7 +8,8 @@
 }
 
 .error-message {
-  display: flex;
+  /*display: flex;*/
+  display: none;
   flex-direction: row;
   flex: 1;
   position: absolute;
@@ -22,7 +23,7 @@
 }
 
 .error-message p {
-  color: red;
+  color: #FF0000;
   font-family: 'Fredoka One', cursive;
   font-size: 14px;
   margin-left: 5px;
