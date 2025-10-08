@@ -89,6 +89,10 @@ export default function handleSocketEvent(io, socket) {
 
       //Host starts the game, sync game boards for all users in this room
       case 'start_game':
+        if (data.word.trim() === '') { //Server side input validation
+          message = 'Oops! Set word';
+          callback({success: false, message});
+        }
         roomcode = data.roomcode;
         //Check for conditions if game can be started
         //Probably need to check if word is 5 letters, valid, etc..
@@ -108,11 +112,8 @@ export default function handleSocketEvent(io, socket) {
         } else {
           //broadcast to this socket that the game cannot be started (405 - method not allowed)
           console.log('Failed to start game');
-          socket.emit('response', JSON.stringify(
-            {
-              code: 405,
-              payload: 'Not enough participants in room'
-            }));
+          message = 'Oops! Not enough participants in room';
+          callback({success: false, message});
         }
         break;
 

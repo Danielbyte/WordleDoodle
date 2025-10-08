@@ -180,8 +180,10 @@ function createRoom(username) {
 document.getElementById('btn-start-game').addEventListener('click', () => {
   const _word = document.getElementById('word-of-the-day').value.trim();
   //Client side error handling
-  if (_word === '')
-    setError('Oops! Set word ')
+  if (_word === '') {
+    setError('Oops! Set word');
+    return;
+  }
 
   socket.emit('data', JSON.stringify({
     type: 'start_game',
@@ -189,7 +191,13 @@ document.getElementById('btn-start-game').addEventListener('click', () => {
     isHost: true,
     word: _word,
     roomcode: roomcode
-  }));
+  }), (response) => {
+    if(!response.success) {
+      const message = response.message;
+      setError(message);
+      return;
+    }
+  });
 });
 
 const setError = (message) => {
