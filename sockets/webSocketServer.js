@@ -95,7 +95,7 @@ export default function handleSocketEvent(io, socket) {
           return;
         }
 
-        if(data.word.trim().length < 5 || data.word.trim().length > 5) {
+        if(data.word.trim().length < wordLength || data.word.trim().length > wordLength) {
           message = 'Woah! Word should be 5 letters';
           callback({success: false, message});
         }

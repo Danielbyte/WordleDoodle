@@ -185,6 +185,11 @@ document.getElementById('btn-start-game').addEventListener('click', () => {
     return;
   }
 
+  if (_word.length > maxWordLength || _word.length < maxWordLength) {
+    setError('Woah! Word should be 5 letters');
+    return;
+  }
+
   socket.emit('data', JSON.stringify({
     type: 'start_game',
     username: username,
