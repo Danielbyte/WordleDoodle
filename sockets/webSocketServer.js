@@ -92,7 +92,14 @@ export default function handleSocketEvent(io, socket) {
         if (data.word.trim() === '') { //Server side input validation
           message = 'Oops! Set word';
           callback({success: false, message});
+          return;
         }
+
+        if(data.word.trim().length < 5 || data.word.trim().length > 5) {
+          message = 'Woah! Word should be 5 letters';
+          callback({success: false, message});
+        }
+
         roomcode = data.roomcode;
         //Check for conditions if game can be started
         //Probably need to check if word is 5 letters, valid, etc..
