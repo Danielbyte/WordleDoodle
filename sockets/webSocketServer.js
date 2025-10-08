@@ -103,7 +103,7 @@ export default function handleSocketEvent(io, socket) {
 
         if (rooms[data.roomcode].inProgress === true) {
           message = 'Oops, Game in progress, please wait';
-          callback({success: true, message});
+          callback({success: false, message});
           return;
         }
         if (canStartGame(data.roomcode, data.isHost)) {
