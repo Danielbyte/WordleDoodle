@@ -203,10 +203,17 @@ document.getElementById('btn-start-game').addEventListener('click', () => {
       return;
     }
   });
+  resetError();
 });
 
 const setError = (message) => {
   errorContainer.style.display = 'flex';
   errorMsg.innerText = message;
   wordOfTheDayInput.style.borderColor = '#FF0000';
+}
+
+const resetError = () => {
+  errorContainer.style.display = 'none';
+  errorMsg.innerText = '';
+  wordOfTheDayInput.style.borderColor = '#4f4e4e';
 }

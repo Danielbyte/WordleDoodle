@@ -101,8 +101,6 @@ export default function handleSocketEvent(io, socket) {
           return;
         }
 
-        //Check for conditions if game can be started
-        //Probably need to check if word is 5 letters, valid, etc..
         if (rooms[data.roomcode].inProgress === true) {
           message = 'Oops, Game in progress, please wait';
           callback({success: true, message});
@@ -110,10 +108,10 @@ export default function handleSocketEvent(io, socket) {
         }
         if (canStartGame(data.roomcode, data.isHost)) {
           // Set the word for particular room
-          let room = rooms[roomcode];
-          rooms[roomcode].word = data.word;
-          rooms[roomcode].inProgress = true;
-          broadCastEvent(roomcode, data.type, room, io);
+          let room = rooms[data.roomcode];
+          rooms[data.roomcode].word = data.word;
+          rooms[data.roomcode].inProgress = true;
+          broadCastEvent(data.roomcode, data.type, room, io);
         } else {
           message = 'Oops! Not enough participants in room';
           callback({success: false, message});
