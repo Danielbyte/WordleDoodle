@@ -89,30 +89,33 @@ export default function handleSocketEvent(io, socket) {
 
       //Host starts the game, sync game boards for all users in this room
       case 'start_game':
-        roomcode = data.roomcode;
-        //Check for conditions if game can be started
-        //Probably need to check if word is 5 letters, valid, etc..
-        if (rooms[roomcode].inProgress === true) {
-          socket.emit('response', JSON.stringify({
-            type: 'error_starting_game',
-            response: 'Game in progress'
-          }))
+        if (data.word.trim() === '') { //Server side input validation
+          message = 'Oops! Set word';
+          callback({success: false, message});
           return;
         }
-        if (canStartGame(roomcode, data.isHost)) {
+
+        if(data.word.trim().length < wordLength || data.word.trim().length > wordLength) {
+          message = 'Woah! Word should be 5 letters';
+          callback({success: false, message});
+          return;
+        }
+
+        if (rooms[data.roomcode].inProgress === true) {
+          message = 'Oops, Game in progress, please wait';
+          callback({success: false, message});
+          return;
+        }
+        if (canStartGame(data.roomcode, data.isHost)) {
           // Set the word for particular room
-          let room = rooms[roomcode];
-          rooms[roomcode].word = data.word;
-          rooms[roomcode].inProgress = true;
-          broadCastEvent(roomcode, data.type, room, io);
+          let room = rooms[data.roomcode];
+          rooms[data.roomcode].word = data.word;
+          rooms[data.roomcode].inProgress = true;
+          broadCastEvent(data.roomcode, data.type, room, io);
         } else {
-          //broadcast to this socket that the game cannot be started (405 - method not allowed)
-          console.log('Failed to start game');
-          socket.emit('response', JSON.stringify(
-            {
-              code: 405,
-              payload: 'Not enough participants in room'
-            }));
+          message = 'Oops! Not enough participants in room';
+          callback({success: false, message});
+          return;
         }
         break;
 

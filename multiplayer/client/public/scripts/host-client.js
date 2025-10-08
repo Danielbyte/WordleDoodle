@@ -3,6 +3,9 @@ const socket = io();
 let username = '';
 let roomcode = '';
 const maxWordLength = 5; //Max word is 5 (Player guesses a five letter word)
+const errorContainer = document.getElementById('error-message');
+const errorMsg = document.getElementById('error-msg');
+const wordOfTheDayInput = document.getElementById('word-of-the-day');
 
 initialiseBoard();
 
@@ -175,12 +178,42 @@ function createRoom(username) {
 }
 
 document.getElementById('btn-start-game').addEventListener('click', () => {
-  const _word = document.getElementById('word-of-the-day').value;
+  const _word = document.getElementById('word-of-the-day').value.trim();
+  //Client side error handling
+  if (_word === '') {
+    setError('Oops! Set word');
+    return;
+  }
+
+  if (_word.length > maxWordLength || _word.length < maxWordLength) {
+    setError('Woah! Word should be 5 letters');
+    return;
+  }
+
   socket.emit('data', JSON.stringify({
     type: 'start_game',
     username: username,
     isHost: true,
     word: _word,
     roomcode: roomcode
-  }));
+  }), (response) => {
+    if(!response.success) {
+      const message = response.message;
+      setError(message);
+      return;
+    }
+  });
+  resetError();
 });
+
+const setError = (message) => {
+  errorContainer.style.display = 'flex';
+  errorMsg.innerText = message;
+  wordOfTheDayInput.style.borderColor = '#FF0000';
+}
+
+const resetError = () => {
+  errorContainer.style.display = 'none';
+  errorMsg.innerText = '';
+  wordOfTheDayInput.style.borderColor = '#4f4e4e';
+}
