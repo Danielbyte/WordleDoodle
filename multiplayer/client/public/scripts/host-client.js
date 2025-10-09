@@ -31,10 +31,11 @@ socket.on('message', (payload) => {
    * That is, n = 1 => map board to board1...
    */
   let guestPositionInRoom;
-  let invitationMessage = '';
+  let message = '';
   switch (data.type) {
     case 'join':
-      //guestPositionInRoom = Number(data.position) - 1;//Subtract 1 to exclude the host
+      message = `@${data.username} has joined`
+      addMessageToChatUI('right-bubble', message, doodleTurtleUsername);
       break;
 
     case 'board_broadcast':
@@ -51,11 +52,11 @@ socket.on('message', (payload) => {
       break;
 
     case 'room_created':
-      invitationMessage = `To invite friends to your room, Share this link:
+      message = `To invite friends to your room, Share this link:
       ${origin}/multiplayer/guest/board`;
-      addMessageToChatUI('right-bubble', invitationMessage, doodleTurtleUsername);
-      invitationMessage =`Share this room code so that they can be able to join: ${roomcode}`;
-      addMessageToChatUI('right-bubble', invitationMessage, doodleTurtleUsername);
+      addMessageToChatUI('right-bubble', message, doodleTurtleUsername);
+      message =`Share this room code so that they can be able to join: ${roomcode}`;
+      addMessageToChatUI('right-bubble', message, doodleTurtleUsername);
       break;
   }
 });
