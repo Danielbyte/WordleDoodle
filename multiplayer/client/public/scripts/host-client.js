@@ -1,11 +1,13 @@
 //This client file will be served by Express server (app.js)
 const socket = io();
 let username = '';
+let origin = '';
 let roomcode = '';
 const maxWordLength = 5; //Max word is 5 (Player guesses a five letter word)
 const errorContainer = document.getElementById('error-message');
 const errorMsg = document.getElementById('error-msg');
 const wordOfTheDayInput = document.getElementById('word-of-the-day');
+const doodleTurtleUsername = 'DoodleTurtle';
 
 initialiseBoard();
 
@@ -29,6 +31,7 @@ socket.on('message', (payload) => {
    * That is, n = 1 => map board to board1...
    */
   let guestPositionInRoom;
+  let invitationMessage = '';
   switch (data.type) {
     case 'join':
       //guestPositionInRoom = Number(data.position) - 1;//Subtract 1 to exclude the host
@@ -45,6 +48,14 @@ socket.on('message', (payload) => {
 
     case 'chat_message':
       addMessageToChatUI('right-bubble', data.chat, data.username); //Should be right bubble (yellow)
+      break;
+
+    case 'room_created':
+      invitationMessage = `To invite friends to your room, Share this link:
+      ${origin}/multiplayer/guest/board`;
+      addMessageToChatUI('right-bubble', invitationMessage, doodleTurtleUsername);
+      invitationMessage =`Share this room code so that they can be able to join: ${roomcode}`;
+      addMessageToChatUI('right-bubble', invitationMessage, doodleTurtleUsername);
       break;
   }
 });
@@ -116,6 +127,7 @@ function initialiseBoard() {
       .then(data => {
         if (data.username) {
           username = data.username;
+          origin = data.origin;
           createRoom(username);
           //displayHostBoard();
         }

@@ -31,6 +31,10 @@ multiplayerRouter.post('/username/create', (req, res) => {
 
     if (!username) return res.status(400).json({message: 'Username not found'});
 
+    //Get the origin of url and store it in session
+    const origin = `${req.protocol}://${req.get('host')}`;
+    req.session.origin = origin;
+
     req.session.username = username;
 
     res.status(201).json({
@@ -47,11 +51,14 @@ multiplayerRouter.get('/username', (req, res) => {
     const username = req.session.username;
     if (!username) return res.status(400).json({message: 'Username not found'});
 
+    const origin = req.session.origin;
+
     req.session.username = username;
 
     res.status(201).json({
       success: true,
       username: username,
+      origin: origin,
       message: 'Username retrieved successfully',
     });
 
