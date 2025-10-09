@@ -181,7 +181,7 @@ header{
 .tile1[data-state="wrong"],
 .tile2[data-state="wrong"],
 .tile3[data-state="wrong"],
-.tile3[data-state="wrong"] { /*Some data attributes to set the color for a wrong placement/letter that is not contained in word of the day*/
+.tile4[data-state="wrong"] { /*Some data attributes to set the color for a wrong placement/letter that is not contained in word of the day*/
   border: none;
   background-color: hsl(240, 2%, 23%);
 }

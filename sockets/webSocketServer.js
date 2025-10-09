@@ -84,7 +84,7 @@ export default function handleSocketEvent(io, socket) {
           username: data.username
         }];
         rooms[roomcode].inProgress = false;
-        broadCastEvent(roomcode, data.type, `@${data.username} has created and joined ${roomcode}`, io);
+        broadCastEvent(roomcode, 'room_created', `@${data.username} has created and joined ${roomcode}`, io);
         break;
 
       //Host starts the game, sync game boards for all users in this room
