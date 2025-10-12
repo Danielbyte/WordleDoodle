@@ -5,6 +5,24 @@ let wordLength = 5;
 export default function handleSocketEvent(io, socket) {
   console.log(`New socket connected: ${socket.id}`);
 
+  socket.on('disconnect', () => {
+    console.log(`${socket.id} disconnected`);
+    let socketIndex = -1;
+    let roomId;
+    for (let roomcode in rooms) {
+      rooms[roomcode].forEach((user, index)=> {
+        if (user.socketId === (socket.id).toString()) {
+          socketIndex = index;
+          roomId = roomcode;
+        }
+      });
+    }
+
+    if (socketIndex !== -1) {
+      rooms[roomId].splice(socketIndex, 1);
+    }
+  })
+
   //Client sends data with payload/message
   socket.on('data', (payload, callback) => {
     //Parse the data inito JSON object
@@ -47,7 +65,8 @@ export default function handleSocketEvent(io, socket) {
         rooms[data.roomcode].push({
           username: data.username,
           isHost: data.isHost,
-          position: rooms[data.roomcode].length + 1
+          position: rooms[data.roomcode].length + 1,
+          socketId: socket.id
         });
 
         socket.join(data.roomcode); //Socket can join the room
@@ -71,6 +90,13 @@ export default function handleSocketEvent(io, socket) {
         //Host should join room
         socket.join(roomcode);
 
+        //Add created room in rooms and add host to the room
+        rooms[roomcode] = [{
+          username: data.username,
+          socketId: socket.id,
+          isHost: data.isHost
+        }];
+
         //Send this room code to the host socket
         socket.emit('message', JSON.stringify({
           type: 'roomcode',
@@ -79,10 +105,6 @@ export default function handleSocketEvent(io, socket) {
           username: data.username
         }));
 
-        //Add created room in rooms and add host to the room
-        rooms[roomcode] = [{
-          username: data.username
-        }];
         rooms[roomcode].inProgress = false;
         broadCastEvent(roomcode, 'room_created', `@${data.username} has created and joined ${roomcode}`, io);
         break;
