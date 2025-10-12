@@ -13,7 +13,8 @@ body {
 
 .login-card,
 .registration-card,
-.menu-card {
+.menu-card,
+.guest-menu-card {
   background: #ffffff;
   padding: 2rem;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);

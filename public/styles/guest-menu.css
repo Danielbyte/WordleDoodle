@@ -16,7 +16,7 @@
   to {background-position: -1200px 0;}
 }
 
-.menu-btn {
+.guest-btn {
   display: block;
   width: 100%;
   margin: 1rem 0;
@@ -29,24 +29,24 @@
   border-radius: 20px;
 }
 
-.multiplayer {
+.guest-join-room {
   background: #4CAF50;
   color: white;
 }
 
-.singleplayer {
+.guest-create-room {
   background: #FFEB3B;
   color: #333;
 }
 
-.singleplayer:hover {
-  background: #FDD835;
+.guest-join-room:hover {
+  background: #4CAF49;
   transform: scale(1.02);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.multiplayer:hover {
-  background: #45A049;
+.guest-create-room:hover {
+  background: #FDD835;
   transform: scale(1.02);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }

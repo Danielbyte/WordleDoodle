@@ -25,4 +25,8 @@ homePageRoute.get('/menu', authorizePage, (req, res) => {
   res.sendFile(join(__dirname, '../public/views', 'main-menu.html'));
 });
 
+homePageRoute.get('/guest-menu', (req, res) => {
+  res.sendFile(join(__dirname, '../public/views', 'guest-page.html'));
+});
+
 export default homePageRoute;

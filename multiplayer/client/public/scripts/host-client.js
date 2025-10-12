@@ -12,16 +12,14 @@ const doodleTurtleUsername = 'DoodleTurtle';
 initialiseBoard();
 
 //Event listeners, this was will be for errors returned by the websocket server
-socket.on('response', (payload) => {
+/*socket.on('response', (payload) => {
   let data = JSON.parse(payload);
-  console.log(data);
-});
+});*/
 
 
 //This event listener will handle successful responses from the websocket server
 socket.on('message', (payload) => {
   let data = JSON.parse(payload);
-  console.log(data);
 
   //Map guest(s) to board the minute they join
   /*
@@ -172,7 +170,6 @@ function scrollToBottom() {
 }
 
 function broadcastMessageToRoom(message) {
-  console.log(`This is the roomcode: ${roomcode}`)
   socket.emit('data', JSON.stringify({
     type: 'chat_message',
     username: username,
