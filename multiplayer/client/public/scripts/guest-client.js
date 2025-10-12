@@ -654,7 +654,6 @@ function startInteraction() {
 }
 
 function stopInteraction() {
-  console.log('Stopped Interaction');
   document.removeEventListener('keydown', handleKeyPress);
   document.removeEventListener('click', keyClickEventHandler);
 }

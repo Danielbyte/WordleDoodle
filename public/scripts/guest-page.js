@@ -3,4 +3,8 @@ const createRoomBtn = document.getElementById('js-guest-create-room-btn');
 
 joinRoomBtn.addEventListener('click', () => {
   window.location.href = '/multiplayer/guest/board';
-})
+});
+
+createRoomBtn.addEventListener('click', () => {
+  window.location.href = '/multiplayer/menu/create-room';
+});
