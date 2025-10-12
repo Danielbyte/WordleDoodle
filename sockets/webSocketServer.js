@@ -14,6 +14,7 @@ export default function handleSocketEvent(io, socket) {
         if (user.socketId === (socket.id).toString()) {
           socketIndex = index;
           roomId = roomcode;
+          if (user.isHost) rooms[roomcode].isTerminated = true; //Terminate room once host leaves
         }
       });
     }
@@ -106,6 +107,7 @@ export default function handleSocketEvent(io, socket) {
         }));
 
         rooms[roomcode].inProgress = false;
+        rooms[roomcode].isTerminated = false;
         broadCastEvent(roomcode, 'room_created', `@${data.username} has created and joined ${roomcode}`, io);
         break;
 
