@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
   <script src="/cdn/scripts/landing-page.js" defer></script>
   <title>WordleDoodle</title>
 </head>
+
 <body>
   <!--Scattered rotating letters-->
   <span class="background-rotating-letters W-background-letter">W</span>
@@ -17,35 +19,47 @@
   <span class="background-rotating-letters D-background-letter">D</span>
   <span class="background-rotating-letters L-background-letter">L</span>
   <span class="background-rotating-letters E-background-letter">E</span>
-  
+
   <div class="login-card">
     <h1 id="title">WordleDoodle</h1>
+    <div class="input-field">
+      <input type="text" placeholder="Email" id="js-email">
+      <div class="error-message" id="js-email-error-card">
+        <img src="/cdn/images/tortoise.png" alt="">
+        <p id="js-email-error-message"></p>
+      </div>
+    </div>
+    <div class="input-field">
+      <input type="password" placeholder="Password" id="js-password">
+      <div class="error-message" id="js-password-error-card">
+        <img src="/cdn/images/tortoise.png" alt="">
+        <p id="js-password-error-message"></p>
+      </div>
+    </div>
 
-  
-      <div class="input-field">
-        <input type="text" placeholder="Email" id="js-email">
-        <div class="error-message" id="js-email-error-card">
-          <img src="/cdn/images/tortoise.png" alt="">
-          <p id="js-email-error-message"></p>
-        </div>
-      </div>
-      <div class="input-field">
-        <input type="password" placeholder="Password" id="js-password">
-        <div class="error-message" id="js-password-error-card">
-          <img src="/cdn/images/tortoise.png" alt="">
-          <p id="js-password-error-message"></p>
-        </div>
-      </div>
-      
-      <button class="btn login-button" id="js-login-button">Login</button>
-      <button class="btn register-button" id="js-register-button">Register</button>
+    <button class="btn login-button" id="js-login-button">Login</button>
+    <button class="btn register-button" id="js-register-button">Register</button>
 
-      <div class="footer-links">
-        <div class="footer-link">Forgot password?</div>
-        <span class="separator">|</span>
-        <div class="footer-link">Continue as guest</div>
-      </div>
-   
+    <div class="footer-links">
+      <div class="footer-link">Forgot password?</div>
+      <span class="separator">|</span>
+      <div class="footer-link">Continue as guest</div>
+    </div>
+  </div>
+
+  <div class="popup-card hidden" id="popup-card">
+    <div class="popup-header">
+      <button class="popup-close-button" id="popup-close">
+        <img src="/cdn/images/close-sign.png" class="close-icon">
+      </button>
+    </div>
+    <div class="popup-body">
+      <p>
+        Quick Access Credentials:<br><br>
+        Email: masangodaniel.dev@gmail.com<br><br>
+        Password: QfYQm@j2aZA5xxV
+      </p>
+    </div>
   </div>
 </body>
 </html>
