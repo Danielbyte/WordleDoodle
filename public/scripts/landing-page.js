@@ -145,3 +145,14 @@ const resetError = (fieldElement, messageContainer) => {
   messageContainer.style.display = 'none';
   fieldElement.style.borderColor = '#4CAF50';
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  const popup = document.getElementById('popup-card');
+  const closeBtn = document.getElementById('popup-close');
+
+  //Delay popup appearance for smoothness
+  setTimeout(() => {
+    popup.classList.remove('hidden');
+    popup.classList.add('show');
+  }, 1000)
+})
