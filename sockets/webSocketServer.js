@@ -182,6 +182,15 @@ export default function handleSocketEvent(io, socket) {
         }))
         break;
 
+      case 'reset_board_state':
+        roomcode = getRooomCode(data.username);
+        socket.to(roomcode).emit('message', JSON.stringify({
+          type: data.type,
+          username: data.username,
+          position: data.position
+        }))
+        break;
+
       case 'chat_message':
         socket.to(data.roomcode).emit('message', JSON.stringify({
           type: 'chat_message',

@@ -49,15 +49,27 @@ socket.on('message', (payload) => {
       addMessageToChatUI('right-bubble', data.chat, data.username); //Should be right bubble (yellow)
       break;
 
+    case 'reset_board_state':
+      guestPositionInRoom = data.position - 1;
+      console.log('Guest position', guestPositionInRoom);
+      resetGuestBoard(guestPositionInRoom);
+      break;
+
     case 'room_created':
       message = `To invite friends to your room, Share this link:
       ${origin}/multiplayer/guest/board`;
       addMessageToChatUI('right-bubble', message, doodleTurtleUsername);
-      message =`Share this room code so that they can be able to join: ${roomcode}`;
+      message = `Share this room code so that they can be able to join: ${roomcode}`;
       addMessageToChatUI('right-bubble', message, doodleTurtleUsername);
       break;
   }
 });
+
+function resetGuestBoard(position) {
+  let tiles = document.querySelectorAll(`.tile${position}`);
+
+  tiles.forEach(tile => tile.removeAttribute('data-state'));
+}
 
 function updateGuestBoardStates(position, states, row) {
   switch (position) {
@@ -207,7 +219,7 @@ document.getElementById('btn-start-game').addEventListener('click', () => {
     word: _word,
     roomcode: roomcode
   }), (response) => {
-    if(!response.success) {
+    if (!response.success) {
       const message = response.message;
       setError(message);
       return;

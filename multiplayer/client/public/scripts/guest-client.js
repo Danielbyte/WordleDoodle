@@ -538,6 +538,11 @@ socket.on('message', (payload) => {
       updateGuestBoardStates(guestPositionInRoom, data.placements, data.row);
       break;
 
+    case 'reset_board_state':
+      guestPositionInRoom = getGuestPositionInRoom(data.position);
+      resetOponentBoard(guestPositionInRoom);
+      break;
+
     case 'chat_message':
       addMessageToChatUI('right-bubble', data.chat, data.username); //Should be right bubble (yellow)
       break;
@@ -554,6 +559,7 @@ socket.on('message', (payload) => {
       startInteraction();
       resetBoard();
       resetGameState();
+      broadCastBoardReset();
       break;
   }
 });
@@ -572,6 +578,14 @@ function resetBoard() {
     tile.textContent = "";
     tile.removeAttribute('data-state');
   });
+}
+
+function broadCastBoardReset() {
+  socket.emit('data', JSON.stringify({
+    type: 'reset_board_state',
+    username: username,
+    position: clientRoomPosition,
+  }));
 }
 
 function resetGameState() {
@@ -609,6 +623,12 @@ function updateGuestBoardStates(position, states, row) {
     default:
       break;
   }
+}
+
+function resetOponentBoard(position) {
+  let tiles = document.querySelectorAll(`.tile${position}`);
+
+  tiles.forEach(tile => tile.removeAttribute('data-state'));
 }
 
 function broadcastBoardState(verifiedPlacements) {
