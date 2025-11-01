@@ -7,27 +7,7 @@ export default function handleSocketEvent(io, socket) {
 
   socket.on('disconnect', () => {
     console.log(`${socket.id} disconnected`);
-    let socketIndex = -1;
-    let roomId;
-    for (let roomcode in rooms) {
-      rooms[roomcode].forEach((user, index) => {
-        if (user.socketId === (socket.id).toString()) {
-          socketIndex = index;
-          roomId = roomcode;
-          if (user.isHost) rooms[roomcode].isTerminated = true; //Terminate room once host leaves
-        }
-      });
-    }
-
-    if (socketIndex !== -1) {
-      rooms[roomId].splice(socketIndex, 1);
-    }
-
-    //Delete the room once it's empty (Free up memory)
-    const numberOfRoomParticipants = rooms[roomId].length;
-    if (numberOfRoomParticipants === 0) {
-      delete rooms[roomId];
-    }
+    deleteUser(socket);
   })
 
   //Client sends data with payload/message
@@ -218,6 +198,35 @@ export default function handleSocketEvent(io, socket) {
         break;
     }
   });
+}
+
+//Delete user in room
+function deleteUser(socket) {
+  let socketIndex = -1;
+  let roomId;
+  for (let roomcode in rooms) {
+    rooms[roomcode].forEach((user, index) => {
+      if (user.socketId === (socket.id).toString()) {
+        socketIndex = index;
+        roomId = roomcode;
+        if (user.isHost) rooms[roomcode].isTerminated = true; //Terminate room once host leaves
+      }
+    });
+  }
+
+  if (socketIndex !== -1) {
+    rooms[roomId].splice(socketIndex, 1);
+  }
+
+  deleteRoomIfEmpty(roomId);
+}
+
+function deleteRoomIfEmpty(roomId) {
+  //Delete the room once it's empty (Free up memory)
+  const numberOfRoomParticipants = rooms[roomId].length;
+  if (numberOfRoomParticipants === 0) {
+    delete rooms[roomId];
+  }
 }
 
 //Get the room code
