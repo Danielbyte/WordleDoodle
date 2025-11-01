@@ -515,7 +515,7 @@ socket.on('message', (payload) => {
       updateStatesAndFlipTiles(verifiedPlacements);
       broadcastBoardState(verifiedPlacements);
 
-      if(isWin) {
+      if (isWin) {
         stopInteraction();
         createConfettiContainer();
         spawnLetters(); //Spawn the background falling letters
@@ -542,13 +542,44 @@ socket.on('message', (payload) => {
       addMessageToChatUI('right-bubble', data.chat, data.username); //Should be right bubble (yellow)
       break;
 
-      case 'winning_condition':
-        stopInteraction();
-        gameStarted = false;
-        addMessageToChatUI('right-bubble',`${data.username} has won! Game stopped`, doodleTurtleUsername)
-        break;
+    case 'winning_condition':
+      stopInteraction();
+      gameStarted = false;
+      addMessageToChatUI('right-bubble', `${data.username} has won! Game stopped`, doodleTurtleUsername)
+      break;
+
+    case 'game_restart':
+      gameStarted = true;
+      resetKeyBoard();
+      startInteraction();
+      resetBoard();
+      break;
   }
 });
+
+function resetKeyBoard() {
+  let keyboard = document.getElementById('keyboard-container');
+
+  if (keyboard) keyboard.remove();
+  addKeyBoard();
+}
+
+function resetBoard() {
+  let tiles = document.querySelectorAll('.tile');
+
+  tiles.forEach(tile => {
+    tile.textContent = "";
+    tile.removeAttribute('data-state');
+  });
+
+  guessedword = '';
+  currentRow = 1;
+  currentSquareIndex = 0;
+  isWin = false;
+  isGameOver = false;
+  gameStarted = false;
+  isTyping = false;
+}
 
 function getGuestPositionInRoom(guestPositionInRoom) {
   if (guestPositionInRoom > clientRoomPosition) {

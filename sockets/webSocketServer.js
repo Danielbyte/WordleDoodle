@@ -95,6 +95,7 @@ export default function handleSocketEvent(io, socket) {
 
         rooms[roomcode].inProgress = false;
         rooms[roomcode].isTerminated = false;
+        rooms[roomcode].playRounds = 0;
         broadCastEvent(roomcode, 'room_created', `@${data.username} has created and joined ${roomcode}`, io);
         break;
 
@@ -122,6 +123,10 @@ export default function handleSocketEvent(io, socket) {
           let room = rooms[data.roomcode];
           rooms[data.roomcode].word = data.word;
           rooms[data.roomcode].inProgress = true;
+          rooms[data.roomcode].playRounds += 1;
+
+          if (rooms[data.roomcode].playRounds > 1) data.type = 'game_restart';
+
           broadCastEvent(data.roomcode, data.type, room, io);
         } else {
           message = 'Oops! Not enough participants in room';
@@ -152,7 +157,10 @@ export default function handleSocketEvent(io, socket) {
             placements[index] = 'wrong';
         }
 
-        if (correctPlacements === wordLength) isWin = true;
+        if (correctPlacements === wordLength) {
+          isWin = true;
+          rooms[roomcode].inProgress = false; //To be able to restart game
+        };
 
         //Send placements to client so that they may update their board state
         socket.emit('message', JSON.stringify({
