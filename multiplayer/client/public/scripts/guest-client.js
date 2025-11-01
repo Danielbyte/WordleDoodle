@@ -553,6 +553,7 @@ socket.on('message', (payload) => {
       resetKeyBoard();
       startInteraction();
       resetBoard();
+      resetGameState();
       break;
   }
 });
@@ -571,13 +572,14 @@ function resetBoard() {
     tile.textContent = "";
     tile.removeAttribute('data-state');
   });
+}
 
+function resetGameState() {
   guessedword = '';
   currentRow = 1;
   currentSquareIndex = 0;
   isWin = false;
   isGameOver = false;
-  gameStarted = true;
   isTyping = false;
 }
 
