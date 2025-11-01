@@ -22,6 +22,12 @@ export default function handleSocketEvent(io, socket) {
     if (socketIndex !== -1) {
       rooms[roomId].splice(socketIndex, 1);
     }
+
+    //Delete the room once it's empty (Free up memory)
+    const numberOfRoomParticipants = rooms[roomId].length;
+    if (numberOfRoomParticipants === 0) {
+      delete rooms[roomId];
+    }
   })
 
   //Client sends data with payload/message
@@ -126,7 +132,7 @@ export default function handleSocketEvent(io, socket) {
         }
 
         if (rooms[data.roomcode].inProgress === true) {
-          message = 'Oops, Game in progress, please wait';
+          message = 'Oops! Game in progress, please wait';
           callback({ success: false, message });
           return;
         }
@@ -276,7 +282,5 @@ function getUniqueRoomCode() {
     console.log(`Roomcode collision: ${uniqueRoomcode}, new room code generating..`);
     uniqueRoomcode = generateRoomCode();
   }
-
-  console.log(`room code: ${uniqueRoomcode}`)
   return uniqueRoomcode;
 }
