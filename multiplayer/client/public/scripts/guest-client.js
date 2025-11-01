@@ -577,7 +577,7 @@ function resetBoard() {
   currentSquareIndex = 0;
   isWin = false;
   isGameOver = false;
-  gameStarted = false;
+  gameStarted = true;
   isTyping = false;
 }
 
