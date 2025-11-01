@@ -10,7 +10,7 @@ export default function handleSocketEvent(io, socket) {
     let socketIndex = -1;
     let roomId;
     for (let roomcode in rooms) {
-      rooms[roomcode].forEach((user, index)=> {
+      rooms[roomcode].forEach((user, index) => {
         if (user.socketId === (socket.id).toString()) {
           socketIndex = index;
           roomId = roomcode;
@@ -115,19 +115,19 @@ export default function handleSocketEvent(io, socket) {
       case 'start_game':
         if (data.word.trim() === '') { //Server side input validation
           message = 'Oops! Set word';
-          callback({success: false, message});
+          callback({ success: false, message });
           return;
         }
 
-        if(data.word.trim().length < wordLength || data.word.trim().length > wordLength) {
+        if (data.word.trim().length < wordLength || data.word.trim().length > wordLength) {
           message = 'Woah! Word should be 5 letters';
-          callback({success: false, message});
+          callback({ success: false, message });
           return;
         }
 
         if (rooms[data.roomcode].inProgress === true) {
           message = 'Oops, Game in progress, please wait';
-          callback({success: false, message});
+          callback({ success: false, message });
           return;
         }
         if (canStartGame(data.roomcode, data.isHost)) {
@@ -138,7 +138,7 @@ export default function handleSocketEvent(io, socket) {
           broadCastEvent(data.roomcode, data.type, room, io);
         } else {
           message = 'Oops! Not enough participants in room';
-          callback({success: false, message});
+          callback({ success: false, message });
           return;
         }
         break;
@@ -154,8 +154,8 @@ export default function handleSocketEvent(io, socket) {
         roomWord = rooms[roomcode].word.toUpperCase();
         for (let index = 0; index < roomWord.length; index++) {
           if (guess[index] === roomWord[index]) {
-             placements[index] = 'correct';
-             ++correctPlacements;
+            placements[index] = 'correct';
+            ++correctPlacements;
           }
 
           else if (roomWord.includes(guess[index]))
@@ -195,13 +195,13 @@ export default function handleSocketEvent(io, socket) {
         }))
         break;
 
-        case 'winning_condition':
-          rooms[data.roomcode].inProgress = false;
-          socket.to(data.roomcode).emit('message', JSON.stringify({
-            type: data.type,
-            username: data.username
-          }))
-          break;
+      case 'winning_condition':
+        rooms[data.roomcode].inProgress = false;
+        socket.to(data.roomcode).emit('message', JSON.stringify({
+          type: data.type,
+          username: data.username
+        }))
+        break;
 
       //unknown case / not implemented
       default:
