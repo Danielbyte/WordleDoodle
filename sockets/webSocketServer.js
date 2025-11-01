@@ -1,6 +1,7 @@
 let rooms = {}; //Reference to all the rooms
 let maxRoomCapacity = 5; //maximum allowable people in room
 let wordLength = 5;
+const doodleTurtleUsername = 'DoodleTurtle';
 
 export default function handleSocketEvent(io, socket) {
   console.log(`New socket connected: ${socket.id}`);
@@ -8,7 +9,7 @@ export default function handleSocketEvent(io, socket) {
   socket.on('disconnect', () => {
     console.log(`${socket.id} disconnected`);
     deleteUser(socket);
-  })
+  });
 
   //Client sends data with payload/message
   socket.on('data', (payload, callback) => {
@@ -204,11 +205,13 @@ export default function handleSocketEvent(io, socket) {
 function deleteUser(socket) {
   let socketIndex = -1;
   let roomId;
+  let username;
   for (let roomcode in rooms) {
     rooms[roomcode].forEach((user, index) => {
       if (user.socketId === (socket.id).toString()) {
         socketIndex = index;
         roomId = roomcode;
+        username = user.username;
         if (user.isHost) rooms[roomcode].isTerminated = true; //Terminate room once host leaves
       }
     });
@@ -219,6 +222,14 @@ function deleteUser(socket) {
   }
 
   deleteRoomIfEmpty(roomId);
+
+  //Let everyone in the room know that the user left
+  const chatMessage = `${username} left!`
+  socket.to(roomId).emit('message', JSON.stringify({
+    type: 'chat_message',
+    username: doodleTurtleUsername,
+    chat: chatMessage
+  }));
 }
 
 function deleteRoomIfEmpty(roomId) {
