@@ -1,9 +1,15 @@
 let rooms = {}; //Reference to all the rooms
 let maxRoomCapacity = 5; //maximum allowable people in room
 let wordLength = 5;
+const doodleTurtleUsername = 'DoodleTurtle';
 
 export default function handleSocketEvent(io, socket) {
   console.log(`New socket connected: ${socket.id}`);
+
+  socket.on('disconnect', () => {
+    console.log(`${socket.id} disconnected`);
+    deleteUser(socket);
+  });
 
   //Client sends data with payload/message
   socket.on('data', (payload, callback) => {
@@ -47,7 +53,8 @@ export default function handleSocketEvent(io, socket) {
         rooms[data.roomcode].push({
           username: data.username,
           isHost: data.isHost,
-          position: rooms[data.roomcode].length + 1
+          position: rooms[data.roomcode].length + 1,
+          socketId: socket.id
         });
 
         socket.join(data.roomcode); //Socket can join the room
@@ -71,6 +78,13 @@ export default function handleSocketEvent(io, socket) {
         //Host should join room
         socket.join(roomcode);
 
+        //Add created room in rooms and add host to the room
+        rooms[roomcode] = [{
+          username: data.username,
+          socketId: socket.id,
+          isHost: data.isHost
+        }];
+
         //Send this room code to the host socket
         socket.emit('message', JSON.stringify({
           type: 'roomcode',
@@ -79,11 +93,9 @@ export default function handleSocketEvent(io, socket) {
           username: data.username
         }));
 
-        //Add created room in rooms and add host to the room
-        rooms[roomcode] = [{
-          username: data.username
-        }];
         rooms[roomcode].inProgress = false;
+        rooms[roomcode].isTerminated = false;
+        rooms[roomcode].playRounds = 0;
         broadCastEvent(roomcode, 'room_created', `@${data.username} has created and joined ${roomcode}`, io);
         break;
 
@@ -91,19 +103,19 @@ export default function handleSocketEvent(io, socket) {
       case 'start_game':
         if (data.word.trim() === '') { //Server side input validation
           message = 'Oops! Set word';
-          callback({success: false, message});
+          callback({ success: false, message });
           return;
         }
 
-        if(data.word.trim().length < wordLength || data.word.trim().length > wordLength) {
+        if (data.word.trim().length < wordLength || data.word.trim().length > wordLength) {
           message = 'Woah! Word should be 5 letters';
-          callback({success: false, message});
+          callback({ success: false, message });
           return;
         }
 
         if (rooms[data.roomcode].inProgress === true) {
-          message = 'Oops, Game in progress, please wait';
-          callback({success: false, message});
+          message = 'Oops! Game in progress, please wait';
+          callback({ success: false, message });
           return;
         }
         if (canStartGame(data.roomcode, data.isHost)) {
@@ -111,10 +123,14 @@ export default function handleSocketEvent(io, socket) {
           let room = rooms[data.roomcode];
           rooms[data.roomcode].word = data.word;
           rooms[data.roomcode].inProgress = true;
+          rooms[data.roomcode].playRounds += 1;
+
+          if (rooms[data.roomcode].playRounds > 1) data.type = 'game_restart';
+
           broadCastEvent(data.roomcode, data.type, room, io);
         } else {
           message = 'Oops! Not enough participants in room';
-          callback({success: false, message});
+          callback({ success: false, message });
           return;
         }
         break;
@@ -130,8 +146,8 @@ export default function handleSocketEvent(io, socket) {
         roomWord = rooms[roomcode].word.toUpperCase();
         for (let index = 0; index < roomWord.length; index++) {
           if (guess[index] === roomWord[index]) {
-             placements[index] = 'correct';
-             ++correctPlacements;
+            placements[index] = 'correct';
+            ++correctPlacements;
           }
 
           else if (roomWord.includes(guess[index]))
@@ -141,7 +157,10 @@ export default function handleSocketEvent(io, socket) {
             placements[index] = 'wrong';
         }
 
-        if (correctPlacements === wordLength) isWin = true;
+        if (correctPlacements === wordLength) {
+          isWin = true;
+          rooms[roomcode].inProgress = false; //To be able to restart game
+        };
 
         //Send placements to client so that they may update their board state
         socket.emit('message', JSON.stringify({
@@ -163,6 +182,15 @@ export default function handleSocketEvent(io, socket) {
         }))
         break;
 
+      case 'reset_board_state':
+        roomcode = getRooomCode(data.username);
+        socket.to(roomcode).emit('message', JSON.stringify({
+          type: data.type,
+          username: data.username,
+          position: data.position
+        }))
+        break;
+
       case 'chat_message':
         socket.to(data.roomcode).emit('message', JSON.stringify({
           type: 'chat_message',
@@ -171,13 +199,13 @@ export default function handleSocketEvent(io, socket) {
         }))
         break;
 
-        case 'winning_condition':
-          rooms[data.roomcode].inProgress = false;
-          socket.to(data.roomcode).emit('message', JSON.stringify({
-            type: data.type,
-            username: data.username
-          }))
-          break;
+      case 'winning_condition':
+        rooms[data.roomcode].inProgress = false;
+        socket.to(data.roomcode).emit('message', JSON.stringify({
+          type: data.type,
+          username: data.username
+        }))
+        break;
 
       //unknown case / not implemented
       default:
@@ -188,6 +216,45 @@ export default function handleSocketEvent(io, socket) {
         break;
     }
   });
+}
+
+//Delete user in room
+function deleteUser(socket) {
+  let socketIndex = -1;
+  let roomId;
+  let username;
+  for (let roomcode in rooms) {
+    rooms[roomcode].forEach((user, index) => {
+      if (user.socketId === (socket.id).toString()) {
+        socketIndex = index;
+        roomId = roomcode;
+        username = user.username;
+        if (user.isHost) rooms[roomcode].isTerminated = true; //Terminate room once host leaves
+      }
+    });
+  }
+
+  if (socketIndex !== -1) {
+    rooms[roomId].splice(socketIndex, 1);
+  }
+
+  deleteRoomIfEmpty(roomId);
+
+  //Let everyone in the room know that the user left
+  const chatMessage = `${username} left!`
+  socket.to(roomId).emit('message', JSON.stringify({
+    type: 'chat_message',
+    username: doodleTurtleUsername,
+    chat: chatMessage
+  }));
+}
+
+function deleteRoomIfEmpty(roomId) {
+  //Delete the room once it's empty (Free up memory)
+  const numberOfRoomParticipants = rooms[roomId].length;
+  if (numberOfRoomParticipants === 0) {
+    delete rooms[roomId];
+  }
 }
 
 //Get the room code
@@ -252,7 +319,5 @@ function getUniqueRoomCode() {
     console.log(`Roomcode collision: ${uniqueRoomcode}, new room code generating..`);
     uniqueRoomcode = generateRoomCode();
   }
-
-  console.log(`room code: ${uniqueRoomcode}`)
   return uniqueRoomcode;
 }
